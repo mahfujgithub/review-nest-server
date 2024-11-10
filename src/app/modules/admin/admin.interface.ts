@@ -11,7 +11,7 @@ export type IAdmin = {
   name: AdminName; //embedded object
   email: string;
   image?: string;
-  contact: string;
+  contact?: string;
   emergencyContact?: string;
   address?: string;
 };

@@ -25,7 +25,6 @@ export const AdminSchema = new Schema<IAdmin, AdminModel>(
     },
     contact: {
       type: String,
-      required: true,
       unique: true,
     },
     emergencyContact: {
@@ -33,7 +32,6 @@ export const AdminSchema = new Schema<IAdmin, AdminModel>(
     },
     address: {
       type: String,
-      required: true,
     },
   },
   {
