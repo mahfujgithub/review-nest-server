@@ -21,11 +21,11 @@ const createAdminZodSchema = z.object({
       image: z.string().optional(),
       contact: z.string({
         required_error: 'field is required!',
-      }),
+      }).optional(),
       emergencyContact: z.string().optional(),
       address: z.string({
         required_error: 'field is required!',
-      }),
+      }).optional(),
     }),
   }),
 });
