@@ -17,9 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', routes);
 
 // testing
-// app.get('/', (req: Request, res: Response, next: NextFunction) => {
-//   res.send('affiliate server booming!');
-// });
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send('affiliate server booming!');
+});
 
 // global error handler
 app.use(globalErrorHandler);
