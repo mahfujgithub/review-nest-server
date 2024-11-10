@@ -10,13 +10,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/src/server.ts",
-      "rewrite": true
+      "dest": "/src/server.ts"
     },
     {
       "src": "/(.*)",
-      "dest": "/",
-      "rewrite": true
+      "dest": "/"
     }
   ]
 }
