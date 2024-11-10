@@ -1,12 +1,11 @@
 import express from 'express';
 import app from './app';
-import { errorLogger, logger } from './shared/logger';
 import { Server } from 'http';
 import mongoose from 'mongoose';
 import config from './config';
 
 process.on('uncaughtException', err => {
-  errorLogger.error(err);
+  console.log(err);
   process.exit(1);
 });
 
@@ -22,13 +21,13 @@ async function boostrap() {
       console.log(`Server listening on port ${config.port}`);
     });
   } catch (err) {
-    errorLogger.error(`failed to connect database, ${err}`);
+    console.log(`failed to connect database, ${err}`);
   }
 
   process.on('unhandledRejection', err => {
     if (server) {
       server.close(() => {
-        errorLogger.error(err);
+        console.log(err);
         process.exit(1);
       });
     } else {
