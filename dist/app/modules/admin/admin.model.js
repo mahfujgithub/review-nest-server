@@ -25,7 +25,6 @@ exports.AdminSchema = new mongoose_1.Schema({
     },
     contact: {
         type: String,
-        required: true,
         unique: true,
     },
     emergencyContact: {
@@ -33,7 +32,6 @@ exports.AdminSchema = new mongoose_1.Schema({
     },
     address: {
         type: String,
-        required: true,
     },
 }, {
     timestamps: true,
