@@ -1,9 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminService = void 0;
 const admin_model_1 = require("./admin.model");
 const admin_constant_1 = require("./admin.constant");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
+const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const getAllAdmins = async (paginationOptions, filters) => {
     const { searchTerm, ...filtersData } = filters;
     const andConditions = [];
@@ -48,6 +52,28 @@ const getSingleAdmin = async (id) => {
     const result = await admin_model_1.Admin.findById(id);
     return result;
 };
+const updateAdmin = async (id, payload) => {
+    const httpStatus = await import('http-status-ts');
+    const isExist = await admin_model_1.Admin.findOne({ id });
+    if (!isExist) {
+        throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Admin not found!');
+    }
+    if (Object.hasOwn(payload, 'email')) {
+        throw new ApiError_1.default(httpStatus.HttpStatus.BAD_REQUEST, "Updating the 'email' is not allowed!");
+    }
+    const { name, ...adminData } = payload;
+    const updatedAdminData = { ...adminData };
+    if (name && Object.keys(name).length > 0) {
+        Object.keys(name).forEach(key => {
+            const nameKey = `name.${key}`;
+            updatedAdminData[nameKey] = name[key];
+        });
+    }
+    const result = await admin_model_1.Admin.findOneAndUpdate({ id }, updatedAdminData, {
+        new: true,
+    });
+    return result;
+};
 const deleteAdmin = async (id) => {
     const result = await admin_model_1.Admin.findByIdAndDelete(id);
     return result;
@@ -55,5 +81,6 @@ const deleteAdmin = async (id) => {
 exports.AdminService = {
     getAllAdmins,
     getSingleAdmin,
+    updateAdmin,
     deleteAdmin
 };

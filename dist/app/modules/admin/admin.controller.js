@@ -36,6 +36,18 @@ const getSingleAdmin = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
+const updateAdmin = (0, catchAsync_1.default)(async (req, res) => {
+    const httpStatus = await import('http-status-ts');
+    const { id } = req.params;
+    const updatedAdmin = req.body;
+    const result = await admin_service_1.AdminService.updateAdmin(id, updatedAdmin);
+    (0, sendResponse_1.default)(res, {
+        statusCode: httpStatus.HttpStatus.OK,
+        success: true,
+        message: 'Admin Updated successfully!',
+        data: result,
+    });
+});
 const removeAdmin = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const id = req.params.id;
@@ -50,5 +62,6 @@ const removeAdmin = (0, catchAsync_1.default)(async (req, res) => {
 exports.AdminController = {
     getAllAdmins,
     getSingleAdmin,
+    updateAdmin,
     removeAdmin
 };
