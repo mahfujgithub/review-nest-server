@@ -5,6 +5,7 @@ import { Admin } from './admin.model';
 import { adminSearchableFields } from './admin.constant';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { SortOrder } from 'mongoose';
+import ApiError from '../../../errors/ApiError';
 
 const getAllAdmins = async (
   paginationOptions: IPaginationOptions,
@@ -68,6 +69,41 @@ const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
   return result;
 };
 
+const updateAdmin = async (
+  id: string,
+  payload: Partial<IAdmin>,
+): Promise<IAdmin | null> => {
+  const httpStatus = await import('http-status-ts');
+  const isExist = await Admin.findOne({ id });
+
+  if (!isExist) {
+    throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Admin not found!');
+  }
+
+  if (Object.hasOwn(payload, 'email')) {
+    throw new ApiError(
+      httpStatus.HttpStatus.BAD_REQUEST,
+      "Updating the 'email' is not allowed!",
+    );
+  }
+
+  const { name, ...adminData } = payload;
+
+  const updatedAdminData: Partial<IAdmin> = { ...adminData };
+
+  if (name && Object.keys(name).length > 0) {
+    Object.keys(name).forEach(key => {
+      const nameKey = `name.${key}` as keyof IAdmin;
+      (updatedAdminData as any)[nameKey] = name[key as keyof typeof name];
+    });
+  }
+
+  const result = await Admin.findOneAndUpdate({ id }, updatedAdminData, {
+    new: true,
+  });
+  return result;
+};
+
 const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
   const result = await Admin.findByIdAndDelete(id);
 
@@ -77,5 +113,6 @@ const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
 export const AdminService = {
   getAllAdmins,
   getSingleAdmin,
+  updateAdmin,
   deleteAdmin
 };
