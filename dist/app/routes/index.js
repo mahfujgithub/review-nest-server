@@ -8,7 +8,6 @@ const user_route_1 = require("../modules/users/user.route");
 const auth_route_1 = require("../modules/auth/auth.route");
 const admin_route_1 = require("../modules/admin/admin.route");
 const post_route_1 = require("../modules/posts/post.route");
-=======
 const menu_route_1 = require("../modules/menu/menu.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
@@ -26,12 +25,13 @@ const moduleRoutes = [
     },
     {
         path: '/posts',
-        route: post_route_1.PostRouter
+        route: post_route_1.PostRouter,
     },
     {
         path: '/menu',
         route: menu_route_1.MenuRoutes
     },
+
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;

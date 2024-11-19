@@ -28,6 +28,10 @@ const moduleRoutes = [
     path: '/menu',
     route: MenuRoutes,
   },
+  {
+    path: '/getMenu',
+    route: MenuRoutes,
+  }
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
