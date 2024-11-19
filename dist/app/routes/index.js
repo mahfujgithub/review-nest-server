@@ -29,9 +29,8 @@ const moduleRoutes = [
     },
     {
         path: '/menu',
-        route: menu_route_1.MenuRoutes
-    },
-
+        route: menu_route_1.MenuRoutes,
+    }
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MenuService = void 0;
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const menu_model_1 = require("./menu.model");
+//  create menu
 const createMenu = async (menu) => {
     const httpStatus = await import('http-status-ts');
     const existingMenu = await menu_model_1.Menu.findOne({
@@ -20,6 +21,13 @@ const createMenu = async (menu) => {
     const result = await menu_model_1.Menu.create(menu);
     return result;
 };
+// get all menu
+const getAllMenu = async (menu) => {
+    // const httpStatus = await import('http-status-ts');
+    const result = await menu_model_1.Menu.find(menu);
+    return result;
+};
 exports.MenuService = {
     createMenu,
+    getAllMenu
 };

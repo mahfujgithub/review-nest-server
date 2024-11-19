@@ -7,6 +7,7 @@ exports.MenuController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const menu_service_1 = require("./menu.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
+// create menu
 const createMenu = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const menu = req.body;
@@ -18,6 +19,19 @@ const createMenu = (0, catchAsync_1.default)(async (req, res) => {
         data: result
     });
 });
+// get all menu
+const getAllMenu = (0, catchAsync_1.default)(async (req, res) => {
+    const httpStatus = await import('http-status-ts');
+    const menu = req.body;
+    const result = await menu_service_1.MenuService.getAllMenu(menu);
+    (0, sendResponse_1.default)(res, {
+        statusCode: httpStatus.HttpStatus.OK,
+        success: true,
+        message: 'Menu Get SuccessFully',
+        data: result
+    });
+});
 exports.MenuController = {
-    createMenu
+    createMenu,
+    getAllMenu
 };

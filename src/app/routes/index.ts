@@ -27,10 +27,6 @@ const moduleRoutes = [
   {
     path: '/menu',
     route: MenuRoutes,
-  },
-  {
-    path: '/getMenu',
-    route: MenuRoutes,
   }
 ];
 
