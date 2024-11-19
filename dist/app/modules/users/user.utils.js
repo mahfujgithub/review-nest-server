@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateAdminId = exports.findLastAdminId = void 0;
+exports.generateContentWriterId = exports.findLastContentWriterId = exports.generateAdminId = exports.findLastAdminId = void 0;
 const user_model_1 = require("./user.model");
 let lastUserId = 0;
 const findLastAdminId = async () => {
@@ -21,3 +21,21 @@ const generateAdminId = async () => {
     return incrementedId;
 };
 exports.generateAdminId = generateAdminId;
+const findLastContentWriterId = async () => {
+    const lastAdmin = await user_model_1.User.findOne({
+        role: 'content-writer',
+    }, { id: 1, _id: 0 })
+        .sort({
+        createdAt: -1,
+    })
+        .lean();
+    return lastAdmin?.id ? lastAdmin?.id?.substring(4) : undefined;
+};
+exports.findLastContentWriterId = findLastContentWriterId;
+const generateContentWriterId = async () => {
+    const currentId = (await (0, exports.findLastContentWriterId)()) || (0).toString().padStart(5, '0');
+    let incrementedId = (parseInt(currentId) + 1).toString().padStart(5, '0');
+    incrementedId = `CW-${incrementedId}`;
+    return incrementedId;
+};
+exports.generateContentWriterId = generateContentWriterId;

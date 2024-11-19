@@ -5,7 +5,6 @@ import { generateAdminId } from './user.utils';
 import config from '../../../config';
 import mongoose from 'mongoose';
 import { IAdmin } from '../admin/admin.interface';
-import bycrypt from 'bcrypt';
 import { Admin } from '../admin/admin.model';
 
 const createAdmin = async (

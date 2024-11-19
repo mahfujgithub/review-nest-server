@@ -3,6 +3,8 @@ import { UserRoutes } from "../modules/users/user.route";
 import { AuthRoutes } from '../modules/auth/auth.route';
 import { AdminRoutes } from '../modules/admin/admin.route';
 import { PostRouter } from "../modules/posts/post.route";
+import { MenuRoutes } from '../modules/menu/menu.route';
+
 const router = express.Router();
 
 const moduleRoutes = [
@@ -22,7 +24,10 @@ const moduleRoutes = [
     path: '/posts',
     route: PostRouter,
   },
-
+  {
+    path: '/menu',
+    route: MenuRoutes,
+  },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
