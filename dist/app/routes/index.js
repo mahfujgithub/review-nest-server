@@ -26,12 +26,12 @@ const moduleRoutes = [
     {
         path: '/posts',
         route: post_route_1.PostRouter,
-
     },
     {
         path: '/menu',
-        route: menu_route_1.MenuRoutes,
-    }
+        route: menu_route_1.MenuRoutes
+    },
+
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;
