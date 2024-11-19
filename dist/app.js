@@ -17,6 +17,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Application Routes
 app.use('/api/v1', routes_1.default);
+// app.use('/create-post')
 // testing
 app.get('/', (req, res, next) => {
     res.send('affiliate server booming!');
