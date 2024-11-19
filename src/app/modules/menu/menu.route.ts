@@ -8,4 +8,9 @@ router.post('/create',
     validateRequest(MenuValidation.createMenuZodSchema),
     MenuController.createMenu)
 
+
+router.get('/',
+    validateRequest(MenuValidation.createMenuZodSchema),
+    MenuController.getAllMenu)
+
 export const MenuRoutes = router;
