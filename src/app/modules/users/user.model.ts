@@ -19,9 +19,9 @@ const UserSchema = new Schema<IUser, UserModel>(
       required: true,
       select: 0,
     },
-    admin: {
+    stuff: {
       type: Schema.Types.ObjectId,
-      ref: 'Admin',
+      ref: 'Stuff',
     },
   },
   {

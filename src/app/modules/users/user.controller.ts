@@ -6,9 +6,9 @@ import { IUser } from './user.interface';
 
 const createAdmin = catchAsync(async (req: Request, res: Response) => {
     const httpStatus = await import('http-status-ts');
-  const { admin, ...userData } = req.body;
+  const { stuff, ...userData } = req.body;
 
-  const result = await UserService.createAdmin(admin, userData);
+  const result = await UserService.createAdmin(stuff, userData);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.HttpStatus.OK,

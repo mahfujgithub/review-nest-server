@@ -1,20 +1,20 @@
-import express from "express";
-import { UserRoutes } from "../modules/users/user.route";
+import express from 'express';
+import { UserRoutes } from '../modules/users/user.route';
 import { AuthRoutes } from '../modules/auth/auth.route';
-import { AdminRoutes } from '../modules/admin/admin.route';
-import { PostRouter } from "../modules/posts/post.route";
+import { StuffRoutes } from '../modules/stuff/stuff.route';
+import { PostRouter } from '../modules/posts/post.route';
 import { MenuRoutes } from '../modules/menu/menu.route';
 
 const router = express.Router();
 
 const moduleRoutes = [
   {
-    path: '/',
+    path: '/create-stuff',
     route: UserRoutes,
   },
   {
-    path: '/admins',
-    route: AdminRoutes,
+    path: '/stuff',
+    route: StuffRoutes,
   },
   {
     path: '/auth',
@@ -27,9 +27,9 @@ const moduleRoutes = [
   {
     path: '/menu',
     route: MenuRoutes,
-  }
+  },
 ];
 
-moduleRoutes.forEach((route) => router.use(route.path, route.route));
+moduleRoutes.forEach(route => router.use(route.path, route.route));
 
 export default router;

@@ -22,9 +22,9 @@ const UserSchema = new mongoose_1.Schema({
         required: true,
         select: 0,
     },
-    admin: {
+    stuff: {
         type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Admin',
+        ref: 'Stuff',
     },
 }, {
     timestamps: true,

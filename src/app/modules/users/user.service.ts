@@ -1,14 +1,14 @@
 import ApiError from '../../../errors/ApiError';
 import { User } from './user.model';
 import { IUser } from './user.interface';
-import { generateAdminId } from './user.utils';
+import { generateAdminId, generateContentWriterId } from './user.utils';
 import config from '../../../config';
 import mongoose from 'mongoose';
-import { IAdmin } from '../admin/admin.interface';
-import { Admin } from '../admin/admin.model';
+import { IStuff } from '../stuff/stuff.interface';
+import { Stuff } from '../stuff/stuff.model';
 
 const createAdmin = async (
-  admin: IAdmin,
+  stuff: IStuff,
   user: IUser,
 ): Promise<IUser | null> => {
   const httpStatus = await import('http-status-ts');
@@ -19,21 +19,40 @@ const createAdmin = async (
 
   let newUserAllData = null;
 
-  // set role
-  user.role = 'admin';
+  // let id:string;
+
+  // Validate the role field
+  if (user.role !== 'admin' && user.role !== 'content-writer') {
+    throw new ApiError(
+      httpStatus.HttpStatus.BAD_REQUEST,
+      'Invalid role!',
+    );
+  }
 
   const session = await mongoose.startSession();
 
   try {
     session.startTransaction();
-    const id = await generateAdminId();
+    let id;
+
+    switch (user.role) {
+      case 'admin':
+        id = await generateAdminId();
+        break;
+      case 'content-writer':
+        id = await generateContentWriterId();
+        break;
+      default:
+        throw new Error('Invalid role');
+    }
+
     user.id = id;
-    admin.id = id;
+    stuff.id = id;
 
     // array
-    const newAdmin = await Admin.create([admin], { session });
+    const newStuff = await Stuff.create([stuff], { session });
 
-    if (!newAdmin.length) {
+    if (!newStuff.length) {
       throw new ApiError(
         httpStatus.HttpStatus.BAD_REQUEST,
         `Failed to create customer!`,
@@ -42,7 +61,7 @@ const createAdmin = async (
 
     // set customer --> _id into user.customer
 
-    user.admin = newAdmin[0]._id;
+    user.stuff = newStuff[0]._id;
 
     const newUser = await User.create([user], { session });
 
@@ -65,7 +84,10 @@ const createAdmin = async (
   }
 
   if (newUserAllData) {
-    newUserAllData = await User.findOne({ id: newUserAllData.id });
+    newUserAllData = await User.findOne({ id: newUserAllData.id }).populate({
+      path: 'stuff',
+      strictPopulate: false,
+    });
   }
 
   return newUserAllData;

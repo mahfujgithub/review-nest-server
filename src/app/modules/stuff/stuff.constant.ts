@@ -1,4 +1,4 @@
-export const adminSearchableFields = [
+export const stuffSearchableFields = [
   'id',
   'email',
   'contact',
@@ -8,7 +8,7 @@ export const adminSearchableFields = [
   'address',
 ];
 
-export const adminFilterableFields = [
+export const stuffFilterableFields = [
   'searchTerm',
   'id',
   'email',

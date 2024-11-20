@@ -1,23 +1,23 @@
 import catchAsync from '../../../shared/catchAsync';
 import { Request, Response } from 'express';
-import { AdminService } from './admin.service';
+import { AdminService } from './stuff.service';
 import sendResponse from '../../../shared/sendResponse';
-import { IAdmin } from './admin.interface';
-import { Admin } from './admin.model';
-import { adminFilterableFields } from './admin.constant';
+import { IStuff } from './stuff.interface';
+import { Stuff } from './stuff.model';
+import { stuffFilterableFields } from './stuff.constant';
 import { paginationFields } from '../../../constants/pagination';
 import pick from '../../../shared/pick';
 
-const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
+const getAllStuff = catchAsync(async (req: Request, res: Response) => {
   //   console.log(req.headers.authorization);
   //   console.log(req.user);
   const httpStatus = await import('http-status-ts');
-  const filters = pick(req.query, adminFilterableFields);
+  const filters = pick(req.query, stuffFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await AdminService.getAllAdmins(paginationOptions, filters);
+  const result = await AdminService.getAllStuff(paginationOptions, filters);
 
-  sendResponse<IAdmin[]>(res, {
+  sendResponse<IStuff[]>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
     message: 'Admins Retrieved successfully!',
@@ -26,13 +26,13 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
+const getSingleStuff = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { id } = req.params;
 
-  const result = await AdminService.getSingleAdmin(id);
+  const result = await AdminService.getSingleStuff(id);
 
-  sendResponse<IAdmin>(res, {
+  sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
     message: 'Admin Retrieved successfully!',
@@ -40,15 +40,15 @@ const getSingleAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const updateAdmin = catchAsync(async (req: Request, res: Response) => {
+const updateStuff = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { id } = req.params;
 
   const updatedAdmin = req.body;
 
-  const result = await AdminService.updateAdmin(id, updatedAdmin);
+  const result = await AdminService.updateStuff(id, updatedAdmin);
 
-  sendResponse<IAdmin>(res, {
+  sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
     message: 'Admin Updated successfully!',
@@ -56,13 +56,13 @@ const updateAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const removeAdmin = catchAsync(async (req: Request, res: Response) => {
+const removeStuff = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const id = req.params.id;
 
-  const result = await AdminService.deleteAdmin(id);
+  const result = await AdminService.deleteStuff(id);
 
-  sendResponse<IAdmin>(res, {
+  sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
     message: 'Admin Deleted successfully!',
@@ -70,10 +70,9 @@ const removeAdmin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
 export const AdminController = {
-  getAllAdmins,
-  getSingleAdmin,
-  updateAdmin,
-  removeAdmin
+  getAllStuff,
+  getSingleStuff,
+  updateStuff,
+  removeStuff,
 };

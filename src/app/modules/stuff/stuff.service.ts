@@ -1,23 +1,23 @@
 import { IGenericResponse } from '../../../interfaces/common';
 import { IPaginationOptions } from '../../../interfaces/pagination';
-import { IAdmin, IAdminFilters } from './admin.interface';
-import { Admin } from './admin.model';
-import { adminSearchableFields } from './admin.constant';
+import { IStuff, IStuffFilters } from './stuff.interface';
+import { Stuff } from './stuff.model';
+import { stuffSearchableFields } from './stuff.constant';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { SortOrder } from 'mongoose';
 import ApiError from '../../../errors/ApiError';
 
-const getAllAdmins = async (
+const getAllStuff = async (
   paginationOptions: IPaginationOptions,
-  filters: IAdminFilters,
-): Promise<IGenericResponse<IAdmin[]>> => {
+  filters: IStuffFilters,
+): Promise<IGenericResponse<IStuff[]>> => {
   const { searchTerm, ...filtersData } = filters;
 
   const andConditions = [];
 
   if (searchTerm) {
     andConditions.push({
-      $or: adminSearchableFields.map(field => ({
+      $or: stuffSearchableFields.map(field => ({
         [field]: {
           $regex: searchTerm,
           $options: 'i',
@@ -46,12 +46,12 @@ const getAllAdmins = async (
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const result = await Admin.find(whereConditions)
+  const result = await Stuff.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await Admin.countDocuments(whereConditions);
+  const total = await Stuff.countDocuments(whereConditions);
 
   return {
     meta: {
@@ -63,18 +63,18 @@ const getAllAdmins = async (
   };
 };
 
-const getSingleAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findById(id);
+const getSingleStuff = async (id: string): Promise<IStuff | null> => {
+  const result = await Stuff.findById(id);
 
   return result;
 };
 
-const updateAdmin = async (
+const updateStuff = async (
   id: string,
-  payload: Partial<IAdmin>,
-): Promise<IAdmin | null> => {
+  payload: Partial<IStuff>,
+): Promise<IStuff | null> => {
   const httpStatus = await import('http-status-ts');
-  const isExist = await Admin.findOne({ id });
+  const isExist = await Stuff.findOne({ id });
 
   if (!isExist) {
     throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Admin not found!');
@@ -89,30 +89,30 @@ const updateAdmin = async (
 
   const { name, ...adminData } = payload;
 
-  const updatedAdminData: Partial<IAdmin> = { ...adminData };
+  const updatedAdminData: Partial<IStuff> = { ...adminData };
 
   if (name && Object.keys(name).length > 0) {
     Object.keys(name).forEach(key => {
-      const nameKey = `name.${key}` as keyof IAdmin;
+      const nameKey = `name.${key}` as keyof IStuff;
       (updatedAdminData as any)[nameKey] = name[key as keyof typeof name];
     });
   }
 
-  const result = await Admin.findOneAndUpdate({ id }, updatedAdminData, {
+  const result = await Stuff.findOneAndUpdate({ id }, updatedAdminData, {
     new: true,
   });
   return result;
 };
 
-const deleteAdmin = async (id: string): Promise<IAdmin | null> => {
-  const result = await Admin.findByIdAndDelete(id);
+const deleteStuff = async (id: string): Promise<IStuff | null> => {
+  const result = await Stuff.findByIdAndDelete(id);
 
   return result;
 };
 
 export const AdminService = {
-  getAllAdmins,
-  getSingleAdmin,
-  updateAdmin,
-  deleteAdmin
+  getAllStuff,
+  getSingleStuff,
+  updateStuff,
+  deleteStuff,
 };

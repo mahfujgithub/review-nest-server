@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const updateAdminZodSchema = z.object({
+const updateStuffZodSchema = z.object({
   body: z.object({
     name: z.object({
       firstName: z.string().optional(),
@@ -15,6 +15,6 @@ const updateAdminZodSchema = z.object({
   }),
 });
 
-export const AdminValidation = {
-  updateAdminZodSchema,
+export const StuffValidation = {
+  updateStuffZodSchema,
 };

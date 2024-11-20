@@ -5,7 +5,7 @@ import { UserValidation } from './user.validation';
 import validateRequest from '../../middlewares/validateRequest';
 
 router.post(
-  '/create-admin',
+  '/',
   validateRequest(UserValidation.createAdminZodSchema),
   UserController.createAdmin,
 );

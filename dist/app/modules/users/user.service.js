@@ -9,28 +9,41 @@ const user_model_1 = require("./user.model");
 const user_utils_1 = require("./user.utils");
 const config_1 = __importDefault(require("../../../config"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const admin_model_1 = require("../admin/admin.model");
-const createAdmin = async (admin, user) => {
+const stuff_model_1 = require("../stuff/stuff.model");
+const createAdmin = async (stuff, user) => {
     const httpStatus = await import('http-status-ts');
     if (!user.password) {
         user.password = config_1.default.defaultAdminPassword;
     }
     let newUserAllData = null;
-    // set role
-    user.role = 'admin';
+    // let id:string;
+    // Validate the role field
+    if (user.role !== 'admin' && user.role !== 'content-writer') {
+        throw new ApiError_1.default(httpStatus.HttpStatus.BAD_REQUEST, 'Invalid role!');
+    }
     const session = await mongoose_1.default.startSession();
     try {
         session.startTransaction();
-        const id = await (0, user_utils_1.generateAdminId)();
+        let id;
+        switch (user.role) {
+            case 'admin':
+                id = await (0, user_utils_1.generateAdminId)();
+                break;
+            case 'content-writer':
+                id = await (0, user_utils_1.generateContentWriterId)();
+                break;
+            default:
+                throw new Error('Invalid role');
+        }
         user.id = id;
-        admin.id = id;
+        stuff.id = id;
         // array
-        const newAdmin = await admin_model_1.Admin.create([admin], { session });
-        if (!newAdmin.length) {
+        const newStuff = await stuff_model_1.Stuff.create([stuff], { session });
+        if (!newStuff.length) {
             throw new ApiError_1.default(httpStatus.HttpStatus.BAD_REQUEST, `Failed to create customer!`);
         }
         // set customer --> _id into user.customer
-        user.admin = newAdmin[0]._id;
+        user.stuff = newStuff[0]._id;
         const newUser = await user_model_1.User.create([user], { session });
         if (!newUser.length) {
             throw new ApiError_1.default(httpStatus.HttpStatus.BAD_REQUEST, `Failed to create user!`);
@@ -47,7 +60,10 @@ const createAdmin = async (admin, user) => {
         session.endSession();
     }
     if (newUserAllData) {
-        newUserAllData = await user_model_1.User.findOne({ id: newUserAllData.id });
+        newUserAllData = await user_model_1.User.findOne({ id: newUserAllData.id }).populate({
+            path: 'stuff',
+            strictPopulate: false,
+        });
     }
     return newUserAllData;
 };

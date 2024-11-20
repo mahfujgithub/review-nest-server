@@ -1,14 +1,14 @@
 import { Model } from 'mongoose';
 
-export type AdminName = {
+export type StuffName = {
   firstName: string;
   middleName?: string;
   lastName: string;
 };
 
-export type IAdmin = {
+export type IStuff = {
   id?: string;
-  name: AdminName; //embedded object
+  name: StuffName; //embedded object
   email: string;
   image?: string;
   contact?: string;
@@ -16,9 +16,9 @@ export type IAdmin = {
   address?: string;
 };
 
-export type AdminModel = Model<IAdmin, Record<string, unknown>>;
+export type StuffModel = Model<IStuff, Record<string, unknown>>;
 
-export type IAdminFilters = {
+export type IStuffFilters = {
   searchTerm?: string;
   id?: string;
   email?: string;

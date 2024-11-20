@@ -2,8 +2,11 @@ import { z } from 'zod';
 
 const createAdminZodSchema = z.object({
   body: z.object({
+    role: z.string({
+      required_error: 'field is required!'
+    }),
     password: z.string().optional(),
-    admin: z.object({
+    stuff: z.object({
       name: z.object({
         firstName: z.string({
           required_error: 'field is required!',

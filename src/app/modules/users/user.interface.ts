@@ -1,17 +1,15 @@
-import { Model, Types } from "mongoose";
-import { IAdmin } from "../admin/admin.interface";
+import { Model, Types } from 'mongoose';
+import { IStuff } from '../stuff/stuff.interface';
 
 export type IUser = {
-  id: string;
+  id: string | undefined;
   role: string;
   password: string;
-  admin?: Types.ObjectId | IAdmin;
+  stuff?: Types.ObjectId | IStuff;
 };
 
 export type UserModel = {
-  isUserExist(
-    id: string,
-  ): Promise<Pick<IUser, 'id' | 'password' | 'role'>>;
+  isUserExist(id: string): Promise<Pick<IUser, 'id' | 'password' | 'role'>>;
   isPasswordMatched(
     givenPassword: string,
     savedPassword: string,

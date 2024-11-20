@@ -1,0 +1,15 @@
+{
+  "role": "admin",
+  "stuff": {
+    "name": {
+      "firstName": "Mahfujur",
+      "middleName": "",
+      "lastName": "Rahman"
+    },
+    "email": "mahfujurrahmanofficial23@gmail.com",
+    "image": "https://example.com/image.jpg",
+    "contact": "01776529824",
+    "emergencyContact": "01304653636",
+    "address": "Nathullabadh, Barisal - 8200"
+  }
+}

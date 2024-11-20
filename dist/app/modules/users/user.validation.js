@@ -4,8 +4,11 @@ exports.UserValidation = void 0;
 const zod_1 = require("zod");
 const createAdminZodSchema = zod_1.z.object({
     body: zod_1.z.object({
+        role: zod_1.z.string({
+            required_error: 'field is required!'
+        }),
         password: zod_1.z.string().optional(),
-        admin: zod_1.z.object({
+        stuff: zod_1.z.object({
             name: zod_1.z.object({
                 firstName: zod_1.z.string({
                     required_error: 'field is required!',
