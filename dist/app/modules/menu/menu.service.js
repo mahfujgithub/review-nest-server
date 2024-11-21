@@ -27,7 +27,34 @@ const getAllMenu = async (menu) => {
     const result = await menu_model_1.Menu.find(menu);
     return result;
 };
+// get signle menu
+const getSingleMenu = async (id) => {
+    const result = await menu_model_1.Menu.findById(id);
+    return result;
+};
+// update single menu
+const updateMenu = async (id, payload) => {
+    const httpStatus = await import('http-status-ts');
+    const isExist = await menu_model_1.Menu.findOne({ id });
+    if (!isExist) {
+        throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Menu not found!');
+    }
+    const { ...menuData } = payload;
+    const updatedMenuData = { ...menuData };
+    const result = await menu_model_1.Menu.findByIdAndUpdate({ id }, updatedMenuData, {
+        new: true
+    });
+    return result;
+};
+// delete menu
+const deleteMenu = async (id) => {
+    const result = await menu_model_1.Menu.findByIdAndDelete(id);
+    return result;
+};
 exports.MenuService = {
     createMenu,
-    getAllMenu
+    getAllMenu,
+    getSingleMenu,
+    updateMenu,
+    deleteMenu
 };

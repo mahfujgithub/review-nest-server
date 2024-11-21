@@ -1,13 +1,28 @@
 import { model, Schema } from "mongoose";
 import { IPosts, PostModel } from "./post.interface";
-// import { string } from "zod";
-// import { number } from "zod";
+
 
 
 
 const PostsSchema = new Schema <IPosts, PostModel> (
     {
-        id: {
+        metaTitle: {
+            type: String,
+            required: true
+        },
+        metaDescription: {
+            type: String,
+            required: true
+        },
+        canonicalTag: {
+            type: [String],
+            required: true
+        },
+        slug: {
+            type: String,
+            required: true
+        },
+        featuresImg: {
             type: String,
             required: true
         },
@@ -15,37 +30,70 @@ const PostsSchema = new Schema <IPosts, PostModel> (
             type: String,
             required: true
         },
-        description: {
+        subTitle: {
             type: String,
+            required: true,
+        },
+        description: {
+            type: [String],
+            required: true
+        },
+        descriptionTwo: {
+            type: [String],
             required: true
         },
         image: {
-            type: String,
+            type: [String],
             required: true
         },
-        category: {
-            type: String,
-            required: true
+        currentlyAvailable: {
+            type: Boolean,
+            required: true,
+        },
+        price: {
+            type: Number,
+            required: true,
         },
         brand: {
             type: String,
-            required: true
-        },
-        quantity: {
-            type: Number
-        },
-        price: {
-            type: Number
-        },
-        features: {
-            type: String,
         },
         size: {
-            type: Number
+            type: [Number]
         },
-        status: {
+        productDimensions: {
+            type: [String],
+        },
+        coverMetarial: {
+            type: String,
+        },
+        layersNumber: {
+            type: Number,
+        },
+        fillMetarial: {
+            type: String,
+        },
+        specialFuture: {
+            type: [String],
+        },
+        color: {
+            type: [String],
+        },
+        coilType: {
+            type: String,
+        },
+        modelName: {
+            type: String,
+        },
+        itemWeight: {
+            type: Number,
+        },
+        customerReview: {
+            type: Number,
+        },
+        warrantySupport: {
             type: String
         }
+
     }
 )
 
