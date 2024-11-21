@@ -12,4 +12,10 @@ const auth_1 = __importDefault(require("../../middlewares/auth"));
 const router = express_1.default.Router();
 router.post('/create', (0, validateRequest_1.default)(menu_validation_1.MenuValidation.createMenuZodSchema), menu_controller_1.MenuController.createMenu);
 router.get('/', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), menu_controller_1.MenuController.getAllMenu);
+// get single menu
+router.get('/single-menu/:id', menu_controller_1.MenuController.getSingleMenu);
+// update signle menu
+router.patch('/update-menu/:id', (0, validateRequest_1.default)(menu_validation_1.MenuValidation.createMenuZodSchema), menu_controller_1.MenuController.updateMenu);
+// delete single menu
+router.delete('/delete-menu/:id', menu_controller_1.MenuController.deleteMenu);
 exports.MenuRoutes = router;

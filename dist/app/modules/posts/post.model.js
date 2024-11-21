@@ -2,10 +2,24 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const mongoose_1 = require("mongoose");
-// import { string } from "zod";
-// import { number } from "zod";
 const PostsSchema = new mongoose_1.Schema({
-    id: {
+    metaTitle: {
+        type: String,
+        required: true
+    },
+    metaDescription: {
+        type: String,
+        required: true
+    },
+    canonicalTag: {
+        type: [String],
+        required: true
+    },
+    slug: {
+        type: String,
+        required: true
+    },
+    featuresImg: {
         type: String,
         required: true
     },
@@ -13,35 +27,67 @@ const PostsSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    description: {
+    subTitle: {
         type: String,
+        required: true,
+    },
+    description: {
+        type: [String],
+        required: true
+    },
+    descriptionTwo: {
+        type: [String],
         required: true
     },
     image: {
-        type: String,
+        type: [String],
         required: true
     },
-    category: {
-        type: String,
-        required: true
+    currentlyAvailable: {
+        type: Boolean,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
     },
     brand: {
         type: String,
-        required: true
-    },
-    quantity: {
-        type: Number
-    },
-    price: {
-        type: Number
-    },
-    features: {
-        type: String,
     },
     size: {
-        type: Number
+        type: [Number]
     },
-    status: {
+    productDimensions: {
+        type: [String],
+    },
+    coverMetarial: {
+        type: String,
+    },
+    layersNumber: {
+        type: Number,
+    },
+    fillMetarial: {
+        type: String,
+    },
+    specialFuture: {
+        type: [String],
+    },
+    color: {
+        type: [String],
+    },
+    coilType: {
+        type: String,
+    },
+    modelName: {
+        type: String,
+    },
+    itemWeight: {
+        type: Number,
+    },
+    customerReview: {
+        type: Number,
+    },
+    warrantySupport: {
         type: String
     }
 });
