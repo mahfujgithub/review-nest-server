@@ -4,11 +4,11 @@ import catchAsync from '../../../shared/catchAsync';
 import sendResponse from '../../../shared/sendResponse';
 import { IUser } from './user.interface';
 
-const createAdmin = catchAsync(async (req: Request, res: Response) => {
+const createStuff = catchAsync(async (req: Request, res: Response) => {
     const httpStatus = await import('http-status-ts');
   const { stuff, ...userData } = req.body;
 
-  const result = await UserService.createAdmin(stuff, userData);
+  const result = await UserService.createStuff(stuff, userData);
 
   sendResponse<IUser>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -19,6 +19,6 @@ const createAdmin = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const UserController = {
-  createAdmin,
+  createStuff,
 };
 
