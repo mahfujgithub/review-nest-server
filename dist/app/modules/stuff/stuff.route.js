@@ -11,11 +11,11 @@ const auth_1 = __importDefault(require("../../middlewares/auth"));
 const stuff_validation_1 = require("./stuff.validation");
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
 // Get All Admin Info (Admin Route)
-router.get('/', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), stuff_controller_1.AdminController.getAllStuff);
+router.get('/', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), stuff_controller_1.StuffController.getAllStuff);
 // Get Stuff Info Himself/Herself
-router.get('/:id', stuff_controller_1.AdminController.getSingleStuff);
+router.get('/:id', stuff_controller_1.StuffController.getSingleStuff);
 // Update Stuff Info Himself/Herself
-router.patch('/:id', (0, validateRequest_1.default)(stuff_validation_1.StuffValidation.updateStuffZodSchema), stuff_controller_1.AdminController.updateStuff);
+router.patch('/:id', (0, validateRequest_1.default)(stuff_validation_1.StuffValidation.updateStuffZodSchema), stuff_controller_1.StuffController.updateStuff);
 // Delete Admin Info (Admin Route)
-router.delete('/:id', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), stuff_controller_1.AdminController.removeStuff);
+router.delete('/:id', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), stuff_controller_1.StuffController.removeStuff);
 exports.StuffRoutes = router;

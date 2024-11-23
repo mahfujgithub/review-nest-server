@@ -10,7 +10,7 @@ const user_utils_1 = require("./user.utils");
 const config_1 = __importDefault(require("../../../config"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const stuff_model_1 = require("../stuff/stuff.model");
-const createAdmin = async (stuff, user) => {
+const createStuff = async (stuff, user) => {
     const httpStatus = await import('http-status-ts');
     if (!user.password) {
         user.password = config_1.default.defaultAdminPassword;
@@ -68,5 +68,5 @@ const createAdmin = async (stuff, user) => {
     return newUserAllData;
 };
 exports.UserService = {
-    createAdmin,
+    createStuff,
 };
