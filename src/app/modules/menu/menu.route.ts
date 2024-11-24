@@ -14,15 +14,15 @@ router.post('/create',
 router.get('/', auth(ENUM_USER_ROLE.ADMIN), MenuController.getAllMenu)
 
 // get single menu
-router.get('/single-menu/:id', MenuController.getSingleMenu)
+router.get('/:id', MenuController.getSingleMenu)
 
 // update signle menu
-router.patch('/update-menu/:id',
+router.patch('/:id',
     validateRequest(MenuValidation.createMenuZodSchema),
     MenuController.updateMenu
 )
 
 // delete single menu
-router.delete('/delete-menu/:id', MenuController.deleteMenu)
+router.delete('/:id', MenuController.deleteMenu)
 
 export const MenuRoutes = router;
