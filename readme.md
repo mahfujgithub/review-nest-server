@@ -1,5 +1,4 @@
 
-
 # Menu Management & Stuff Management API
 
 This API serves as the backend for a menu management system and "Stuff" management operations. It provides features like creating, reading, updating, and deleting menu items while also enabling efficient management of "Stuff" records with role-based access control.
