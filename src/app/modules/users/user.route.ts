@@ -7,7 +7,7 @@ import validateRequest from '../../middlewares/validateRequest';
 router.post(
   '/',
   validateRequest(UserValidation.createAdminZodSchema),
-  UserController.createAdmin,
+  UserController.createStuff,
 );
 
 export const UserRoutes = router;

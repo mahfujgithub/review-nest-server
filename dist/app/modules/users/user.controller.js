@@ -7,10 +7,10 @@ exports.UserController = void 0;
 const user_service_1 = require("./user.service");
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
-const createAdmin = (0, catchAsync_1.default)(async (req, res) => {
+const createStuff = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { stuff, ...userData } = req.body;
-    const result = await user_service_1.UserService.createAdmin(stuff, userData);
+    const result = await user_service_1.UserService.createStuff(stuff, userData);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -19,5 +19,5 @@ const createAdmin = (0, catchAsync_1.default)(async (req, res) => {
     });
 });
 exports.UserController = {
-    createAdmin,
+    createStuff,
 };

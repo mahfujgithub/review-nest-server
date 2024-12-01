@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import { IStuff } from '../stuff/stuff.interface';
 import { Stuff } from '../stuff/stuff.model';
 
-const createAdmin = async (
+const createStuff = async (
   stuff: IStuff,
   user: IUser,
 ): Promise<IUser | null> => {
@@ -94,5 +94,5 @@ const createAdmin = async (
 };
 
 export const UserService = {
-  createAdmin,
+  createStuff,
 };

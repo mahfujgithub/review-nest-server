@@ -26,32 +26,30 @@ const createMenu = async (menu: IMenu) => {
 
 // get all menu
 const getAllMenu = async(menu: IMenu) => {
-    // const httpStatus = await import('http-status-ts');
     const result = await Menu.find(menu);
     return result
 }
 
-// get signle menu
+// get single menu
 const getSingleMenu = async(id: string) => {
     const result = await Menu.findById(id)
     return result
 }
 
 // update single menu
-const updateMenu = async(id: string, payload: Partial<IMenu>): Promise<IMenu | null> => {
+const updateMenu = async(_id: string, payload: Partial<IMenu>): Promise<IMenu | null> => {
     const httpStatus = await import('http-status-ts');
-    const isExist = await Menu.findOne({id})
+    const isExist = await Menu.findById(_id)
 
     if (!isExist) {
         throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Menu not found!')
     }
 
-
     const { ...menuData } = payload;
 
     const updatedMenuData: Partial<IMenu> = { ...menuData };
 
-    const result = await Menu.findByIdAndUpdate({id}, updatedMenuData, {
+    const result = await Menu.findByIdAndUpdate({_id}, updatedMenuData, {
         new: true
     })
     return result

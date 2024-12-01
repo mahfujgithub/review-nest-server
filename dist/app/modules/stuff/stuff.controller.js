@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminController = void 0;
+exports.StuffController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const stuff_service_1 = require("./stuff.service");
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
@@ -16,7 +16,7 @@ const getAllStuff = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const filters = (0, pick_1.default)(req.query, stuff_constant_1.stuffFilterableFields);
     const paginationOptions = (0, pick_1.default)(req.query, pagination_1.paginationFields);
-    const result = await stuff_service_1.AdminService.getAllStuff(paginationOptions, filters);
+    const result = await stuff_service_1.StuffService.getAllStuff(paginationOptions, filters);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -28,7 +28,7 @@ const getAllStuff = (0, catchAsync_1.default)(async (req, res) => {
 const getSingleStuff = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { id } = req.params;
-    const result = await stuff_service_1.AdminService.getSingleStuff(id);
+    const result = await stuff_service_1.StuffService.getSingleStuff(id);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -40,7 +40,7 @@ const updateStuff = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { id } = req.params;
     const updatedAdmin = req.body;
-    const result = await stuff_service_1.AdminService.updateStuff(id, updatedAdmin);
+    const result = await stuff_service_1.StuffService.updateStuff(id, updatedAdmin);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -51,7 +51,7 @@ const updateStuff = (0, catchAsync_1.default)(async (req, res) => {
 const removeStuff = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const id = req.params.id;
-    const result = await stuff_service_1.AdminService.deleteStuff(id);
+    const result = await stuff_service_1.StuffService.deleteStuff(id);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -59,7 +59,7 @@ const removeStuff = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
-exports.AdminController = {
+exports.StuffController = {
     getAllStuff,
     getSingleStuff,
     updateStuff,

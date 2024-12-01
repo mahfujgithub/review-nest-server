@@ -1,6 +1,6 @@
 import catchAsync from '../../../shared/catchAsync';
 import { Request, Response } from 'express';
-import { AdminService } from './stuff.service';
+import { StuffService } from './stuff.service';
 import sendResponse from '../../../shared/sendResponse';
 import { IStuff } from './stuff.interface';
 import { Stuff } from './stuff.model';
@@ -15,7 +15,7 @@ const getAllStuff = catchAsync(async (req: Request, res: Response) => {
   const filters = pick(req.query, stuffFilterableFields);
   const paginationOptions = pick(req.query, paginationFields);
 
-  const result = await AdminService.getAllStuff(paginationOptions, filters);
+  const result = await StuffService.getAllStuff(paginationOptions, filters);
 
   sendResponse<IStuff[]>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -30,7 +30,7 @@ const getSingleStuff = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { id } = req.params;
 
-  const result = await AdminService.getSingleStuff(id);
+  const result = await StuffService.getSingleStuff(id);
 
   sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -46,7 +46,7 @@ const updateStuff = catchAsync(async (req: Request, res: Response) => {
 
   const updatedAdmin = req.body;
 
-  const result = await AdminService.updateStuff(id, updatedAdmin);
+  const result = await StuffService.updateStuff(id, updatedAdmin);
 
   sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -60,7 +60,7 @@ const removeStuff = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const id = req.params.id;
 
-  const result = await AdminService.deleteStuff(id);
+  const result = await StuffService.deleteStuff(id);
 
   sendResponse<IStuff>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -70,7 +70,7 @@ const removeStuff = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const AdminController = {
+export const StuffController = {
   getAllStuff,
   getSingleStuff,
   updateStuff,
