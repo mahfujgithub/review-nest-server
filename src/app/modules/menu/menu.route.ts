@@ -16,14 +16,6 @@ router.get('/', auth(ENUM_USER_ROLE.ADMIN), MenuController.getAllMenu)
 // get single menu
 router.get('/:id', MenuController.getSingleMenu)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-// update single menu
-=======
-// update signle menu
->>>>>>> f4115ff985d91e9b1f24ad8d53cc3d2eefa6eb65
->>>>>>> 1c8c5c0 (readme.md modified and post interface)
 router.patch('/:id',
     validateRequest(MenuValidation.createMenuZodSchema),
     MenuController.updateMenu
