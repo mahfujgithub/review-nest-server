@@ -1,233 +1,301 @@
-## Title: Keep it short and impactful.
-# Description: Briefly explain what the project is, its purpose, and key features.
 
 
+# Menu Management & Stuff Management API
 
-###  Menu Management API
-# This API serves as the backend for a menu management system where administrators can create, read, update, and delete menu items.
+This API serves as the backend for a menu management system and "Stuff" management operations. It provides features like creating, reading, updating, and deleting menu items while also enabling efficient management of "Stuff" records with role-based access control.
 
-## Create Menu
-# Creates a new menu item. Requires category and subcategory.
+---
 
-# Request
+## Features
+
+### Menu Management
+
+- CRUD operations for menu items.
+- Input validation with Zod schema.
+- Structured and consistent responses.
+
+### Stuff Management
+
+- Role-based access control for secure data handling.
+- Supports pagination and filtering.
+- Designed for scalability and maintainability.
+
+### Post Management
+
+- Role-based access control for secure data handling.
+- Supports pagination and filtering.
+- Designed for scalability and maintainability.
+
+---
+
+## Table of Contents
+
+1. [Menu Management](#menu-management)
+   - [Create Menu](#create-menu)
+   - [Get All Menus](#get-all-menus)
+   - [Get Single Menu](#get-single-menu)
+   - [Update Menu](#update-menu)
+   - [Delete Menu](#delete-menu)
+
+2. [Stuff Management](#stuff-management)
+   - [Create Stuff](#create-stuff)
+   - [Get All Stuff](#get-all-stuff)
+   - [Get Single Stuff](#get-single-stuff)
+   - [Update Stuff](#update-stuff)
+   - [Delete Stuff](#delete-stuff)
+
+3. [Post Management](#post-management)
+   - [Create Post](#create-post)
+   - [Get All Post](#get-all-post)
+   - [Get Single Post](#get-single-post)
+   - [Update Post](#update-post)
+   - [Delete Post](#delete-post)
+---
+
+## Menu Management
+
+### Create Menu/Navigation
+
+**Description:** Create a new menu item.
+
+**POST (Body Data):** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/create]
+
+```json
 {
-  "category": "Desserts",
-  "subcategory": "Cakes",
+  
 }
+```
 
-# Response
+### Output Sample:
+
+```json
 {
-  "success": true,
-  "message": "Menu created successfully!",
-  "data": {
-    "_id": "64fc123abc456",
-    "category": "Desserts",
-    "subcategory": "Cakes",
+  
+}
+```
+
+**GET:** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu]
+
+**Description:** Get menu items.
+
+### Output Sample:
+
+```json
+[
+  {
+    
   }
-}
+  
+]
+```
 
+**GET/:id:** (Admin API)
 
-## Get All Menu
-# Retrieves all menu items. Accessible only by admin users.
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
 
-# Request
+**Description:** Get menu item.
 
-# Response
+### Output Sample:
+
+```json
 {
-  "success": true,
-  "message": "Menu Get Successfully",
-  "data": [
-    {
-      "_id": "64fc123abc456",
-      "category": "Desserts",
-      "subcategory": "Cakes",
-      "items": ["Chocolate Cake", "Cheesecake"]
-    },
-    {
-      "_id": "64fc789def101",
-      "category": "Drinks",
-      "subcategory": "Juices",
-      "items": ["Orange Juice", "Apple Juice"]
-    }
-  ]
+  
 }
+```
+**PATCH/:id:** (Admin API)
 
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
 
-## Get Single Menu
-# Fetches details of a specific menu item by its ID.
+**Description:** Update menu item.
 
-# Request
+### Output Sample:
 
-# Response
+```json
 {
-  "success": true,
-  "message": "Get Single Menu Successfully",
-  "data": {
-    "_id": "64fc123abc456",
-    "category": "Desserts",
-    "subcategory": "Cakes",
-    "items": ["Chocolate Cake", "Cheesecake"]
+  
+}
+```
+
+**DELETE/:id:** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
+
+**Description:** Delete menu item.
+
+### Output Sample:
+
+```json
+{
+  
+}
+```
+
+---
+
+## Stuff Management
+
+### Create Stuff (admin/content-writer)
+
+**Description:** Create a new Stuff (role should be, "admin/content-writer).
+
+**POST (Body Data):** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/stuff/create]
+
+```json
+{
+  
+}
+```
+
+### Output Sample:
+
+```json
+{
+ 
+}
+```
+
+**GET:** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/stuff]
+
+**Description:** Get all Stuff.
+
+### Output Sample:
+
+```json
+[
+  {
+    
   }
-}
+  
+]
+```
 
+**GET/:id:** (Shared API)
 
-## Update Menu
-# Updates a menu item. Requires the updated details in the request body.
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/stuff/:id]
 
-# Request
+**Description:** Get a Stuff.
+
+### Output Sample:
+
+```json
 {
-  "category": "Beverages",
-  "subcategory": "Coffee",
+  
 }
+```
+**PATCH/:id:** (Shared API)
 
-# Response
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/stuff/:id]
+
+**Description:** Update profile info it self.
+
+### Output Sample:
+
+```json
 {
-  "success": true,
-  "message": "Update Single Menu Successfully",
-  "data": {
-    "_id": "64fc123abc456",
-    "category": "Beverages",
-    "subcategory": "Coffee",
+  
+}
+```
+
+**DELETE/:id:** (Admin API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/stuff/:id]
+
+**Description:** Delete a Stuff.
+
+### Output Sample:
+
+```json
+{
+  
+}
+```
+
+## Post Management
+
+### Create Post
+
+**Description:** Create a new Post.
+
+**POST (Body Data):** (Shared API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/post/create]
+
+```json
+{
+  
+}
+```
+
+### Output Sample:
+
+```json
+{
+ 
+}
+```
+
+**GET:** (Shared API)
+
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu]
+
+**Description:** Get all Posts.
+
+### Output Sample:
+
+```json
+[
+  {
+    
   }
-}
+  
+]
+```
 
+**GET/:id:** (Shared API)
 
-## Delete Menu
-# Deletes a menu item permanently.
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
 
-# Request
+**Description:** Get a Post.
+
+### Output Sample:
+
+```json
 {
-  "success": true,
-  "message": "Delete Single Menu Successfully",
+  
 }
+```
+**PATCH/:id:** (Shared API)
 
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
 
-## Validation
-# Zod Schema: Ensures that all input data matches the required structure.
+**Description:** Update a post.
 
-# Example
-export const createMenuZodSchema = z.object({
-  body: z.object({
-    category: z.string().example("Category is required"),
-    subcategory: z.string().example("Subcategory is required"),
-  }),
-});
+### Output Sample:
 
-# Request Example
+```json
 {
-  "category": "Food",
-  "subcategory": "Desserts"
+  
 }
+```
 
+**DELETE/:id:** (Admin API)
 
+**API EndPoint:** [https://review-nest-server.vercel.app/api/v1/menu/:id]
 
+**Description:** Delete a Post.
 
+### Output Sample:
 
-### Stuff Management API
-# This API allows administrators to manage "Stuff" records, providing operations like retrieving, updating, and deleting data. It is secured with role-based access control and supports pagination and filtering for data retrieval.
-
-## Get All Stuff
-# Retrieve all stuff with support for pagination and filtering.
-
-# Authorization: Requires Admin Role.
-# Query Parameters (Optional):
-* page: Current page number.
-* limit: Number of items per page.
-* Filterable fields: Based on stuffFilterableFields.
-
-# Request
-
-# Response
+```json
 {
-  "success": true,
-  "message": "Admins Retrieved successfully!",
-  "meta": {
-    "page": 1,
-    "limit": 10,
-    "total": 100
-  },
-  "data": [
-    {
-      "_id": "12345",
-      "name": "John Doe",
-      "role": "Admin"
-    }
-  ]
+  
 }
-
-
-## Get Single Stuff
-# Retrieve details of a single stuff record.
-
-# Request
-
-# Response
-{
-  "success": true,
-  "message": "Admin Retrieved successfully!",
-  "data": {
-    "_id": "12345",
-    "name": "John Doe",
-    "role": "Admin"
-  }
-}
-
-## Update Stuff
-# Validation: Email updates are not allowed.
-
-# Request
-{
-  "name": {
-    "first": "Jane",
-    "last": "Doe"
-  }
-}
-
-# Response
-{
-  "success": true,
-  "message": "Admin Updated successfully!",
-  "data": {
-    "_id": "12345",
-    "name": "Jane Doe",
-    "role": "Admin"
-  }
-}
-
-## Validation Schema For Updaating Stuff
-# The schema validates the request body for updating a "Stuff" entity.
-* name: An object that optionally contains:
-* firstName (string)
-* lastName (string)
-* middleName (string)
-* email: Optional, must be a valid email format.
-* image: Optional, string for storing the image URL or path.
-* contact: Optional, string for storing the contact number.
-* emergencyContact: Optional, string for emergency contact.
-* address: Optional, string for the address.
-
-# Valid Request Example
-{
-  "name": {
-    "firstName": "John",
-    "lastName": "Doe"
-  },
-  "email": "john.doe@example.com",
-  "image": "https://example.com/image.jpg",
-  "contact": "1234567890",
-  "emergencyContact": "0987654321",
-  "address": "123 Street Name, City, Country"
-}
-
-
-
-## Delete Stuff
-# Authorization: Requires Admin Role.
-
-# Request
-
-# Response
-{
-  "success": true,
-  "message": "Admin Deleted successfully!",
-}
+```

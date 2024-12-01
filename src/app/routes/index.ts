@@ -21,13 +21,13 @@ const moduleRoutes = [
     route: AuthRoutes,
   },
   {
-    path: '/posts',
-    route: PostRouter,
-  },
-  {
     path: '/menu',
     route: MenuRoutes,
   },
+  // {
+  //   path: '/posts',
+  //   route: PostRouter,
+  // },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));
