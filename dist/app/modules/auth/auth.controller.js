@@ -43,7 +43,51 @@ const refreshToken = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
+const changePassword = (0, catchAsync_1.default)(async (req, res) => {
+    const user = req.user;
+    const { ...passwordData } = req.body;
+    await auth_service_1.AuthService.changePassword(user, passwordData);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Password changed successfully !',
+    });
+});
+const forgotPass = (0, catchAsync_1.default)(async (req, res) => {
+    await auth_service_1.AuthService.forgotPass(req.body);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Check your email!',
+    });
+});
+const resetPassword = (0, catchAsync_1.default)(async (req, res) => {
+    const token = req.headers.authorization || '';
+    await auth_service_1.AuthService.resetPassword(req.body, token);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Account recovered!',
+    });
+});
+const logout = (0, catchAsync_1.default)(async (req, res) => {
+    const httpStatus = await import('http-status-ts');
+    // Clear the refresh token from the cookie
+    res.clearCookie('refreshToken', {
+        secure: config_1.default.env === 'production',
+        httpOnly: true,
+    });
+    (0, sendResponse_1.default)(res, {
+        statusCode: httpStatus.HttpStatus.OK,
+        success: true,
+        message: 'User logged out successfully!',
+    });
+});
 exports.AuthController = {
     loginUser,
     refreshToken,
+    changePassword,
+    forgotPass,
+    resetPassword,
+    logout,
 };
