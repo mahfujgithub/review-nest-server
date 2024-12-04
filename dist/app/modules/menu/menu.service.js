@@ -23,25 +23,24 @@ const createMenu = async (menu) => {
 };
 // get all menu
 const getAllMenu = async (menu) => {
-    // const httpStatus = await import('http-status-ts');
     const result = await menu_model_1.Menu.find(menu);
     return result;
 };
-// get signle menu
+// get single menu
 const getSingleMenu = async (id) => {
     const result = await menu_model_1.Menu.findById(id);
     return result;
 };
 // update single menu
-const updateMenu = async (id, payload) => {
+const updateMenu = async (_id, payload) => {
     const httpStatus = await import('http-status-ts');
-    const isExist = await menu_model_1.Menu.findOne({ id });
+    const isExist = await menu_model_1.Menu.findById(_id);
     if (!isExist) {
         throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Menu not found!');
     }
     const { ...menuData } = payload;
     const updatedMenuData = { ...menuData };
-    const result = await menu_model_1.Menu.findByIdAndUpdate({ id }, updatedMenuData, {
+    const result = await menu_model_1.Menu.findByIdAndUpdate({ _id }, updatedMenuData, {
         new: true
     });
     return result;

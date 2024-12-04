@@ -9,5 +9,5 @@ const router = express_1.default.Router();
 const user_controller_1 = require("./user.controller");
 const user_validation_1 = require("./user.validation");
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
-router.post('/', (0, validateRequest_1.default)(user_validation_1.UserValidation.createAdminZodSchema), user_controller_1.UserController.createAdmin);
+router.post('/', (0, validateRequest_1.default)(user_validation_1.UserValidation.createAdminZodSchema), user_controller_1.UserController.createStuff);
 exports.UserRoutes = router;

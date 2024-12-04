@@ -110,7 +110,7 @@ const deleteStuff = async (id: string): Promise<IStuff | null> => {
   return result;
 };
 
-export const AdminService = {
+export const StuffService = {
   getAllStuff,
   getSingleStuff,
   updateStuff,
