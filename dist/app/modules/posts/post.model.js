@@ -19,7 +19,7 @@ const PostsSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
-    featuresImg: {
+    featureImg: {
         type: String,
         required: true
     },
@@ -60,13 +60,13 @@ const PostsSchema = new mongoose_1.Schema({
     productDimensions: {
         type: [String],
     },
-    coverMetarial: {
+    coverMaterial: {
         type: String,
     },
     layersNumber: {
         type: Number,
     },
-    fillMetarial: {
+    fillMaterial: {
         type: String,
     },
     specialFuture: {

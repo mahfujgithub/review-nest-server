@@ -1,0 +1,2 @@
+Business Requirements:
+* Ekta Property Dynamically Inject kora lagbe to Collection that doesn't exist actually.

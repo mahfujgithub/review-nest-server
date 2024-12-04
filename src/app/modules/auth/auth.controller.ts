@@ -51,7 +51,62 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const changePassword = catchAsync(async (req: Request, res: Response) => {
+  const user = req.user;
+  const { ...passwordData } = req.body;
+
+  await AuthService.changePassword(user, passwordData);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Password changed successfully !',
+  });
+});
+
+const forgotPass = catchAsync(async (req: Request, res: Response) => {
+  await AuthService.forgotPass(req.body);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Check your email!',
+  });
+});
+
+const resetPassword = catchAsync(async (req: Request, res: Response) => {
+  const token = req.headers.authorization || '';
+  await AuthService.resetPassword(req.body, token);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Account recovered!',
+  });
+});
+
+const logout = catchAsync(async (req: Request, res: Response) => {
+  const httpStatus = await import('http-status-ts');
+
+  // Clear the refresh token from the cookie
+  res.clearCookie('refreshToken', {
+    secure: config.env === 'production',
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.HttpStatus.OK,
+    success: true,
+    message: 'User logged out successfully!',
+  });
+});
+
+
 export const AuthController = {
   loginUser,
   refreshToken,
+  changePassword,
+  forgotPass,
+  resetPassword,
+  logout,
 };

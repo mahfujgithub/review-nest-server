@@ -45,6 +45,12 @@ UserSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(givenPassword, savedPassword);
 };
 
+UserSchema.methods.changedPasswordAfterJwtIssued = function (
+  jwtTimestamp: number,
+) {
+  console.log({ jwtTimestamp }, 'hi');
+};
+
 UserSchema.pre('save', async function (next) {
   // hashing user password
   const user = this;

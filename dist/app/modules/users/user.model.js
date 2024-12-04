@@ -35,6 +35,9 @@ UserSchema.statics.isUserExist = async function (id) {
 UserSchema.statics.isPasswordMatched = async function (givenPassword, savedPassword) {
     return await bcrypt_1.default.compare(givenPassword, savedPassword);
 };
+UserSchema.methods.changedPasswordAfterJwtIssued = function (jwtTimestamp) {
+    console.log({ jwtTimestamp }, 'hi');
+};
 UserSchema.pre('save', async function (next) {
     // hashing user password
     const user = this;

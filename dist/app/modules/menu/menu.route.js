@@ -14,7 +14,6 @@ router.post('/create', (0, validateRequest_1.default)(menu_validation_1.MenuVali
 router.get('/', (0, auth_1.default)("admin" /* ENUM_USER_ROLE.ADMIN */), menu_controller_1.MenuController.getAllMenu);
 // get single menu
 router.get('/:id', menu_controller_1.MenuController.getSingleMenu);
-// update single menu
 router.patch('/:id', (0, validateRequest_1.default)(menu_validation_1.MenuValidation.createMenuZodSchema), menu_controller_1.MenuController.updateMenu);
 // delete single menu
 router.delete('/:id', menu_controller_1.MenuController.deleteMenu);
