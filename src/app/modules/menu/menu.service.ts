@@ -8,8 +8,8 @@ const createMenu = async (menu: IMenu) => {
   const httpStatus = await import('http-status-ts');
 
   const existingMenu = await Menu.findOne({
-    category: menu.category,
-    subcategory: menu.subcategory,
+    menu: menu.menu,
+    subMenu: menu.subMenu,
   });
 
   // If a duplicate is found, throw an error or handle it as needed

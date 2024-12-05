@@ -3,13 +3,13 @@ import { IMenu, MenuModel } from './menu.interface';
 
 export const MenuSchema = new Schema<IMenu, MenuModel>(
   {
-    category: {
+    menu: {
       type: String,
       required: true,
       unique: true,
     },
-    subcategory: {
-      type: String,
+    subMenu: {
+      type: [String],
       required: true,
       unique: true,
     },
