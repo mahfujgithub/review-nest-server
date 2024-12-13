@@ -24,10 +24,11 @@ const moduleRoutes = [
     path: '/menu',
     route: MenuRoutes,
   },
-  // {
-  //   path: '/posts',
-  //   route: PostRouter,
-  // },
+  {
+    path: '/post',
+    route: PostRouter,
+  },
+
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));

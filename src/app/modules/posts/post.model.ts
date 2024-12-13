@@ -6,7 +6,11 @@ import { IPosts, PostModel } from "./post.interface";
 
 const PostsSchema = new Schema <IPosts, PostModel> (
     {
-        metaTitle: {
+        seoTitle: {
+            type: String,
+            require: true
+        },
+        slug: {
             type: String,
             required: true
         },
@@ -14,84 +18,69 @@ const PostsSchema = new Schema <IPosts, PostModel> (
             type: String,
             required: true
         },
-        canonicalTag: {
-            type: [String],
-            required: true
-        },
-        slug: {
+        canonicalUrl: {
             type: String,
             required: true
         },
-        featureImg: {
+        keywords: {
             type: String,
             required: true
         },
-        title: {
+        ogTitle: {
+            type: String,
+            required: true
+        },
+        ogImage: {
+            type: String,
+            required: true
+        },
+        ogDescription: {
+            type: String,
+            required: true
+        },
+        structuredData: {
+            type: String,
+            required: true
+        },
+        productTitle: {
             type: String,
             required: true
         },
         subTitle: {
             type: String,
-            required: true,
-        },
-        description: {
-            type: [String],
             required: true
         },
-        descriptionTwo: {
-            type: [String],
+        authorName: {
+            type: String,
             required: true
-        },
-        image: {
-            type: [String],
-            required: true
-        },
-        currentlyAvailable: {
-            type: Boolean,
-            required: true,
         },
         price: {
-            type: Number,
-            required: true,
-        },
-        brand: {
             type: String,
+            required: true
         },
-        size: {
-            type: [Number]
+        review: {
+            type: String,
+            required: true
         },
-        productDimensions: {
+        availability: {
+            type: String,
+            required: true
+        },
+        tags: {
             type: [String],
+            required: true
         },
-        coverMaterial: {
+        menu: {
             type: String,
+            required: true
         },
-        layersNumber: {
-            type: Number,
-        },
-        fillMaterial: {
+        subMenu: {
             type: String,
+            required: true
         },
-        specialFuture: {
-            type: [String],
-        },
-        color: {
-            type: [String],
-        },
-        coilType: {
+        editorData: {
             type: String,
-        },
-        modelName: {
-            type: String,
-        },
-        itemWeight: {
-            type: Number,
-        },
-        customerReview: {
-            type: Number,
-        },
-        warrantySupport: {
-            type: String
+            required: true
         }
 
     }
