@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const user_route_1 = require("../modules/users/user.route");
 const auth_route_1 = require("../modules/auth/auth.route");
 const stuff_route_1 = require("../modules/stuff/stuff.route");
+const post_route_1 = require("../modules/posts/post.route");
 const menu_route_1 = require("../modules/menu/menu.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
@@ -26,10 +27,10 @@ const moduleRoutes = [
         path: '/menu',
         route: menu_route_1.MenuRoutes,
     },
-    // {
-    //   path: '/posts',
-    //   route: PostRouter,
-    // },
+    {
+        path: '/post',
+        route: post_route_1.PostRouter,
+    },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));
 exports.default = router;

@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Menu = exports.MenuSchema = void 0;
+exports.Menu = exports.CategorySchema = void 0;
 const mongoose_1 = require("mongoose");
-exports.MenuSchema = new mongoose_1.Schema({
-    menu: {
+exports.CategorySchema = new mongoose_1.Schema({
+    category: {
         type: String,
         required: true,
         unique: true,
     },
-    subMenu: {
-        type: [String],
+    subcategory: {
+        type: String,
         required: true,
         unique: true,
     },
@@ -20,5 +20,5 @@ exports.MenuSchema = new mongoose_1.Schema({
     },
 });
 // Adding a unique compound index on category and subcategory
-exports.MenuSchema.index({ category: 1, subcategory: 1 }, { unique: true });
-exports.Menu = (0, mongoose_1.model)('Menus', exports.MenuSchema);
+exports.CategorySchema.index({ category: 1, subcategory: 1 }, { unique: true });
+exports.Menu = (0, mongoose_1.model)('Category', exports.CategorySchema);

@@ -10,8 +10,8 @@ const menu_model_1 = require("./menu.model");
 const createMenu = async (menu) => {
     const httpStatus = await import('http-status-ts');
     const existingMenu = await menu_model_1.Menu.findOne({
-        category: menu.category,
-        subcategory: menu.subcategory,
+        menu: menu.menu,
+        subMenu: menu.subMenu,
     });
     // If a duplicate is found, throw an error or handle it as needed
     if (existingMenu) {
