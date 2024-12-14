@@ -3,9 +3,9 @@ import { Response, Request } from 'express';
 import sendResponse from "../../../shared/sendResponse";
 import { IPosts } from "./post.interface";
 import { PostService } from "./post.service";
-
-
-
+import pick from "../../../shared/pick";
+import { postFilterableFields } from "./post.constant";
+import { paginationFields } from "../../../constants/pagination";
 
 // create post
 const createPosts = catchAsync(async(req: Request, res: Response)=> {
@@ -21,16 +21,23 @@ const createPosts = catchAsync(async(req: Request, res: Response)=> {
 })
 
 
-// get ll post
+// get all post
 const getAllPosts = catchAsync(async(req: Request, res: Response)=> {
-    const httpStatus = await import ('http-status-ts')
-    const post = req.body;
-    const result = await PostService.getAllPost(post);
+    const httpStatus = await import ('http-status-ts');
+
+    const filters = pick(req.query, postFilterableFields);
+    const paginationOptions = pick(req.query, paginationFields);
+
+    const result = await PostService.getAllPost(paginationOptions, filters);
+
+    // console.log(filters)
+
     sendResponse<IPosts[]>(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
         message: `Get All Post SuccessFullly`,
-        data: result,
+        meta:result.meta,
+        data: result.data,
     })
 
 })

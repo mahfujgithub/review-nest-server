@@ -7,6 +7,9 @@ exports.postController = void 0;
 const catchAsync_1 = __importDefault(require("../../../shared/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../../shared/sendResponse"));
 const post_service_1 = require("./post.service");
+const pick_1 = __importDefault(require("../../../shared/pick"));
+const post_constant_1 = require("./post.constant");
+const pagination_1 = require("../../../constants/pagination");
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
@@ -19,16 +22,19 @@ const createPosts = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
-// get ll post
+// get all post
 const getAllPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const post = req.body;
-    const result = await post_service_1.PostService.getAllPost(post);
+    const filters = (0, pick_1.default)(req.query, post_constant_1.postFilterableFields);
+    const paginationOptions = (0, pick_1.default)(req.query, pagination_1.paginationFields);
+    const result = await post_service_1.PostService.getAllPost(paginationOptions, filters);
+    // console.log(filters)
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
         message: `Get All Post SuccessFullly`,
-        data: result,
+        meta: result.meta,
+        data: result.data,
     });
 });
 // get single post by id

@@ -24,3 +24,9 @@ export type IPosts = {
 };
 
 export type PostModel = Model<IPosts, Record<string, unknown>>;
+
+export type IPostFilters = {
+  searchTerm?: string;
+  menu?: string;
+  subMenu?: string;
+};
