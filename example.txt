@@ -1,2 +1,2 @@
 Business Requirements:
-* Ekta Property Dynamically Inject kora lagbe to Collection that doesn't exist actually.
+* If menu matches with 'menu' then need to add a new 'subMenu' to subMenu Array

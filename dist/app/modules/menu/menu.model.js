@@ -10,8 +10,7 @@ exports.MenuSchema = new mongoose_1.Schema({
     },
     subMenu: {
         type: [String],
-        required: true,
-        unique: true,
+        default: []
     },
 }, {
     timestamps: true,
@@ -20,5 +19,5 @@ exports.MenuSchema = new mongoose_1.Schema({
     },
 });
 // Adding a unique compound index on category and subcategory
-exports.MenuSchema.index({ category: 1, subcategory: 1 }, { unique: true });
+exports.MenuSchema.index({ menu: 1 });
 exports.Menu = (0, mongoose_1.model)('Menus', exports.MenuSchema);

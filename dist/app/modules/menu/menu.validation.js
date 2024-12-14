@@ -8,11 +8,11 @@ const zod_1 = __importDefault(require("zod"));
 const createMenuZodSchema = zod_1.default.object({
     body: zod_1.default.object({
         menu: zod_1.default.string({
-            required_error: 'field is required!'
+            required_error: 'field is required!',
         }),
-        subMenu: zod_1.default.array(zod_1.default.string({
-            required_error: 'field is required!'
-        })),
+        subMenu: zod_1.default.string({
+            required_error: 'SubMenu is required!',
+        }),
     }),
 });
 exports.MenuValidation = {

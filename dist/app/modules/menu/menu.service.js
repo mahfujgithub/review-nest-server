@@ -6,20 +6,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MenuService = void 0;
 const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const menu_model_1 = require("./menu.model");
-//  create menu
 const createMenu = async (menu) => {
     const httpStatus = await import('http-status-ts');
-    const existingMenu = await menu_model_1.Menu.findOne({
-        menu: menu.menu,
-        subMenu: menu.subMenu,
-    });
-    // If a duplicate is found, throw an error or handle it as needed
+    // Normalize the input to avoid duplicate issues
+    const normalizedMenu = menu.menu.trim().toLowerCase();
+    const normalizedSubMenu = menu.subMenu.trim().toLowerCase();
+    // Check if the `menu` already exists
+    const existingMenu = await menu_model_1.Menu.findOne({ menu: normalizedMenu });
     if (existingMenu) {
-        throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Menu already exists!');
+        // Check if `subMenu` already exists in the array
+        const subMenuExists = existingMenu.subMenu.includes(normalizedSubMenu);
+        if (subMenuExists) {
+            throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'SubMenu already exists for this menu!');
+        }
+        // Append the new `subMenu` to the array
+        existingMenu.subMenu.push(normalizedSubMenu);
+        await existingMenu.save();
+        return existingMenu;
     }
-    // Create the new menu item if no duplicate is found
-    const result = await menu_model_1.Menu.create(menu);
-    return result;
+    // If no `menu` exists, create a new one
+    const newMenu = await menu_model_1.Menu.create({
+        menu: normalizedMenu,
+        subMenu: [normalizedSubMenu],
+    });
+    return newMenu;
 };
 // get all menu
 const getAllMenu = async (menu) => {
