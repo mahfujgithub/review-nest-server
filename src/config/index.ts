@@ -1,5 +1,6 @@
-import dotenv from "dotenv";
+import dotenv, { config } from "dotenv";
 import path from "path";
+import { v2 as cloudinary } from "cloudinary";
 
 dotenv.config({ path: path.join(process.cwd(), ".env") });
 
@@ -18,4 +19,15 @@ export default {
   resetLink: process.env.RESET_PASS_UI_LINK,
   email: process.env.EMAIL,
   appPass: process.env.APP_PASS,
+
 };
+
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret,
+  CLOUDINARY_URL: process.env.CLOUDINARY_URL
+  });
+
+  export { cloudinary };

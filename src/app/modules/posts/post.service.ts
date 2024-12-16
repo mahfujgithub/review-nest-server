@@ -7,6 +7,7 @@ import { Post } from './post.model';
 // create post
 const createPost = async (post: IPosts) => {
     const httpStatus = await import('http-status-ts');
+
     const isExist = await Post.findOne({
         seoTitle: post.seoTitle,
         slug: post.slug,
@@ -19,6 +20,7 @@ const createPost = async (post: IPosts) => {
         structuredData: post.structuredData,
         productTitle: post.productTitle,
         subTitle: post.subTitle,
+        images: post.images,
         authorName: post.authorName,
         price: post.price,
         review: post.review,
@@ -28,6 +30,7 @@ const createPost = async (post: IPosts) => {
         subMenu: post.subMenu,
         editorData: post.editorData,
     })
+
     if (isExist) {
         throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
 

@@ -50,6 +50,10 @@ const PostsSchema = new Schema <IPosts, PostModel> (
             type: String,
             required: true
         },
+        images: {
+            type: [String],
+            required: true
+        },
         authorName: {
             type: String,
             required: true

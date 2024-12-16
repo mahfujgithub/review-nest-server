@@ -37,6 +37,9 @@ const createPostZodSchema = z.object({
     subTitle: z.string({
         required_error: 'Field is required!',
     }),
+    images: z.array(z.string({
+        required_error: 'Field is required!',
+    })),
     authorName: z.string({
         required_error: 'Field is required!',
     }),

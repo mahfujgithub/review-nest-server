@@ -7,19 +7,19 @@ This API serves as the backend for a menu management system and "Stuff" manageme
 
 ## Features
 
-### Menu Management
+-- Menu Management
 
 - CRUD operations for menu items.
 - Input validation with Zod schema.
 - Structured and consistent responses.
 
-### Stuff Management
+-- Stuff Management
 
 - Role-based access control for secure data handling.
 - Supports pagination and filtering.
 - Designed for scalability and maintainability.
 
-### Post Management
+-- Post Management
 
 - Role-based access control for secure data handling.
 - Supports pagination and filtering.
@@ -51,7 +51,7 @@ This API serves as the backend for a menu management system and "Stuff" manageme
    - [Delete Post](https://review-nest-server.vercel.app/api/v1/post/:id)
 ---
 
-## Menu Management
+ ## Menu Management
 
 ### Create Menu/Navigation
 
@@ -224,6 +224,7 @@ This API serves as the backend for a menu management system and "Stuff" manageme
 ---
 
 ## Stuff Management
+
 
 ### Create Stuff (admin/content-writer)
 

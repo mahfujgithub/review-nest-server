@@ -12,6 +12,7 @@ export type IPosts = {
     structuredData: string;
     productTitle: string;
     subTitle: string;
+    images: string[];
     authorName: string;
     price: string;
     review: string;
@@ -20,7 +21,7 @@ export type IPosts = {
     menu: string;
     subMenu: string;
     editorData: string;
-    
+
 };
 
 export type PostModel = Model<IPosts, Record<string, unknown>>;
