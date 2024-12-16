@@ -6,18 +6,39 @@ import { PostService } from "./post.service";
 import pick from "../../../shared/pick";
 import { postFilterableFields } from "./post.constant";
 import { paginationFields } from "../../../constants/pagination";
+import { uploadToCloudinary } from "../../../config/cloudinary.uploader";
 
 // create post
 const createPosts = catchAsync(async(req: Request, res: Response)=> {
-    const httpStatus = await import ('http-status-ts')
-    const post = req.body;
-    const result = await PostService.createPost(post)
-    sendResponse<IPosts>(res, {
-        statusCode: httpStatus.HttpStatus.OK,
-        success: true,
-        message: `Post Created SuccessFullly`,
-        data: result,
-    })
+  const httpStatus = await import('http-status-ts');
+
+  const post = req.body;
+
+  // Assuming files are in req.files, you'll process them here:
+  const imageUrls = [];
+  if (Array.isArray(req.files) && req.files.length > 0) {
+    // Loop through the files, upload each to Cloudinary, and save the URLs
+    for (const file of req.files) {
+      const cloudinaryResponse = await uploadToCloudinary(
+        file.buffer,
+        '/assets',
+      );
+      imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
+    }
+  }
+
+  // Add the image URLs to your post data
+  post.images = imageUrls;
+
+  // Call the service to create the post
+  const result = await PostService.createPost(post);
+
+  sendResponse<IPosts>(res, {
+    statusCode: httpStatus.HttpStatus.OK,
+    success: true,
+    message: `Post Created SuccessFullly`,
+    data: result,
+  });
 })
 
 

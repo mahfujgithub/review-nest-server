@@ -12,6 +12,7 @@ export type IPosts = {
     structuredData: string;
     productTitle: string;
     subTitle: string;
+    images: string[];
     authorName: string;
     price: string;
     review: string;

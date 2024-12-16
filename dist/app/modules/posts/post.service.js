@@ -23,6 +23,7 @@ const createPost = async (post) => {
         structuredData: post.structuredData,
         productTitle: post.productTitle,
         subTitle: post.subTitle,
+        images: post.images,
         authorName: post.authorName,
         price: post.price,
         review: post.review,

@@ -2,16 +2,18 @@ import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import { postsValidation } from './post.validation';
 import { postController } from './post.controller';
+import upload from '../../../config/multer.config';
 const router = express.Router();
 
 
 
 // create post
-router.post('/create-post',
-    validateRequest(postsValidation.createPostZodSchema),
-    postController.createPosts,
-
-)
+router.post(
+  '/create-post',
+  upload.array('images', 10),
+  validateRequest(postsValidation.createPostZodSchema),
+  postController.createPosts,
+);
 
 // get all post
 router.get('/', postController.getAllPosts)

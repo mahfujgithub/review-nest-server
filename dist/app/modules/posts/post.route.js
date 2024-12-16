@@ -8,9 +8,10 @@ const express_1 = __importDefault(require("express"));
 const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
 const post_validation_1 = require("./post.validation");
 const post_controller_1 = require("./post.controller");
+const multer_config_1 = __importDefault(require("../../../config/multer.config"));
 const router = express_1.default.Router();
 // create post
-router.post('/create-post', (0, validateRequest_1.default)(post_validation_1.postsValidation.createPostZodSchema), post_controller_1.postController.createPosts);
+router.post('/create-post', multer_config_1.default.array('images', 10), (0, validateRequest_1.default)(post_validation_1.postsValidation.createPostZodSchema), post_controller_1.postController.createPosts);
 // get all post
 router.get('/', post_controller_1.postController.getAllPosts);
 // get single post
