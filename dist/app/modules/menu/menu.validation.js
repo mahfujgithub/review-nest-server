@@ -7,11 +7,11 @@ exports.MenuValidation = void 0;
 const zod_1 = __importDefault(require("zod"));
 const createMenuZodSchema = zod_1.default.object({
     body: zod_1.default.object({
-        category: zod_1.default.string({
-            required_error: 'field is required!'
+        menu: zod_1.default.string({
+            required_error: 'field is required!',
         }),
-        subcategory: zod_1.default.string({
-            required_error: 'field is required!'
+        subMenu: zod_1.default.string({
+            required_error: 'SubMenu is required!',
         }),
     }),
 });

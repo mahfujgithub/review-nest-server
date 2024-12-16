@@ -1,2 +1,2 @@
 Business Requirements:
-* Ekta Property Dynamically Inject kora lagbe to Collection that doesn't exist actually.
+* images[]* - Need to implement with Multer! - there is a 'tags' issue which is related to zod validation

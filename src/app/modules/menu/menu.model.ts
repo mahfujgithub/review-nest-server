@@ -10,8 +10,7 @@ export const MenuSchema = new Schema<IMenu, MenuModel>(
     },
     subMenu: {
       type: [String],
-      required: true,
-      unique: true,
+      default: []
     },
   },
   {
@@ -23,6 +22,6 @@ export const MenuSchema = new Schema<IMenu, MenuModel>(
 );
 
 // Adding a unique compound index on category and subcategory
-MenuSchema.index({ category: 1, subcategory: 1 }, { unique: true });
+MenuSchema.index({ menu: 1 });
 
 export const Menu = model<IMenu, MenuModel>('Menus', MenuSchema);
