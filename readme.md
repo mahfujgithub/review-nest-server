@@ -481,6 +481,7 @@ This API serves as the backend for a menu management system and "Stuff" manageme
     "structuredData": "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Ultimate Guide to JavaScript\",\"author\":\"Jane Smith\"}",
     "productTitle": "JavaScript Handbook 2024",
     "subTitle": "The only JavaScript resource you need",
+    "images": ["files"],
     "authorName": "Jane Smith",
     "price": "19.99",
     "review": "4.9/5",
@@ -500,30 +501,32 @@ This API serves as the backend for a menu management system and "Stuff" manageme
     "success": true,
     "message": "Post Created SuccessFullly",
     "data": {
-        "seoTitle": "Ultimate Guide to JavaScript",
-        "slug": "ultimate-guide-to-javascript",
-        "metaDescription": "A detailed guide to mastering JavaScript for web development.",
-        "canonicalUrl": "https://example.com/ultimate-guide-to-javascript",
-        "keywords": "JavaScript, programming, web development",
-        "ogTitle": "Master JavaScript with Our Ultimate Guide",
-        "ogImage": "https://example.com/images/javascript-guide.jpg",
-        "ogDescription": "Discover tips, tricks, and in-depth tutorials on JavaScript.",
-        "structuredData": "{\"@context\":\"https://schema.org\",\"@type\":\"Article\",\"headline\":\"Ultimate Guide to JavaScript\",\"author\":\"Jane Smith\"}",
-        "productTitle": "JavaScript Handbook 2024",
-        "subTitle": "The only JavaScript resource you need",
-        "authorName": "Jane Smith",
-        "price": "19.99",
-        "review": "4.9/5",
-        "availability": "Available Now",
-        "tags": [
-            "JavaScript",
-            "Programming",
-            "Coding"
+        "seoTitle": "best software in usa",
+        "slug": "frontend theke manage korben",
+        "metaDescription": "Choose the domain you want to manage DNS",
+        "canonicalUrl": "s/68527235/add-both-important-selector-strategy-for-tailwind-configuration",
+        "keywords": "website",
+        "ogTitle": "usa best software",
+        "ogImage": "https://stackoverflow.com/question",
+        "ogDescription": "The important option lets you control whether or not Tailwind's utilities should be marked with !important . This can be really useful when using Tailwind wit",
+        "structuredData": "can be really useful when using Tailwind wit",
+        "productTitle": "Exclusive t-shirts in usa",
+        "subTitle": "new thsirt is here",
+        "images": [
+            "https://res.cloudinary.com/dzagu9n0h/image/upload/v1734453676/assets/gcurxgn9yv85yrhmxnh9.png",
+            "https://res.cloudinary.com/dzagu9n0h/image/upload/v1734453686/assets/jl4loqmtehvduhkyaftq.webp"
         ],
-        "menu": "Development Resources",
-        "subMenu": "JavaScript Tutorials",
-        "editorData": "<h1>Welcome to the Ultimate Guide to JavaScript</h1><p>Start your journey here.</p>",
-        "_id": "675db1c37175633d1a2732e2",
+        "authorName": "joy sutradhor",
+        "price": "10",
+        "review": "5000",
+        "availability": "Yes",
+        "tags": [
+            "\"web\""
+        ],
+        "menu": "Kitchen/Dining",
+        "subMenu": "Mirror",
+        "editorData": "## **Features**\n\nTODO: Add features\n\n**Tech Stack**\n\nNovel’s codebase is [**fully open-source**](https://github.com/steven-tey/novel) and is built on top of the following technologies:\n\n- [**Tiptap**](https://tiptap.dev/) – framework\n- [**TypeScript**](https://www.typescriptlang.org/) – language\n- [**RadixUI**](https://www.radix-ui.com/primitives) – components\n- [**Cmdk**](https://cmdk.paco.me/) – command",
+        "_id": "6761a9c0f13672154c6917e4",
         "__v": 0
     }
 }
