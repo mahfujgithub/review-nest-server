@@ -8,9 +8,9 @@ const config_1 = __importDefault(require("../../../config"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
 async function sendEmail(to, html) {
     const transporter = nodemailer_1.default.createTransport({
-        // host: 'smtp.gmail.com',
-        // port: 587,
-        // secure: false,
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for others
         service: 'gmail',
         auth: {
             user: config_1.default.email,
@@ -19,8 +19,9 @@ async function sendEmail(to, html) {
     });
     await transporter.sendMail({
         from: config_1.default.email, // sender address
-        to, // list of receivers
+        to,
         subject: 'Reset Password Link', // Subject line
+        text: "Change Your Password Please",
         html, // html body
     });
 }

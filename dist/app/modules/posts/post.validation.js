@@ -50,9 +50,9 @@ const createPostZodSchema = zod_1.z.object({
         availability: zod_1.z.string({
             required_error: 'Field is required!',
         }),
-        tags: zod_1.z.string({
+        tags: zod_1.z.array(zod_1.z.string({
             required_error: 'Field is required!'
-        }),
+        })),
         menu: zod_1.z.string({
             required_error: 'Field is required!',
         }),

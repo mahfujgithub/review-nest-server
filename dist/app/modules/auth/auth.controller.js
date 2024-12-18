@@ -63,6 +63,7 @@ const forgotPass = (0, catchAsync_1.default)(async (req, res) => {
 });
 const resetPassword = (0, catchAsync_1.default)(async (req, res) => {
     const token = req.headers.authorization || '';
+    console.log(token);
     await auth_service_1.AuthService.resetPassword(req.body, token);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,

@@ -110,8 +110,10 @@ const forgotPass = async (payload) => {
         throw new ApiError_1.default(httpStatus.HttpStatus.BAD_REQUEST, 'Email not found!');
     }
     const passResetToken = await jwtHelpers_1.jwtHelpers.createResetToken({ id: user.id }, config_1.default.jwt.secret, '50m');
-    const resetLink = config_1.default.resetLink + `token=${passResetToken}`;
-    console.log('profile: ', profile);
+    const resetLink = `${config_1.default.resetLink}token=${passResetToken}`;
+    ;
+    console.log(resetLink);
+    // console.log('profile: ', profile);
     await (0, sendResetMail_1.sendEmail)(profile.email, `
       <div>
         <p>Hi, ${profile.name.firstName}</p>
