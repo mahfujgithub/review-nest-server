@@ -4,9 +4,9 @@ import nodemailer from 'nodemailer';
 
 export async function sendEmail(to: string, html: string) {
   const transporter = nodemailer.createTransport({
-    // host: 'smtp.gmail.com',
-    // port: 587,
-    // secure: false, // true for 465, false for others
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for others
     service: 'gmail',
     auth: {
       user: config.email,
@@ -16,9 +16,9 @@ export async function sendEmail(to: string, html: string) {
 
   await transporter.sendMail({
     from: config.email, // sender address
-    to: '',//
+    to,
     subject: 'Reset Password Link', // Subject line
+    text: "Change Your Password Please",
     html, // html body
   });
-
 }
