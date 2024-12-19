@@ -11,12 +11,11 @@ router.post('/create',
     MenuController.createMenu)
 
 
-router.get('/', auth(ENUM_USER_ROLE.ADMIN), MenuController.getAllMenu)
+router.get('/', MenuController.getAllMenu)
 
 // get single menu
 router.get('/:id', MenuController.getSingleMenu)
 
-// update signle menu
 // update single menu
 router.patch('/:id',
     validateRequest(MenuValidation.createMenuZodSchema),
