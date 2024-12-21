@@ -97,9 +97,9 @@ const getAllPost = async (
 };
 
 // get single by id
-const getSinglePost = async (id: string) => {
+const getSinglePost = async (slug: string) => {
   const httpStatus = await import('http-status-ts');
-  const result = await Post.findById(id);
+  const result = await Post.findById(slug);
   if (!result) {
     throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
   }
