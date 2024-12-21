@@ -22,7 +22,7 @@ const createPost = async (post) => {
         ogDescription: post.ogDescription,
         structuredData: post.structuredData,
         productTitle: post.productTitle,
-        subTitle: post.subTitle,
+        intro: post.intro,
         images: post.images,
         authorName: post.authorName,
         price: post.price,
@@ -81,9 +81,9 @@ const getAllPost = async (paginationOptions, filters) => {
     };
 };
 // get single by id
-const getSinglePost = async (id) => {
+const getSinglePost = async (slug) => {
     const httpStatus = await import('http-status-ts');
-    const result = await post_model_1.Post.findById(id);
+    const result = await post_model_1.Post.findById(slug);
     if (!result) {
         throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
     }

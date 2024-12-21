@@ -53,12 +53,12 @@ const getAllPosts = (0, catchAsync_1.default)(async (req, res) => {
 // get single post by id
 const getSinglePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const { id } = req.params;
-    const result = await post_service_1.PostService.getSinglePost(id);
+    const { slug } = req.params;
+    const result = await post_service_1.PostService.getSinglePost(slug);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
-        message: `Get Single Post SuccessFullly`,
+        message: `Get Single Post SuccessFully`,
         data: result,
     });
 });

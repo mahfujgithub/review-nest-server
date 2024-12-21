@@ -46,7 +46,7 @@ const PostsSchema = new Schema <IPosts, PostModel> (
             type: String,
             required: true
         },
-        subTitle: {
+        intro: {
             type: String,
             required: true
         },

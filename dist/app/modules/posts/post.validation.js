@@ -34,7 +34,7 @@ const createPostZodSchema = zod_1.z.object({
         productTitle: zod_1.z.string({
             required_error: 'Field is required!',
         }),
-        subTitle: zod_1.z.string({
+        intro: zod_1.z.string({
             required_error: 'Field is required!',
         }),
         images: zod_1.z.array(zod_1.z.any()).optional(),

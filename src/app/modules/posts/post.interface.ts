@@ -11,7 +11,7 @@ export type IPosts = {
     ogDescription: string;
     structuredData: string;
     productTitle: string;
-    subTitle: string;
+    intro: string;
     images: string[];
     authorName: string;
     price: string;

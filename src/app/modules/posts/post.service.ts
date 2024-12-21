@@ -21,7 +21,7 @@ const createPost = async (post: IPosts) => {
     ogDescription: post.ogDescription,
     structuredData: post.structuredData,
     productTitle: post.productTitle,
-    subTitle: post.subTitle,
+    intro: post.intro,
     images: post.images,
     authorName: post.authorName,
     price: post.price,
