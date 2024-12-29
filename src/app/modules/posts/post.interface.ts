@@ -7,7 +7,7 @@ export type IPosts = {
     canonicalUrl: string;
     keywords: string;
     ogTitle: string;
-    ogImage: string;
+    ogImage: string; // should be uploaded image file
     ogDescription: string;
     structuredData: string;
     productTitle: string;

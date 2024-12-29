@@ -7,19 +7,19 @@ This API serves as the backend for a menu management system and "Stuff" manageme
 
 ## Features
 
--- Menu Management
+[Menu Management](#menu-management)
 
 - CRUD operations for menu items.
 - Input validation with Zod schema.
 - Structured and consistent responses.
 
--- Stuff Management
+[Stuff Management](#stuff-management)
 
 - Role-based access control for secure data handling.
 - Supports pagination and filtering.
 - Designed for scalability and maintainability.
 
--- Post Management
+[Stuff Management](#stuff-management)
 
 - Role-based access control for secure data handling.
 - Supports pagination and filtering.
@@ -30,7 +30,7 @@ This API serves as the backend for a menu management system and "Stuff" manageme
 ## Table of Contents
 
 1. [Menu Management](#menu-management)
-   - [Create Menu](https://review-nest-server.vercel.app/api/v1/menu/create)
+   - [Create Post](<a href="https://review-nest-server.vercel.app/api/v1/post/create" target="_blank">Create Post</a>)
    - [Get All Menus](https://review-nest-server.vercel.app/api/v1/menu)
    - [Get Single Menu](https://review-nest-server.vercel.app/api/v1/menu/:id)
    - [Update Menu](https://review-nest-server.vercel.app/api/v1/menu/:id)
