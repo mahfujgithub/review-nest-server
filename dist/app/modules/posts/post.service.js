@@ -11,30 +11,13 @@ const paginationHelper_1 = require("../../../helpers/paginationHelper");
 // create post
 const createPost = async (post) => {
     const httpStatus = await import('http-status-ts');
-    const isExist = await post_model_1.Post.findOne({
-        seoTitle: post.seoTitle,
-        slug: post.slug,
-        metaDescription: post.metaDescription,
-        canonicalUrl: post.canonicalUrl,
-        keywords: post.keywords,
-        ogTitle: post.ogTitle,
-        ogImage: post.ogImage,
-        ogDescription: post.ogDescription,
-        structuredData: post.structuredData,
-        productTitle: post.productTitle,
-        intro: post.intro,
-        images: post.images,
-        authorName: post.authorName,
-        price: post.price,
-        review: post.review,
-        availability: post.availability,
-        tags: post.tags,
-        menu: post.menu,
-        subMenu: post.subMenu,
-        editorData: post.editorData,
-    });
-    if (isExist) {
-        throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
+    // Check if a post with the same menu already exists
+    const existingMenu = await post_model_1.Post.findOne({ menu: post.menu });
+    if (existingMenu) {
+        // Check if the subMenu under the same menu already exists
+        if (existingMenu.subMenu === post.subMenu) {
+            throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'SubMenu Duplication not allowed!');
+        }
     }
     const newPost = await post_model_1.Post.create(post);
     return newPost;

@@ -10,7 +10,7 @@ const router = express.Router();
 // create post
 router.post(
   '/create-post',
-  upload.array('images', 10),
+  // upload.array('productFeatureImage', 10),
   validateRequest(postsValidation.createPostZodSchema),
   postController.createPosts,
 );

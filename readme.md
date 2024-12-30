@@ -30,7 +30,8 @@ This API serves as the backend for a menu management system and "Stuff" manageme
 ## Table of Contents
 
 1. [Menu Management](#menu-management)
-   - [Create Post](<a href="https://review-nest-server.vercel.app/api/v1/post/create" target="_blank">Create Post</a>)
+   - [Create Post](<a href="" target="_blank">Create Post</a>)
+   - [Create Menu](https://review-nest-server.vercel.app/api/v1/post/create)
    - [Get All Menus](https://review-nest-server.vercel.app/api/v1/menu)
    - [Get Single Menu](https://review-nest-server.vercel.app/api/v1/menu/:id)
    - [Update Menu](https://review-nest-server.vercel.app/api/v1/menu/:id)

@@ -15,20 +15,25 @@ const createPosts = catchAsync(async(req: Request, res: Response)=> {
   const post = req.body;
 
   // Assuming files are in req.files, you'll process them here:
-  const imageUrls = [];
-  if (Array.isArray(req.files) && req.files.length > 0) {
-    // Loop through the files, upload each to Cloudinary, and save the URLs
-    for (const file of req.files) {
-      const cloudinaryResponse = await uploadToCloudinary(
-        file.buffer,
-        '/assets',
-      );
-      imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
-    }
-  }
+  // const imageUrls = [];
+  // if (Array.isArray(req.files) && req.files.length > 0) {
+  //   // Loop through the files, upload each to Cloudinary, and save the URLs
+  //   for (const file of req.files) {
+  //     const cloudinaryResponse = await uploadToCloudinary(
+  //       file.buffer,
+  //       '/assets',
+  //     );
+  //     imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
+  //   }
+  // }
 
-  // Add the image URLs to your post data
-  post.images = imageUrls;
+  // console.log(post)
+
+  // const productImages = post.allProducts.map((product: any) => console.log(product.productImages)) 
+
+  // console.log(productImages)
+    // Add the image URLs to your post data
+    // imageUrls;
 
   // Call the service to create the post
   const result = await PostService.createPost(post);
