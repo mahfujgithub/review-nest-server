@@ -5,12 +5,10 @@ import { postController } from './post.controller';
 import upload from '../../../config/multer.config';
 const router = express.Router();
 
-
-
 // create post
 router.post(
   '/create-post',
-  // upload.single('allProducts[ogImage]'),
+  upload.array('images', 10),
   validateRequest(postsValidation.createPostZodSchema),
   postController.createPosts,
 );
