@@ -89,6 +89,6 @@ const PostsSchema = new Schema <IPosts, PostModel> (
 
 
 // Ensure unique combination of menu, subMenu, and allProducts
-// PostsSchema.index({ menu: 1, subMenu: 1 }, { unique: true });
+PostsSchema.index({ menu: 1, subMenu: 1 }, { unique: true });
 
 export const Post = model<IPosts, PostModel>('Posts', PostsSchema);

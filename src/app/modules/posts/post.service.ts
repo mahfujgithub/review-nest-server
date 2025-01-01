@@ -35,6 +35,19 @@ const createPost = async (post: IPosts) => {
   if (isExist) {
     throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
   }
+
+  const existingMenu = await Post.findOne({ menu: post.menu });
+
+  if (existingMenu) {
+    // Check if the subMenu under the same menu already exists
+    if (existingMenu.subMenu === post.subMenu) {
+      throw new ApiError(
+        httpStatus.HttpStatus.CONFLICT,
+        'SubMenu Duplication not allowed!',
+      );
+    }
+  }
+
   const newPost = await Post.create(post);
   return newPost;
 };
