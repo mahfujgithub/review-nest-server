@@ -10,18 +10,21 @@ const post_service_1 = require("./post.service");
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const post_constant_1 = require("./post.constant");
 const pagination_1 = require("../../../constants/pagination");
+const cloudinary_uploader_1 = require("../../../config/cloudinary.uploader");
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const post = req.body; // Other form fields in req.body
-    //   // If you're using upload.single(), the file will be in req.file
-    //   const file = req.file;
-    //   // You can now access the image URL or use the file for further processing
-    //   if (file) {
-    //     const cloudinaryResponse = await uploadToCloudinary(file.buffer, 'assets');
-    //     console.log('Cloudinary Upload Response:', cloudinaryResponse);
-    //   }
-    //   console.log(post);
+    const imageUrls = [];
+    if (Array.isArray(req.files) && req.files.length > 0) {
+        // Loop through the files, upload each to Cloudinary, and save the URLs
+        for (const file of req.files) {
+            const cloudinaryResponse = await (0, cloudinary_uploader_1.uploadToCloudinary)(file.buffer, '/assets');
+            imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
+        }
+    }
+    // Add the image URLs to your post data
+    post.images = imageUrls;
     // Call the service to create the post
     const result = await post_service_1.PostService.createPost(post);
     (0, sendResponse_1.default)(res, {
@@ -88,5 +91,5 @@ exports.postController = {
     getAllPosts,
     getSinglePosts,
     removePosts,
-    updatePosts
+    updatePosts,
 };

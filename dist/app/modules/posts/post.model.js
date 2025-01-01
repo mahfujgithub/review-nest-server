@@ -85,5 +85,5 @@ const PostsSchema = new mongoose_1.Schema({
     }
 });
 // Ensure unique combination of menu, subMenu, and allProducts
-// PostsSchema.index({ menu: 1, subMenu: 1 }, { unique: true });
+PostsSchema.index({ menu: 1, subMenu: 1 }, { unique: true });
 exports.Post = (0, mongoose_1.model)('Posts', PostsSchema);
