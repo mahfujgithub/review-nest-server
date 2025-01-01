@@ -10,19 +10,31 @@ import { IGenericResponse } from '../../../interfaces/common';
 // create post
 const createPost = async (post: IPosts) => {
   const httpStatus = await import('http-status-ts');
-  // Check if a post with the same menu already exists
-  const existingMenu = await Post.findOne({ menu: post.menu });
-
-  if (existingMenu) {
-    // Check if the subMenu under the same menu already exists
-    if (existingMenu.subMenu === post.subMenu) {
-      throw new ApiError(
-        httpStatus.HttpStatus.CONFLICT,
-        'SubMenu Duplication not allowed!',
-      );
-    }
+  const isExist = await Post.findOne({
+    seoTitle: post.seoTitle,
+    slug: post.slug,
+    metaDescription: post.metaDescription,
+    canonicalUrl: post.canonicalUrl,
+    keywords: post.keywords,
+    ogTitle: post.ogTitle,
+    ogImage: post.ogImage,
+    ogDescription: post.ogDescription,
+    structuredData: post.structuredData,
+    productTitle: post.productTitle,
+    subTitle: post.subTitle,
+    images: post.images,
+    authorName: post.authorName,
+    price: post.price,
+    review: post.review,
+    availability: post.availability,
+    tags: post.tags,
+    menu: post.menu,
+    subMenu: post.subMenu,
+    editorData: post.editorData,
+  });
+  if (isExist) {
+    throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
   }
-
   const newPost = await Post.create(post);
   return newPost;
 };

@@ -11,7 +11,7 @@ const post_controller_1 = require("./post.controller");
 const router = express_1.default.Router();
 // create post
 router.post('/create-post', 
-// upload.array('productFeatureImage', 10),
+// upload.single('allProducts[ogImage]'),
 (0, validateRequest_1.default)(post_validation_1.postsValidation.createPostZodSchema), post_controller_1.postController.createPosts);
 // get all post
 router.get('/', post_controller_1.postController.getAllPosts);

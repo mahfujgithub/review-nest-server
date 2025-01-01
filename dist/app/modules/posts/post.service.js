@@ -11,13 +11,30 @@ const paginationHelper_1 = require("../../../helpers/paginationHelper");
 // create post
 const createPost = async (post) => {
     const httpStatus = await import('http-status-ts');
-    // Check if a post with the same menu already exists
-    const existingMenu = await post_model_1.Post.findOne({ menu: post.menu });
-    if (existingMenu) {
-        // Check if the subMenu under the same menu already exists
-        if (existingMenu.subMenu === post.subMenu) {
-            throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'SubMenu Duplication not allowed!');
-        }
+    const isExist = await post_model_1.Post.findOne({
+        seoTitle: post.seoTitle,
+        slug: post.slug,
+        metaDescription: post.metaDescription,
+        canonicalUrl: post.canonicalUrl,
+        keywords: post.keywords,
+        ogTitle: post.ogTitle,
+        ogImage: post.ogImage,
+        ogDescription: post.ogDescription,
+        structuredData: post.structuredData,
+        productTitle: post.productTitle,
+        subTitle: post.subTitle,
+        images: post.images,
+        authorName: post.authorName,
+        price: post.price,
+        review: post.review,
+        availability: post.availability,
+        tags: post.tags,
+        menu: post.menu,
+        subMenu: post.subMenu,
+        editorData: post.editorData,
+    });
+    if (isExist) {
+        throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
     }
     const newPost = await post_model_1.Post.create(post);
     return newPost;
@@ -64,9 +81,9 @@ const getAllPost = async (paginationOptions, filters) => {
     };
 };
 // get single by id
-const getSinglePost = async (slug) => {
+const getSinglePost = async (id) => {
     const httpStatus = await import('http-status-ts');
-    const result = await post_model_1.Post.findById(slug);
+    const result = await post_model_1.Post.findById(id);
     if (!result) {
         throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
     }

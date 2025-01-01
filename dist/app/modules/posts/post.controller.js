@@ -13,30 +13,21 @@ const pagination_1 = require("../../../constants/pagination");
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const post = req.body;
-    // Assuming files are in req.files, you'll process them here:
-    // const imageUrls = [];
-    // if (Array.isArray(req.files) && req.files.length > 0) {
-    //   // Loop through the files, upload each to Cloudinary, and save the URLs
-    //   for (const file of req.files) {
-    //     const cloudinaryResponse = await uploadToCloudinary(
-    //       file.buffer,
-    //       '/assets',
-    //     );
-    //     imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
+    const post = req.body; // Other form fields in req.body
+    //   // If you're using upload.single(), the file will be in req.file
+    //   const file = req.file;
+    //   // You can now access the image URL or use the file for further processing
+    //   if (file) {
+    //     const cloudinaryResponse = await uploadToCloudinary(file.buffer, 'assets');
+    //     console.log('Cloudinary Upload Response:', cloudinaryResponse);
     //   }
-    // }
-    // console.log(post)
-    // const productImages = post.allProducts.map((product: any) => console.log(product.productImages)) 
-    // console.log(productImages)
-    // Add the image URLs to your post data
-    // imageUrls;
+    //   console.log(post);
     // Call the service to create the post
     const result = await post_service_1.PostService.createPost(post);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
-        message: `Post Created SuccessFullly`,
+        message: 'Post Created Successfully',
         data: result,
     });
 });
