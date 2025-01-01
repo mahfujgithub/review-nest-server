@@ -38,7 +38,9 @@ const AllProductZodSchema = z.object({
   authorName: z.string({ required_error: 'authorName is required' }),
   aboutAuthor: z.string({ required_error: 'aboutAuthor is required' }),
   productCommonIntroDes: z.string({ required_error: 'productCommonIntroDes is required' }),
-  productFeaturesImage: z.string().optional(),
+  productFeaturesImage: z.string({
+    required_error: 'productFeaturesImage is required',
+  }),
   products: z.array(ProductZodSchema).nonempty({ message: 'products must have at least one item' }),
   whyTrustUs: z.string({ required_error: 'whyTrustUs is required' }),
   whoIsFor: z.string({ required_error: 'whoIsFor is required' }),
