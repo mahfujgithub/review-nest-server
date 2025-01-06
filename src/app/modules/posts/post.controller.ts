@@ -14,7 +14,7 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
   const post = req.body;
 
   // Base URL for the images (replace with your app's URL)
-  const baseUrl = config.server_address;
+  const baseUrl = config.server_address
 
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
