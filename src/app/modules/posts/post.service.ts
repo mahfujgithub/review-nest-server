@@ -3,40 +3,23 @@ import ApiError from '../../../errors/ApiError';
 import { IPaginationOptions } from '../../../interfaces/pagination';
 import { postSearchableFields } from './post.constant';
 import { IPostFilters, IPosts } from './post.interface';
-import { Post } from './post.model';
+import { PostModel } from './post.model';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 
 // create post
 const createPost = async (post: IPosts) => {
   const httpStatus = await import('http-status-ts');
-  const isExist = await Post.findOne({
-    seoTitle: post.seoTitle,
-    slug: post.slug,
-    metaDescription: post.metaDescription,
-    canonicalUrl: post.canonicalUrl,
-    keywords: post.keywords,
-    ogTitle: post.ogTitle,
-    ogImage: post.ogImage,
-    ogDescription: post.ogDescription,
-    structuredData: post.structuredData,
-    productTitle: post.productTitle,
-    subTitle: post.subTitle,
-    images: post.images,
-    authorName: post.authorName,
-    price: post.price,
-    review: post.review,
-    availability: post.availability,
-    tags: post.tags,
-    menu: post.menu,
-    subMenu: post.subMenu,
-    editorData: post.editorData,
+  
+  const isExist = await PostModel.findOne({
+    productSlug: post.slug, 
   });
+
   if (isExist) {
     throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
   }
 
-  const existingMenu = await Post.findOne({ menu: post.menu });
+  const existingMenu = await PostModel.findOne({ menu: post.menu });
 
   if (existingMenu) {
     // Check if the subMenu under the same menu already exists
@@ -48,7 +31,7 @@ const createPost = async (post: IPosts) => {
     }
   }
 
-  const newPost = await Post.create(post);
+  const newPost = await PostModel.create(post);
   return newPost;
 };
 
@@ -92,12 +75,12 @@ const getAllPost = async (
   const whereConditions =
     andConditions.length > 0 ? { $and: andConditions } : {};
 
-  const result = await Post.find(whereConditions)
+  const result = await PostModel.find(whereConditions)
     .sort(sortConditions)
     .skip(skip)
     .limit(limit);
 
-  const total = await Post.countDocuments(whereConditions);
+  const total = await PostModel.countDocuments(whereConditions);
 
   return {
     meta: {
@@ -112,7 +95,7 @@ const getAllPost = async (
 // get single by id
 const getSinglePost = async (slug: string) => {
   const httpStatus = await import('http-status-ts');
-  const result = await Post.findById(slug);
+  const result = await PostModel.findById(slug);
   if (!result) {
     throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
   }
@@ -125,14 +108,14 @@ const updatePost = async (
   payload: Partial<IPosts>,
 ): Promise<IPosts | null> => {
   const httpStatus = await import('http-status-ts');
-  const idExist = Post.findById(_id);
+  const idExist = PostModel.findById(_id);
   if (!idExist) {
     throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post Not Found');
   }
   const { ...postData } = payload;
   const updatedPostData: Partial<IPosts> = { ...postData };
 
-  const result = await Post.findByIdAndUpdate({ _id }, updatedPostData, {
+  const result = await PostModel.findByIdAndUpdate({ _id }, updatedPostData, {
     new: true,
   });
   return result;
@@ -140,7 +123,7 @@ const updatePost = async (
 
 // remove post
 const removePost = async (id: string) => {
-  const result = await Post.findByIdAndDelete(id);
+  const result = await PostModel.findByIdAndDelete(id);
   return result;
 };
 

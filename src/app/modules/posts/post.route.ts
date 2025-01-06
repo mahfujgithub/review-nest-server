@@ -1,6 +1,6 @@
 import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
-import { postsValidation } from './post.validation';
+import { PostValidation } from './post.validation';
 import { postController } from './post.controller';
 import upload from '../../../config/multer.config';
 const router = express.Router();
@@ -8,8 +8,13 @@ const router = express.Router();
 // create post
 router.post(
   '/create-post',
-  upload.array('images', 10),
-  validateRequest(postsValidation.createPostZodSchema),
+  upload.fields([
+    { name: 'ogImage', maxCount: 1 },
+    { name: 'productFeaturesImage', maxCount: 1 },
+    { name: 'products[0][productMainImage]', maxCount: 1 },
+    { name: 'products[0][productImages][]', maxCount: 10 },
+  ]),
+  validateRequest(PostValidation.postZodSchema),
   postController.createPosts,
 );
 

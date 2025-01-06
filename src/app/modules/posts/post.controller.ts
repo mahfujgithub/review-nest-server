@@ -6,29 +6,71 @@ import { PostService } from './post.service';
 import pick from '../../../shared/pick';
 import { postFilterableFields } from './post.constant';
 import { paginationFields } from '../../../constants/pagination';
-import { uploadToCloudinary } from '../../../config/cloudinary.uploader';
+import config from '../../../config';
 
 // create post
 const createPosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
-  const post = req.body; // Other form fields in req.body
+  const post = req.body;
 
-  const imageUrls = [];
-  if (Array.isArray(req.files) && req.files.length > 0) {
-    // Loop through the files, upload each to Cloudinary, and save the URLs
-    for (const file of req.files) {
-      const cloudinaryResponse = await uploadToCloudinary(
-        file.buffer,
-        '/assets',
-      );
-      imageUrls.push(cloudinaryResponse.secure_url); // Store Cloudinary URL
-    }
+  // Base URL for the images (replace with your app's URL)
+  const baseUrl = config.server_address;
+
+  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+  // Handle the ogImage
+  if (files['ogImage']) {
+    post.ogImage = `${baseUrl}uploads/${files['ogImage'][0].filename}`; // Correct full URL generation
   }
-  // Add the image URLs to your post data
-  post.images = imageUrls;
+
+  // Handle the productFeaturesImage
+  if (files['productFeaturesImage']) {
+    post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].filename}`; // Correct full URL generation
+  }
+
+  // Handle productMainImage and productImages for each product
+  if (files['products[0][productMainImage]']) {
+    post.products.forEach((product: any, index: number) => {
+      const productMainImageField = `products[${index}][productMainImage]`;
+      if (files[productMainImageField]) {
+        product.productMainImage = `${baseUrl}uploads/${files[productMainImageField][0].filename}`; // Correct full URL generation
+      }
+    });
+  }
+
+  if (files['products[0][productImages][]']) {
+    post.products.forEach((product: any, index: number) => {
+      const productImagesField = `products[${index}][productImages][]`;
+      if (files[productImagesField]) {
+        product.productImages = files[productImagesField].map(
+          file => `${baseUrl}uploads/${file.filename}`, // Correct full URL generation
+        );
+      }
+    });
+  }
 
   // Call the service to create the post
   const result = await PostService.createPost(post);
+
+  // Construct the full URLs for images in the response
+  const constructImageUrl = (imagePath: string) => {
+    return `${baseUrl}/${imagePath}`; // Replace with your app's domain
+  };
+
+  // Modify the post object to include full URLs for image paths
+  if (post.ogImage) post.ogImage = constructImageUrl(post.ogImage);
+  if (post.productFeaturesImage)
+    post.productFeaturesImage = constructImageUrl(post.productFeaturesImage);
+
+  if (post.products) {
+    post.products.forEach((product: any) => {
+      if (product.productMainImage)
+        product.productMainImage = constructImageUrl(product.productMainImage);
+      if (product.productImages) {
+        product.productImages = product.productImages.map(constructImageUrl);
+      }
+    });
+  }
 
   sendResponse<IPosts>(res, {
     statusCode: httpStatus.HttpStatus.OK,
