@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Serve static files (images) from the 'public/uploads' directory
-app.use(express.static(path.join(__dirname, 'public/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Application Routes
 app.use('/api/v1', routes);
