@@ -17,7 +17,7 @@ app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Serve static files
-app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
+app.use(express_1.default.static(path_1.default.join(__dirname, '../dist/public')));
 // Serve static files from the 'public' directory
 app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, 'public/uploads')));
 // Application Routes

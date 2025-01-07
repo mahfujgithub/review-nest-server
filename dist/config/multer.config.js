@@ -9,7 +9,7 @@ const fs_1 = __importDefault(require("fs"));
 const express_1 = __importDefault(require("express"));
 const app = (0, express_1.default)();
 // Define the uploads directory
-const UPLOADS_DIR = path_1.default.join(__dirname, '../../public/uploads');
+const UPLOADS_DIR = path_1.default.join(__dirname, '../../dist/public/uploads/');
 // Ensure the uploads directory exists
 const ensureUploadsDirectoryExists = () => {
     if (!fs_1.default.existsSync(UPLOADS_DIR)) {

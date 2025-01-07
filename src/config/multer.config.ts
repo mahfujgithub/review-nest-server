@@ -5,7 +5,7 @@ import express, { Request } from 'express';
 const app = express();
 
 // Define the uploads directory
-const UPLOADS_DIR = path.join(__dirname, '../../public/uploads');
+const UPLOADS_DIR = path.join(__dirname, '../../dist/public/uploads/');
 
 // Ensure the uploads directory exists
 const ensureUploadsDirectoryExists = () => {
