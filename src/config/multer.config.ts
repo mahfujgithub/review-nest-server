@@ -1,6 +1,7 @@
-import multer from 'multer';
+import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
 import fs from 'fs';
+import { Request } from 'express';
 
 // Define the uploads directory
 const UPLOADS_DIR = path.join(__dirname, '../../public/uploads');
@@ -28,7 +29,11 @@ const storage = multer.diskStorage({
 });
 
 // File filter for allowed image types
-const fileFilter = ( file: any, cb: any) => {
+const fileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+) => {
   const fileTypes = /jpeg|jpg|png|gif|webp/;
   const isValidExtName = fileTypes.test(
     path.extname(file.originalname).toLowerCase(),
