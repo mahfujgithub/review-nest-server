@@ -7,7 +7,7 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import path from 'path';
 
 // middlewares
-app.use(cors());
+app.use(cors({ origin: '*' })); // Allow all origins
 app.use(cookieParser());
 
 // parser
