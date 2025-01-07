@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, RequestHandler, Response } from 'express';
 const app: Application = express();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -17,7 +17,12 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files
 app.use(express.static(path.join(__dirname, '../public')));
 // Serve static files from the 'public' directory
-app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+app.use(
+  '/uploads',
+  express.static(
+    path.join(__dirname, 'public/uploads')
+  ),
+);
 
 // Application Routes
 app.use('/api/v1', routes);
