@@ -14,8 +14,6 @@ const ensureUploadsDirectoryExists = () => {
   }
 };
 
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
-
 // Set up storage for multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
