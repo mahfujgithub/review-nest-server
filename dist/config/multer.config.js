@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const express_1 = __importDefault(require("express"));
+const app = (0, express_1.default)();
 // Define the uploads directory
 const UPLOADS_DIR = path_1.default.join(__dirname, '../../public/uploads');
 // Ensure the uploads directory exists
@@ -14,6 +16,7 @@ const ensureUploadsDirectoryExists = () => {
         fs_1.default.mkdirSync(UPLOADS_DIR, { recursive: true });
     }
 };
+app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, 'public/uploads')));
 // Set up storage for multer
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {

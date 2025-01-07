@@ -1,7 +1,8 @@
 import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
 import fs from 'fs';
-import { Request } from 'express';
+import express, { Request } from 'express';
+const app = express();
 
 // Define the uploads directory
 const UPLOADS_DIR = path.join(__dirname, '../../public/uploads');
@@ -12,6 +13,8 @@ const ensureUploadsDirectoryExists = () => {
     fs.mkdirSync(UPLOADS_DIR, { recursive: true });
   }
 };
+
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // Set up storage for multer
 const storage = multer.diskStorage({
