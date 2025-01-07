@@ -31,7 +31,7 @@ export type IPosts = {
   authorName: string;
   productCommonIntroDes: string;
   productFeaturesImage: string;
-  products: IProducts[];
+  allProducts: IProducts[];
   whyTrustUs: string;
   whoIsFor: string;
   sources: string;

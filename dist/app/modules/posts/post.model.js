@@ -56,7 +56,7 @@ const PostSchema = new mongoose_1.Schema({
     authorName: { type: String, required: true },
     productCommonIntroDes: { type: String, required: true },
     productFeaturesImage: { type: String, required: true },
-    products: {
+    allProducts: {
         type: [ProductSchema],
         required: false,
         validate: {

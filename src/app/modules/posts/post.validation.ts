@@ -42,8 +42,7 @@ const createPostZodSchema = z.object({
     required_error: 'productCommonIntroDes is required',
   }),
   productFeaturesImage: z.string().optional(),
-  products: z
-    .array(ProductZodSchema).optional(),
+  allProducts: z.array(ProductZodSchema).optional(),
   whyTrustUs: z.string({ required_error: 'whyTrustUs is required' }),
   whoIsFor: z.string({ required_error: 'whoIsFor is required' }),
   sources: z.string({ required_error: 'sources is required' }),

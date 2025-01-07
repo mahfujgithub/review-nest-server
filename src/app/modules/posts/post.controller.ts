@@ -29,26 +29,26 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
     post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].originalname}`;
   }
 
-  // Loop through all products dynamically based on the keys in files
+  // Loop through all allProducts dynamically based on the keys in files
   Object.keys(files).forEach(field => {
     // Check if the field corresponds to a product's image
     const match = field.match(
-      /^products\[(\d+)]\[(productMainImage|productImages)]/,
+      /^allProducts\[(\d+)]\[(productMainImage|productImages)]/,
     );
     if (match) {
       const productIndex = match[1]; // Extract product index from the field
       const imageType = match[2]; // Either productMainImage or productImages
 
-      if (!post.products[productIndex]) {
-        post.products[productIndex] = {}; // Initialize the product if not yet set
+      if (!post.allProducts[productIndex]) {
+        post.allProducts[productIndex] = {}; // Initialize the product if not yet set
       }
 
       // Assign the image(s) to the correct product
       if (imageType === 'productMainImage' && files[field]) {
-        post.products[productIndex].productMainImage =
+        post.allProducts[productIndex].productMainImage =
           `${baseUrl}uploads/${files[field][0].originalname}`;
       } else if (imageType === 'productImages' && files[field]) {
-        post.products[productIndex].productImages = files[field].map(
+        post.allProducts[productIndex].productImages = files[field].map(
           file => `${baseUrl}uploads/${file.originalname}`,
         );
       }
@@ -68,8 +68,8 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
   if (post.productFeaturesImage)
     post.productFeaturesImage = constructImageUrl(post.productFeaturesImage);
 
-  if (post.products) {
-    post.products.forEach((product: any) => {
+  if (post.allProducts) {
+    post.allProducts.forEach((product: any) => {
       if (product.productMainImage)
         product.productMainImage = constructImageUrl(product.productMainImage);
       if (product.productImages) {

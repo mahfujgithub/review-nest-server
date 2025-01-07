@@ -17,7 +17,7 @@ const createPostFields = [
 // Dynamically create fields for products (adjust based on max products expected)
 const maxProducts = 10; // Maximum number of products you want to handle dynamically
 for (let i = 0; i < maxProducts; i++) {
-    createPostFields.push({ name: `products[${i}][productMainImage]`, maxCount: 1 }, { name: `products[${i}][productImages][]`, maxCount: 10 });
+    createPostFields.push({ name: `allProducts[${i}][productMainImage]`, maxCount: 1 }, { name: `allProducts[${i}][productImages][]`, maxCount: 10 });
 }
 // create post
 router.post('/create-post', multer_config_1.default.fields(createPostFields), (0, validateRequest_1.default)(post_validation_1.PostValidation.postZodSchema), post_controller_1.postController.createPosts);

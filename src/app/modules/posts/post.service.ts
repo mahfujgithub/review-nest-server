@@ -12,23 +12,15 @@ const createPost = async (post: IPosts) => {
   const httpStatus = await import('http-status-ts');
   
   const isExist = await PostModel.findOne({
-    productSlug: post.slug, 
+    slug: post.slug,
+    productTitle: post.productTitle
   });
 
   if (isExist) {
-    throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post is Already Exits');
-  }
-
-  const existingMenu = await PostModel.findOne({ menu: post.menu });
-
-  if (existingMenu) {
-    // Check if the subMenu under the same menu already exists
-    if (existingMenu.subMenu === post.subMenu) {
-      throw new ApiError(
-        httpStatus.HttpStatus.CONFLICT,
-        'SubMenu Duplication not allowed!',
-      );
-    }
+    throw new ApiError(
+      httpStatus.HttpStatus.CONFLICT,
+      'Post Duplication not allowed!',
+    );
   }
 
   const newPost = await PostModel.create(post);

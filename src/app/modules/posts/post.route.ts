@@ -14,8 +14,8 @@ const createPostFields = [
 const maxProducts = 10; // Maximum number of products you want to handle dynamically
 for (let i = 0; i < maxProducts; i++) {
   createPostFields.push(
-    { name: `products[${i}][productMainImage]`, maxCount: 1 },
-    { name: `products[${i}][productImages][]`, maxCount: 10 },
+    { name: `allProducts[${i}][productMainImage]`, maxCount: 1 },
+    { name: `allProducts[${i}][productImages][]`, maxCount: 10 },
   );
 }
 
