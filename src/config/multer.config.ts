@@ -2,15 +2,21 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+// Define the uploads directory
+const UPLOADS_DIR = path.join(__dirname, '../../public/uploads');
+
+// Ensure the uploads directory exists
+const ensureUploadsDirectoryExists = () => {
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
+};
+
 // Set up storage for multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    // Ensure the 'public/uploads' folder exists, and if not, create it
-    const uploadPath = path.join(__dirname, '../../public/uploads');
-    if (!fs.existsSync(uploadPath)) {
-      fs.mkdirSync(uploadPath, { recursive: true });
-    }
-    cb(null, uploadPath); // Set destination to 'public/uploads'
+    ensureUploadsDirectoryExists(); // Ensure directory exists before storing files
+    cb(null, UPLOADS_DIR); // Set destination to 'public/uploads'
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
@@ -21,21 +27,27 @@ const storage = multer.diskStorage({
   },
 });
 
+// File filter for allowed image types
+const fileFilter = ( file: any, cb: any) => {
+  const fileTypes = /jpeg|jpg|png|gif|webp/;
+  const isValidExtName = fileTypes.test(
+    path.extname(file.originalname).toLowerCase(),
+  );
+  const isValidMimeType = fileTypes.test(file.mimetype);
+
+  if (isValidExtName && isValidMimeType) {
+    cb(null, true); // Accept the file if valid
+  } else {
+    cb(new Error('Only image files are allowed (jpeg, jpg, png, gif, webp)')); // Reject invalid files
+  }
+};
+
 // Multer configuration
 const upload = multer({
   storage, // Use the custom storage configuration
-  fileFilter: (req, file, cb) => {
-    const fileTypes = /jpeg|jpg|png|gif|webp/;
-    const extName = fileTypes.test(
-      path.extname(file.originalname).toLowerCase(),
-    );
-    const mimeType = fileTypes.test(file.mimetype);
-
-    if (extName && mimeType) {
-      cb(null, true); // Accept the file if valid
-    } else {
-      cb(new Error('Only images are allowed')); // Reject if not an image
-    }
+  fileFilter, // Use the custom file filter
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Set file size limit to 5MB
   },
 });
 
