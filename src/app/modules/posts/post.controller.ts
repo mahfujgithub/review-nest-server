@@ -14,47 +14,53 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
   const post = req.body;
 
   // Base URL for the images (replace with your app's URL)
-  const baseUrl = config.server_address
+  const baseUrl = config.server_address;
 
+  // Process uploaded files
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
   // Handle the ogImage
   if (files['ogImage']) {
-    post.ogImage = `${baseUrl}uploads/${files['ogImage'][0].filename}`; // Correct full URL generation
+    post.ogImage = `${baseUrl}uploads/${files['ogImage'][0].originalname}`;
   }
 
   // Handle the productFeaturesImage
   if (files['productFeaturesImage']) {
-    post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].filename}`; // Correct full URL generation
+    post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].originalname}`;
   }
 
-  // Handle productMainImage and productImages for each product
-  if (files['products[0][productMainImage]']) {
-    post.products.forEach((product: any, index: number) => {
-      const productMainImageField = `products[${index}][productMainImage]`;
-      if (files[productMainImageField]) {
-        product.productMainImage = `${baseUrl}uploads/${files[productMainImageField][0].filename}`; // Correct full URL generation
+  // Loop through all products dynamically based on the keys in files
+  Object.keys(files).forEach(field => {
+    // Check if the field corresponds to a product's image
+    const match = field.match(
+      /^products\[(\d+)]\[(productMainImage|productImages)]/,
+    );
+    if (match) {
+      const productIndex = match[1]; // Extract product index from the field
+      const imageType = match[2]; // Either productMainImage or productImages
+
+      if (!post.products[productIndex]) {
+        post.products[productIndex] = {}; // Initialize the product if not yet set
       }
-    });
-  }
 
-  if (files['products[0][productImages][]']) {
-    post.products.forEach((product: any, index: number) => {
-      const productImagesField = `products[${index}][productImages][]`;
-      if (files[productImagesField]) {
-        product.productImages = files[productImagesField].map(
-          file => `${baseUrl}uploads/${file.filename}`, // Correct full URL generation
+      // Assign the image(s) to the correct product
+      if (imageType === 'productMainImage' && files[field]) {
+        post.products[productIndex].productMainImage =
+          `${baseUrl}uploads/${files[field][0].originalname}`;
+      } else if (imageType === 'productImages' && files[field]) {
+        post.products[productIndex].productImages = files[field].map(
+          file => `${baseUrl}uploads/${file.originalname}`,
         );
       }
-    });
-  }
+    }
+  });
 
   // Call the service to create the post
   const result = await PostService.createPost(post);
 
   // Construct the full URLs for images in the response
   const constructImageUrl = (imagePath: string) => {
-    return `${baseUrl}/${imagePath}`; // Replace with your app's domain
+    return `${baseUrl}uploads/${imagePath}`; // Replace with your app's domain
   };
 
   // Modify the post object to include full URLs for image paths
