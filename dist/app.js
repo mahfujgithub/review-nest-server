@@ -18,6 +18,8 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Serve static files
 app.use(express_1.default.static(path_1.default.join(__dirname, '../public')));
+// Serve static files (images) from the 'public/uploads' directory
+app.use(express_1.default.static(path_1.default.join(__dirname, 'public/uploads')));
 // Application Routes
 app.use('/api/v1', routes_1.default);
 // app.use('/create-post')
