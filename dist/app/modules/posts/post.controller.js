@@ -11,6 +11,7 @@ const pick_1 = __importDefault(require("../../../shared/pick"));
 const post_constant_1 = require("./post.constant");
 const pagination_1 = require("../../../constants/pagination");
 const config_1 = __importDefault(require("../../../config"));
+const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
@@ -104,9 +105,10 @@ const getSinglePosts = (0, catchAsync_1.default)(async (req, res) => {
 // update post
 const updatePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const { id } = req.params;
+    const { slug } = req.params;
     const updatedPost = req.body;
-    const result = await post_service_1.PostService.updatePost(id, updatedPost);
+    const nestedUpdateQuery = (0, nested_query_1.default)(updatedPost);
+    const result = await post_service_1.PostService.updatePost(slug, nestedUpdateQuery);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -117,8 +119,8 @@ const updatePosts = (0, catchAsync_1.default)(async (req, res) => {
 // remove post
 const removePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const { id } = req.params;
-    const result = await post_service_1.PostService.removePost(id);
+    const { slug } = req.params;
+    const result = await post_service_1.PostService.removePost(slug);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,

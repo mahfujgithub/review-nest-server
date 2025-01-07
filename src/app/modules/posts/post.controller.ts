@@ -7,6 +7,8 @@ import pick from '../../../shared/pick';
 import { postFilterableFields } from './post.constant';
 import { paginationFields } from '../../../constants/pagination';
 import config from '../../../config';
+import { PostModel } from './post.model';
+import buildNestedUpdateQuery from '../../../helpers/nested.query';
 
 // create post
 const createPosts = catchAsync(async (req: Request, res: Response) => {
@@ -122,10 +124,12 @@ const getSinglePosts = catchAsync(async (req: Request, res: Response) => {
 // update post
 const updatePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
-  const { id } = req.params;
+  const { slug } = req.params;
   const updatedPost = req.body;
 
-  const result = await PostService.updatePost(id, updatedPost);
+  const nestedUpdateQuery = buildNestedUpdateQuery(updatedPost);
+  const result = await PostService.updatePost(slug, nestedUpdateQuery);
+
   sendResponse<IPosts>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
@@ -137,8 +141,8 @@ const updatePosts = catchAsync(async (req: Request, res: Response) => {
 // remove post
 const removePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
-  const { id } = req.params;
-  const result = await PostService.removePost(id);
+  const { slug } = req.params;
+  const result = await PostService.removePost(slug);
   sendResponse<IPosts>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,

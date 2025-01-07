@@ -2,7 +2,6 @@ import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
 import fs from 'fs';
 import express, { Request } from 'express';
-const app = express();
 
 // Define the uploads directory
 const UPLOADS_DIR = path.join(__dirname, '../../public/uploads/');
@@ -21,7 +20,6 @@ const storage = multer.diskStorage({
     cb(null, UPLOADS_DIR); // Set destination to 'public/uploads'
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
     cb(
       null,
       `${file.originalname}`,
@@ -35,7 +33,7 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback,
 ) => {
-  const fileTypes = /jpeg|jpg|png|gif|webp/;
+  const fileTypes = /jpeg|jpg|png|gif|webp|heic|svg|bmp|tiff/;
   const isValidExtName = fileTypes.test(
     path.extname(file.originalname).toLowerCase(),
   );

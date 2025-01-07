@@ -30,12 +30,12 @@ router.post(
 // get all post
 router.get('/', postController.getAllPosts)
 // get single post
-router.get('/:id', postController.getSinglePosts)
+router.get(`/:slug`, postController.getSinglePosts)
 
 // update post
-router.patch('/:id', postController.updatePosts)
+router.patch('/:slug', postController.updatePosts)
 
 // remove post
-router.delete('/:id', postController.removePosts)
+router.delete('/:slug', postController.removePosts)
 
 export const PostRouter = router;

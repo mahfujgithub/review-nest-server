@@ -8,6 +8,7 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const post_constant_1 = require("./post.constant");
 const post_model_1 = require("./post.model");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
+const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
 // create post
 const createPost = async (post) => {
     const httpStatus = await import('http-status-ts');
@@ -65,29 +66,28 @@ const getAllPost = async (paginationOptions, filters) => {
 // get single by id
 const getSinglePost = async (slug) => {
     const httpStatus = await import('http-status-ts');
-    const result = await post_model_1.PostModel.findById(slug);
+    const result = await post_model_1.PostModel.findOne({ slug: slug });
     if (!result) {
         throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
     }
     return result;
 };
 // update post
-const updatePost = async (_id, payload) => {
+const updatePost = async (slug, payload) => {
     const httpStatus = await import('http-status-ts');
-    const idExist = post_model_1.PostModel.findById(_id);
-    if (!idExist) {
+    const isExist = await post_model_1.PostModel.findOne({ slug: slug });
+    if (!isExist) {
         throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Post Not Found');
     }
-    const { ...postData } = payload;
-    const updatedPostData = { ...postData };
-    const result = await post_model_1.PostModel.findByIdAndUpdate({ _id }, updatedPostData, {
-        new: true,
-    });
+    // Construct the update query
+    const updateQuery = (0, nested_query_1.default)(payload);
+    // Update the document with the constructed query
+    const result = await post_model_1.PostModel.findOneAndUpdate({ slug: slug }, { $set: updateQuery }, { new: true });
     return result;
 };
 // remove post
-const removePost = async (id) => {
-    const result = await post_model_1.PostModel.findByIdAndDelete(id);
+const removePost = async (slug) => {
+    const result = await post_model_1.PostModel.findOneAndDelete({ slug: slug });
     return result;
 };
 exports.PostService = {

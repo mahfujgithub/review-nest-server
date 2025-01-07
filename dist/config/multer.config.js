@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const express_1 = __importDefault(require("express"));
-const app = (0, express_1.default)();
 // Define the uploads directory
 const UPLOADS_DIR = path_1.default.join(__dirname, '../../public/uploads/');
 // Ensure the uploads directory exists
@@ -23,13 +21,12 @@ const storage = multer_1.default.diskStorage({
         cb(null, UPLOADS_DIR); // Set destination to 'public/uploads'
     },
     filename: (req, file, cb) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
         cb(null, `${file.originalname}`); // Generate unique file names
     },
 });
 // File filter for allowed image types
 const fileFilter = (req, file, cb) => {
-    const fileTypes = /jpeg|jpg|png|gif|webp/;
+    const fileTypes = /jpeg|jpg|png|gif|webp|heic|svg|bmp|tiff/;
     const isValidExtName = fileTypes.test(path_1.default.extname(file.originalname).toLowerCase());
     const isValidMimeType = fileTypes.test(file.mimetype);
     if (isValidExtName && isValidMimeType) {

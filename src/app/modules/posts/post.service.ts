@@ -6,6 +6,7 @@ import { IPostFilters, IPosts } from './post.interface';
 import { PostModel } from './post.model';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
+import buildNestedUpdateQuery from '../../../helpers/nested.query';
 
 // create post
 const createPost = async (post: IPosts) => {
@@ -87,7 +88,7 @@ const getAllPost = async (
 // get single by id
 const getSinglePost = async (slug: string) => {
   const httpStatus = await import('http-status-ts');
-  const result = await PostModel.findById(slug);
+  const result = await PostModel.findOne({slug: slug});
   if (!result) {
     throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
   }
@@ -96,26 +97,30 @@ const getSinglePost = async (slug: string) => {
 
 // update post
 const updatePost = async (
-  _id: string,
+  slug: string,
   payload: Partial<IPosts>,
 ): Promise<IPosts | null> => {
   const httpStatus = await import('http-status-ts');
-  const idExist = PostModel.findById(_id);
-  if (!idExist) {
+  const isExist = await PostModel.findOne({slug: slug});
+  if (!isExist) {
     throw new ApiError(httpStatus.HttpStatus.CONFLICT, 'Post Not Found');
   }
-  const { ...postData } = payload;
-  const updatedPostData: Partial<IPosts> = { ...postData };
 
-  const result = await PostModel.findByIdAndUpdate({ _id }, updatedPostData, {
-    new: true,
-  });
+  // Construct the update query
+  const updateQuery = buildNestedUpdateQuery(payload);
+
+  // Update the document with the constructed query
+  const result = await PostModel.findOneAndUpdate(
+    {slug: slug},
+    { $set: updateQuery },
+    { new: true },
+  );
   return result;
 };
 
 // remove post
-const removePost = async (id: string) => {
-  const result = await PostModel.findByIdAndDelete(id);
+const removePost = async (slug: string) => {
+  const result = await PostModel.findOneAndDelete({slug: slug});
   return result;
 };
 

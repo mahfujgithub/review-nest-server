@@ -24,9 +24,9 @@ router.post('/create-post', multer_config_1.default.fields(createPostFields), (0
 // get all post
 router.get('/', post_controller_1.postController.getAllPosts);
 // get single post
-router.get('/:id', post_controller_1.postController.getSinglePosts);
+router.get(`/:slug`, post_controller_1.postController.getSinglePosts);
 // update post
-router.patch('/:id', post_controller_1.postController.updatePosts);
+router.patch('/:slug', post_controller_1.postController.updatePosts);
 // remove post
-router.delete('/:id', post_controller_1.postController.removePosts);
+router.delete('/:slug', post_controller_1.postController.removePosts);
 exports.PostRouter = router;
