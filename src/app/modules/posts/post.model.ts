@@ -35,6 +35,7 @@ const ProductSchema = new Schema({
 
 // Define the IPosts schema
 const PostSchema = new Schema({
+  seoTitle: { type: String, required: true },
   slug: { type: String, required: true },
   metaDescription: { type: String, required: true },
   canonicalUrl: { type: String, required: true },

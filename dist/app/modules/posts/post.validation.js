@@ -24,6 +24,7 @@ const ProductZodSchema = zod_1.z.object({
 });
 // Define the schema for AllProduct (Post)
 const createPostZodSchema = zod_1.z.object({
+    seoTitle: zod_1.z.string({ required_error: 'slug is required' }),
     slug: zod_1.z.string({ required_error: 'slug is required' }),
     metaDescription: zod_1.z.string({ required_error: 'metaDescription is required' }),
     canonicalUrl: zod_1.z.string({ required_error: 'canonicalUrl is required' }),

@@ -35,6 +35,7 @@ const ProductSchema = new mongoose_1.Schema({
 });
 // Define the IPosts schema
 const PostSchema = new mongoose_1.Schema({
+    seoTitle: { type: String, required: true },
     slug: { type: String, required: true },
     metaDescription: { type: String, required: true },
     canonicalUrl: { type: String, required: true },
