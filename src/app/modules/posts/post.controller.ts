@@ -242,7 +242,7 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
 
-  // Fetch the post to retrieve its associated image paths
+  // Fetch the post by slug to retrieve its associated image paths
   const post = await PostService.getSinglePost(slug);
   if (!post) {
     throw new Error(`Post with slug '${slug}' not found.`);
@@ -252,21 +252,47 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
   const imagePaths: string[] = [];
 
   if (post.ogImage)
-    imagePaths.push(path.join(__dirname, '../../public', post.ogImage));
+    imagePaths.push(
+      path.join(
+        __dirname,
+        '../../public',
+        post.ogImage.replace(`${config.server_address}uploads/`, ''),
+      ),
+    );
   if (post.productFeaturesImage)
     imagePaths.push(
-      path.join(__dirname, '../../public', post.productFeaturesImage),
+      path.join(
+        __dirname,
+        '../../public',
+        post.productFeaturesImage.replace(
+          `${config.server_address}uploads/`,
+          '',
+        ),
+      ),
     );
 
   if (post.allProducts) {
     post.allProducts.forEach((product: any) => {
       if (product.productMainImage)
         imagePaths.push(
-          path.join(__dirname, '../../public', product.productMainImage),
+          path.join(
+            __dirname,
+            '../../public',
+            product.productMainImage.replace(
+              `${config.server_address}uploads/`,
+              '',
+            ),
+          ),
         );
       if (product.productImages) {
         product.productImages.forEach((imagePath: string) =>
-          imagePaths.push(path.join(__dirname, '../../public', imagePath)),
+          imagePaths.push(
+            path.join(
+              __dirname,
+              '../../public',
+              imagePath.replace(`${config.server_address}uploads/`, ''),
+            ),
+          ),
         );
       }
     });
