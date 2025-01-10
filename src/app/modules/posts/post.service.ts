@@ -16,7 +16,7 @@ const createPost = async (post: IPosts) => {
     slug: post.slug,
     productTitle: post.productTitle
   });
-
+  
   if (isExist) {
     throw new ApiError(
       httpStatus.HttpStatus.CONFLICT,

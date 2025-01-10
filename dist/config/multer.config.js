@@ -21,7 +21,11 @@ const storage = multer_1.default.diskStorage({
         cb(null, UPLOADS_DIR); // Set destination to 'public/uploads'
     },
     filename: (req, file, cb) => {
-        cb(null, `${file.originalname}`); // Generate unique file names
+        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+        const extension = path_1.default.extname(file.originalname);
+        const fileName = path_1.default.basename(file.originalname, extension);
+        const finalName = `${fileName}-${uniqueSuffix}${extension}`;
+        cb(null, finalName); // Generate unique file names
     },
 });
 // File filter for allowed image types
