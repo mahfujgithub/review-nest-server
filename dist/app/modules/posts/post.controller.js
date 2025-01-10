@@ -203,27 +203,36 @@ const removePosts = (0, catchAsync_1.default)(async (req, res) => {
     }
     // Collect all image paths
     const imagePaths = [];
+    const resolveImagePath = (imageUrl) => {
+        const relativePath = imageUrl.replace(`${config_1.default.server_address}uploads/`, '');
+        const resolvedPath = path_1.default.join(__dirname, '../../public/uploads', relativePath);
+        console.log('Resolving image path:', { imageUrl, resolvedPath });
+        return resolvedPath;
+    };
     if (post.ogImage)
-        imagePaths.push(path_1.default.join(__dirname, '../../public', post.ogImage.replace(`${config_1.default.server_address}uploads/`, '')));
+        imagePaths.push(resolveImagePath(post.ogImage));
     if (post.productFeaturesImage)
-        imagePaths.push(path_1.default.join(__dirname, '../../public', post.productFeaturesImage.replace(`${config_1.default.server_address}uploads/`, '')));
+        imagePaths.push(resolveImagePath(post.productFeaturesImage));
     if (post.allProducts) {
         post.allProducts.forEach((product) => {
             if (product.productMainImage)
-                imagePaths.push(path_1.default.join(__dirname, '../../public', product.productMainImage.replace(`${config_1.default.server_address}uploads/`, '')));
+                imagePaths.push(resolveImagePath(product.productMainImage));
             if (product.productImages) {
-                product.productImages.forEach((imagePath) => imagePaths.push(path_1.default.join(__dirname, '../../public', imagePath.replace(`${config_1.default.server_address}uploads/`, ''))));
+                product.productImages.forEach((imagePath) => imagePaths.push(resolveImagePath(imagePath)));
             }
         });
     }
+    console.log('Final image paths to delete:', imagePaths);
     // Delete the images
     await Promise.all(imagePaths.map(async (imagePath) => {
         try {
+            // Check if the file exists before deleting
+            await promises_1.default.access(imagePath);
             await promises_1.default.unlink(imagePath);
             console.log(`Deleted image: ${imagePath}`);
         }
         catch (err) {
-            console.warn(`Failed to delete image: ${imagePath}, Error: ${err.message}`);
+            console.warn(`Failed to delete image: ${imagePath}. Error: ${err.message}`);
         }
     }));
     // Delete the post

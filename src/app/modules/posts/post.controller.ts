@@ -251,62 +251,49 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
   // Collect all image paths
   const imagePaths: string[] = [];
 
-  if (post.ogImage)
-    imagePaths.push(
-      path.join(
-        __dirname,
-        '../../public',
-        post.ogImage.replace(`${config.server_address}uploads/`, ''),
-      ),
+  const resolveImagePath = (imageUrl: string) => {
+    const relativePath = imageUrl.replace(
+      `${config.server_address}uploads/`,
+      '',
     );
+    const resolvedPath = path.join(
+      __dirname,
+      '../../public/uploads',
+      relativePath,
+    );
+    console.log('Resolving image path:', { imageUrl, resolvedPath });
+    return resolvedPath;
+  };
+
+  if (post.ogImage) imagePaths.push(resolveImagePath(post.ogImage));
   if (post.productFeaturesImage)
-    imagePaths.push(
-      path.join(
-        __dirname,
-        '../../public',
-        post.productFeaturesImage.replace(
-          `${config.server_address}uploads/`,
-          '',
-        ),
-      ),
-    );
+    imagePaths.push(resolveImagePath(post.productFeaturesImage));
 
   if (post.allProducts) {
     post.allProducts.forEach((product: any) => {
       if (product.productMainImage)
-        imagePaths.push(
-          path.join(
-            __dirname,
-            '../../public',
-            product.productMainImage.replace(
-              `${config.server_address}uploads/`,
-              '',
-            ),
-          ),
-        );
+        imagePaths.push(resolveImagePath(product.productMainImage));
       if (product.productImages) {
         product.productImages.forEach((imagePath: string) =>
-          imagePaths.push(
-            path.join(
-              __dirname,
-              '../../public',
-              imagePath.replace(`${config.server_address}uploads/`, ''),
-            ),
-          ),
+          imagePaths.push(resolveImagePath(imagePath)),
         );
       }
     });
   }
 
+  console.log('Final image paths to delete:', imagePaths);
+
   // Delete the images
   await Promise.all(
     imagePaths.map(async imagePath => {
       try {
+        // Check if the file exists before deleting
+        await fs.access(imagePath);
         await fs.unlink(imagePath);
         console.log(`Deleted image: ${imagePath}`);
       } catch (err: any) {
         console.warn(
-          `Failed to delete image: ${imagePath}, Error: ${err.message}`,
+          `Failed to delete image: ${imagePath}. Error: ${err.message}`,
         );
       }
     }),
