@@ -7,8 +7,9 @@ import pick from '../../../shared/pick';
 import { postFilterableFields } from './post.constant';
 import { paginationFields } from '../../../constants/pagination';
 import config from '../../../config';
-import { PostModel } from './post.model';
 import buildNestedUpdateQuery from '../../../helpers/nested.query';
+import fs from 'fs/promises';
+import path from 'path';
 
 // create post
 // const createPosts = catchAsync(async (req: Request, res: Response) => {
@@ -225,14 +226,73 @@ const updatePosts = catchAsync(async (req: Request, res: Response) => {
 });
 
 // remove post
+// const removePosts = catchAsync(async (req: Request, res: Response) => {
+//   const httpStatus = await import('http-status-ts');
+//   const { slug } = req.params;
+//   const result = await PostService.removePost(slug);
+//   sendResponse<IPosts>(res, {
+//     statusCode: httpStatus.HttpStatus.OK,
+//     success: true,
+//     message: `Remove Post SuccessFullly`,
+//     data: result,
+//   });
+// });
+
 const removePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
+
+  // Fetch the post to retrieve its associated image paths
+  const post = await PostService.getSinglePost(slug);
+  if (!post) {
+    throw new Error(`Post with slug '${slug}' not found.`);
+  }
+
+  // Collect all image paths
+  const imagePaths: string[] = [];
+
+  if (post.ogImage)
+    imagePaths.push(path.join(__dirname, '../../public', post.ogImage));
+  if (post.productFeaturesImage)
+    imagePaths.push(
+      path.join(__dirname, '../../public', post.productFeaturesImage),
+    );
+
+  if (post.allProducts) {
+    post.allProducts.forEach((product: any) => {
+      if (product.productMainImage)
+        imagePaths.push(
+          path.join(__dirname, '../../public', product.productMainImage),
+        );
+      if (product.productImages) {
+        product.productImages.forEach((imagePath: string) =>
+          imagePaths.push(path.join(__dirname, '../../public', imagePath)),
+        );
+      }
+    });
+  }
+
+  // Delete the images
+  await Promise.all(
+    imagePaths.map(async imagePath => {
+      try {
+        await fs.unlink(imagePath);
+        console.log(`Deleted image: ${imagePath}`);
+      } catch (err: any) {
+        console.warn(
+          `Failed to delete image: ${imagePath}, Error: ${err.message}`,
+        );
+      }
+    }),
+  );
+
+  // Delete the post
   const result = await PostService.removePost(slug);
+
   sendResponse<IPosts>(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
-    message: `Remove Post SuccessFullly`,
+    message: `Post removed successfully`,
     data: result,
   });
 });

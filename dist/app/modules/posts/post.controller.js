@@ -12,6 +12,8 @@ const post_constant_1 = require("./post.constant");
 const pagination_1 = require("../../../constants/pagination");
 const config_1 = __importDefault(require("../../../config"));
 const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
+const promises_1 = __importDefault(require("fs/promises"));
+const path_1 = __importDefault(require("path"));
 // create post
 // const createPosts = catchAsync(async (req: Request, res: Response) => {
 //   const httpStatus = await import('http-status-ts');
@@ -180,14 +182,56 @@ const updatePosts = (0, catchAsync_1.default)(async (req, res) => {
     });
 });
 // remove post
+// const removePosts = catchAsync(async (req: Request, res: Response) => {
+//   const httpStatus = await import('http-status-ts');
+//   const { slug } = req.params;
+//   const result = await PostService.removePost(slug);
+//   sendResponse<IPosts>(res, {
+//     statusCode: httpStatus.HttpStatus.OK,
+//     success: true,
+//     message: `Remove Post SuccessFullly`,
+//     data: result,
+//   });
+// });
 const removePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { slug } = req.params;
+    // Fetch the post to retrieve its associated image paths
+    const post = await post_service_1.PostService.getSinglePost(slug);
+    if (!post) {
+        throw new Error(`Post with slug '${slug}' not found.`);
+    }
+    // Collect all image paths
+    const imagePaths = [];
+    if (post.ogImage)
+        imagePaths.push(path_1.default.join(__dirname, '../../public', post.ogImage));
+    if (post.productFeaturesImage)
+        imagePaths.push(path_1.default.join(__dirname, '../../public', post.productFeaturesImage));
+    if (post.allProducts) {
+        post.allProducts.forEach((product) => {
+            if (product.productMainImage)
+                imagePaths.push(path_1.default.join(__dirname, '../../public', product.productMainImage));
+            if (product.productImages) {
+                product.productImages.forEach((imagePath) => imagePaths.push(path_1.default.join(__dirname, '../../public', imagePath)));
+            }
+        });
+    }
+    // Delete the images
+    await Promise.all(imagePaths.map(async (imagePath) => {
+        try {
+            await promises_1.default.unlink(imagePath);
+            console.log(`Deleted image: ${imagePath}`);
+        }
+        catch (err) {
+            console.warn(`Failed to delete image: ${imagePath}, Error: ${err.message}`);
+        }
+    }));
+    // Delete the post
     const result = await post_service_1.PostService.removePost(slug);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
-        message: `Remove Post SuccessFullly`,
+        message: `Post removed successfully`,
         data: result,
     });
 });
