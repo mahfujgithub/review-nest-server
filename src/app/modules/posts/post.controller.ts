@@ -8,7 +8,6 @@ import { postFilterableFields } from './post.constant';
 import { paginationFields } from '../../../constants/pagination';
 import config from '../../../config';
 import buildNestedUpdateQuery from '../../../helpers/nested.query';
-import fs from 'fs/promises';
 import fsPromises from 'fs/promises';  // Add this line
 import path from 'path';
 
