@@ -14,6 +14,7 @@ const config_1 = __importDefault(require("../../../config"));
 const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
 const promises_1 = __importDefault(require("fs/promises")); // Add this line
 const path_1 = __importDefault(require("path"));
+const requestCounts = {}; // In-memory storage for counting requests
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
@@ -85,16 +86,23 @@ const getAllPosts = (0, catchAsync_1.default)(async (req, res) => {
         data: result.data,
     });
 });
-// get single post by id
+// get single post by slug
 const getSinglePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { slug } = req.params;
+    // Get related posts by subMenu
+    const { relatedPosts, relatedCount } = await post_service_1.PostService.getRelatedPosts(slug);
     const result = await post_service_1.PostService.getSinglePost(slug);
+    const responseData = {
+        result,
+        relatedCount,
+        relatedPosts
+    };
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
         message: `Get Single Post SuccessFully`,
-        data: result,
+        data: responseData,
     });
 });
 // update post

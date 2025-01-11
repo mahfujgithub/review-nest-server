@@ -34,43 +34,51 @@ const ProductSchema = new Schema({
 });
 
 // Define the IPosts schema
-const PostSchema = new Schema({
-  seoTitle: { type: String, required: true },
-  slug: { type: String, required: true },
-  metaDescription: { type: String, required: true },
-  canonicalUrl: { type: String, required: true },
-  keywords: { type: String, required: true },
-  ogTitle: { type: String, required: true },
-  ogImage: { type: String, required: true },
-  ogDescription: { type: String, required: true },
-  structuredData: { type: String, required: true },
-  tags: {
-    type: [String],
-    required: true,
-    validate: {
-      validator: (array: string[]) => array.length > 0,
-      message: 'tags must contain at least one item',
+const PostSchema = new Schema(
+  {
+    seoTitle: { type: String, required: true },
+    slug: { type: String, required: true },
+    metaDescription: { type: String, required: true },
+    canonicalUrl: { type: String, required: true },
+    keywords: { type: String, required: true },
+    ogTitle: { type: String, required: true },
+    ogImage: { type: String, required: true },
+    ogDescription: { type: String, required: true },
+    structuredData: { type: String, required: true },
+    tags: {
+      type: [String],
+      required: true,
+      validate: {
+        validator: (array: string[]) => array.length > 0,
+        message: 'tags must contain at least one item',
+      },
+    },
+    review: { type: String, required: true },
+    productTitle: { type: String, required: true },
+    authorName: { type: String, required: true },
+    productCommonIntroDes: { type: String, required: true },
+    productFeaturesImage: { type: String, required: true },
+    allProducts: {
+      type: [ProductSchema],
+      required: false,
+      validate: {
+        validator: (array: any[]) => array.length > 0,
+        message: 'products must contain at least one item',
+      },
+    },
+    whyTrustUs: { type: String, required: true },
+    whoIsFor: { type: String, required: true },
+    sources: { type: String, required: true },
+    menu: { type: String, required: true },
+    subMenu: { type: String, required: true },
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
     },
   },
-  review: { type: String, required: true },
-  productTitle: { type: String, required: true },
-  authorName: { type: String, required: true },
-  productCommonIntroDes: { type: String, required: true },
-  productFeaturesImage: { type: String, required: true },
-  allProducts: {
-    type: [ProductSchema],
-    required: false,
-    validate: {
-      validator: (array: any[]) => array.length > 0,
-      message: 'products must contain at least one item',
-    },
-  },
-  whyTrustUs: { type: String, required: true },
-  whoIsFor: { type: String, required: true },
-  sources: { type: String, required: true },
-  menu: { type: String, required: true },
-  subMenu: { type: String, required: true },
-});
+);
 
 // Create the Mongoose model
 export const PostModel: Model<IPosts> = model<IPosts>('Post', PostSchema);

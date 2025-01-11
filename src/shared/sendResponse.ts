@@ -1,4 +1,5 @@
 import { Response } from 'express';
+import { IPosts } from '../app/modules/posts/post.interface';
 
 type IApiResponse<T> = {
   statusCode: number;
@@ -11,6 +12,13 @@ type IApiResponse<T> = {
   };
   data?: T | null;
 };
+
+// Define a new type for response data structure that includes both 'post' and 'relatedPosts'
+export interface IPostWithRelated {
+  result?: IPosts;
+  relatedPosts: IPosts[];
+  relatedCount: number;
+}
 
 const sendResponse = <T>(res: Response, data: IApiResponse<T>): void => {
   const responseData: IApiResponse<T> = {

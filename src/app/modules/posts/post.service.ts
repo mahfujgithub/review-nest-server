@@ -7,6 +7,8 @@ import { PostModel } from './post.model';
 import { paginationHelpers } from '../../../helpers/paginationHelper';
 import { IGenericResponse } from '../../../interfaces/common';
 import buildNestedUpdateQuery from '../../../helpers/nested.query';
+import { RequestCountModel } from '../../../shared/requestCount.model';
+import { IPostWithRelated } from '../../../shared/sendResponse';
 
 // create post
 const createPost = async (post: IPosts) => {
@@ -63,6 +65,8 @@ const getAllPost = async (
 
   if (sortBy && sortOrder) {
     sortConditions[sortBy] = sortOrder;
+  } else {
+    sortConditions['createdAt'] = 'desc'; // Ensures new posts appear first.
   }
 
   const whereConditions =
@@ -88,11 +92,51 @@ const getAllPost = async (
 // get single by id
 const getSinglePost = async (slug: string) => {
   const httpStatus = await import('http-status-ts');
-  const result = await PostModel.findOne({slug: slug});
+
+  // Increment the request count
+  const count = await RequestCountModel.findOneAndUpdate(
+    { slug },
+    { $inc: { count: 1 } },
+    { upsert: true, new: true },
+  );
+
+  const result = await PostModel.findOne({ slug: slug });
   if (!result) {
     throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
   }
-  return result;
+
+  return {
+    ...result.toObject(),
+    visitCount: count ? count.count : 1,
+  };
+};
+
+const getRelatedPosts = async (slug: string): Promise<IPostWithRelated> => {
+  const httpStatus = await import('http-status-ts');
+
+  // Fetch the current post by slug to get its subMenu
+  const currentPost = await PostModel.findOne({ slug });
+  if (!currentPost) {
+    throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
+  }
+
+  const { subMenu } = currentPost;
+
+  // Fetch related posts based on the same subMenu, excluding the current post
+  const relatedPosts = await PostModel.find({
+    subMenu,
+    slug: { $ne: slug }, // Exclude the current post by slug
+  });
+
+  const relatedCount = await PostModel.countDocuments({
+    subMenu,
+    slug: { $ne: slug },
+  });
+
+  return {
+    relatedPosts, // Return the related posts
+    relatedCount, // Return the related posts count
+  };
 };
 
 // update post
@@ -128,6 +172,7 @@ export const PostService = {
   createPost,
   getAllPost,
   getSinglePost,
+  getRelatedPosts,
   removePost,
   updatePost,
 };

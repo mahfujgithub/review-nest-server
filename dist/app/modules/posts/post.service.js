@@ -9,6 +9,7 @@ const post_constant_1 = require("./post.constant");
 const post_model_1 = require("./post.model");
 const paginationHelper_1 = require("../../../helpers/paginationHelper");
 const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
+const requestCount_model_1 = require("../../../shared/requestCount.model");
 // create post
 const createPost = async (post) => {
     const httpStatus = await import('http-status-ts');
@@ -48,6 +49,9 @@ const getAllPost = async (paginationOptions, filters) => {
     if (sortBy && sortOrder) {
         sortConditions[sortBy] = sortOrder;
     }
+    else {
+        sortConditions['createdAt'] = 'desc'; // Ensures new posts appear first.
+    }
     const whereConditions = andConditions.length > 0 ? { $and: andConditions } : {};
     const result = await post_model_1.PostModel.find(whereConditions)
         .sort(sortConditions)
@@ -66,11 +70,38 @@ const getAllPost = async (paginationOptions, filters) => {
 // get single by id
 const getSinglePost = async (slug) => {
     const httpStatus = await import('http-status-ts');
+    // Increment the request count
+    const count = await requestCount_model_1.RequestCountModel.findOneAndUpdate({ slug }, { $inc: { count: 1 } }, { upsert: true, new: true });
     const result = await post_model_1.PostModel.findOne({ slug: slug });
     if (!result) {
         throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
     }
-    return result;
+    return {
+        ...result.toObject(),
+        visitCount: count ? count.count : 1,
+    };
+};
+const getRelatedPosts = async (slug) => {
+    const httpStatus = await import('http-status-ts');
+    // Fetch the current post by slug to get its subMenu
+    const currentPost = await post_model_1.PostModel.findOne({ slug });
+    if (!currentPost) {
+        throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Post not found');
+    }
+    const { subMenu } = currentPost;
+    // Fetch related posts based on the same subMenu, excluding the current post
+    const relatedPosts = await post_model_1.PostModel.find({
+        subMenu,
+        slug: { $ne: slug }, // Exclude the current post by slug
+    });
+    const relatedCount = await post_model_1.PostModel.countDocuments({
+        subMenu,
+        slug: { $ne: slug },
+    });
+    return {
+        relatedPosts, // Return the related posts
+        relatedCount, // Return the related posts count
+    };
 };
 // update post
 const updatePost = async (slug, payload) => {
@@ -94,6 +125,7 @@ exports.PostService = {
     createPost,
     getAllPost,
     getSinglePost,
+    getRelatedPosts,
     removePost,
     updatePost,
 };

@@ -1,6 +1,6 @@
 import catchAsync from '../../../shared/catchAsync';
 import { Response, Request } from 'express';
-import sendResponse from '../../../shared/sendResponse';
+import sendResponse, { IPostWithRelated } from '../../../shared/sendResponse';
 import { IPosts } from './post.interface';
 import { PostService } from './post.service';
 import pick from '../../../shared/pick';
@@ -11,8 +11,9 @@ import buildNestedUpdateQuery from '../../../helpers/nested.query';
 import fsPromises from 'fs/promises';  // Add this line
 import path from 'path';
 
-// create post
+const requestCounts: { [key: string]: number } = {}; // In-memory storage for counting requests
 
+// create post
 const createPosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const post = req.body;
@@ -103,16 +104,28 @@ const getAllPosts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-// get single post by id
+// get single post by slug
 const getSinglePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
+
+  // Get related posts by subMenu
+  const { relatedPosts, relatedCount } =
+    await PostService.getRelatedPosts(slug);
+
   const result = await PostService.getSinglePost(slug);
-  sendResponse<IPosts>(res, {
+
+  const responseData: IPostWithRelated = {
+    result,
+    relatedCount,
+    relatedPosts
+  };
+
+  sendResponse(res, {
     statusCode: httpStatus.HttpStatus.OK,
     success: true,
     message: `Get Single Post SuccessFully`,
-    data: result,
+    data: responseData,
   });
 });
 

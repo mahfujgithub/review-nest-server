@@ -70,6 +70,11 @@ const PostSchema = new mongoose_1.Schema({
     sources: { type: String, required: true },
     menu: { type: String, required: true },
     subMenu: { type: String, required: true },
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+    },
 });
 // Create the Mongoose model
 exports.PostModel = (0, mongoose_1.model)('Post', PostSchema);
