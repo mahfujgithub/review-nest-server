@@ -11,8 +11,6 @@ import buildNestedUpdateQuery from '../../../helpers/nested.query';
 import fsPromises from 'fs/promises';  // Add this line
 import path from 'path';
 
-const requestCounts: { [key: string]: number } = {}; // In-memory storage for counting requests
-
 // create post
 const createPosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
@@ -103,6 +101,22 @@ const getAllPosts = catchAsync(async (req: Request, res: Response) => {
     data: result.data,
   });
 });
+
+const getPopularPosts = catchAsync(
+  async (req: Request, res: Response) => {
+    const httpStatus = await import('http-status-ts');
+
+    // Call the service function to get posts sorted by visit count
+    const result = await PostService.getPopularPosts();
+
+    sendResponse(res, {
+      statusCode: httpStatus.HttpStatus.OK,
+      success: true,
+      message: 'Popular posts retrieved successfully',
+      data: result,
+    });
+  },
+);
 
 // get single post by slug
 const getSinglePosts = catchAsync(async (req: Request, res: Response) => {
@@ -215,6 +229,7 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
 export const postController = {
   createPosts,
   getAllPosts,
+  getPopularPosts,
   getSinglePosts,
   removePosts,
   updatePosts,

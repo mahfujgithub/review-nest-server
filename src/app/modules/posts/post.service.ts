@@ -89,7 +89,32 @@ const getAllPost = async (
   };
 };
 
-// get single by id
+const getPopularPosts = async (): Promise<IPosts[]> => {
+  const result = await PostModel.aggregate([
+    {
+      $lookup: {
+        from: 'requestcounts', // MongoDB collection for visit counts
+        localField: 'slug',
+        foreignField: 'slug',
+        as: 'visitCount',
+      },
+    },
+    {
+      $addFields: {
+        visitCount: {
+          $ifNull: [{ $arrayElemAt: ['$visitCount.count', 0] }, 0],
+        },
+      },
+    },
+    {
+      $sort: { visitCount: -1 }, // Sort by visit count in descending order
+    },
+  ]);
+
+  return result;
+};
+
+// get single by slug
 const getSinglePost = async (slug: string) => {
   const httpStatus = await import('http-status-ts');
 
@@ -171,6 +196,7 @@ const removePost = async (slug: string) => {
 export const PostService = {
   createPost,
   getAllPost,
+  getPopularPosts,
   getSinglePost,
   getRelatedPosts,
   removePost,

@@ -29,6 +29,9 @@ router.post(
 
 // get all post
 router.get('/', postController.getAllPosts)
+
+router.get('/popular', postController.getPopularPosts);
+
 // get single post
 router.get(`/:slug`, postController.getSinglePosts)
 

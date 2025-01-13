@@ -14,7 +14,6 @@ const config_1 = __importDefault(require("../../../config"));
 const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
 const promises_1 = __importDefault(require("fs/promises")); // Add this line
 const path_1 = __importDefault(require("path"));
-const requestCounts = {}; // In-memory storage for counting requests
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
@@ -84,6 +83,17 @@ const getAllPosts = (0, catchAsync_1.default)(async (req, res) => {
         message: `Get All Post SuccessFullly`,
         meta: result.meta,
         data: result.data,
+    });
+});
+const getPopularPosts = (0, catchAsync_1.default)(async (req, res) => {
+    const httpStatus = await import('http-status-ts');
+    // Call the service function to get posts sorted by visit count
+    const result = await post_service_1.PostService.getPopularPosts();
+    (0, sendResponse_1.default)(res, {
+        statusCode: httpStatus.HttpStatus.OK,
+        success: true,
+        message: 'Popular posts retrieved successfully',
+        data: result,
     });
 });
 // get single post by slug
@@ -170,6 +180,7 @@ const removePosts = (0, catchAsync_1.default)(async (req, res) => {
 exports.postController = {
     createPosts,
     getAllPosts,
+    getPopularPosts,
     getSinglePosts,
     removePosts,
     updatePosts,

@@ -23,6 +23,7 @@ for (let i = 0; i < maxProducts; i++) {
 router.post('/create-post', multer_config_1.default.fields(createPostFields), (0, validateRequest_1.default)(post_validation_1.PostValidation.postZodSchema), post_controller_1.postController.createPosts);
 // get all post
 router.get('/', post_controller_1.postController.getAllPosts);
+router.get('/popular', post_controller_1.postController.getPopularPosts);
 // get single post
 router.get(`/:slug`, post_controller_1.postController.getSinglePosts);
 // update post
