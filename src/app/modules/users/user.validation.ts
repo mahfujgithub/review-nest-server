@@ -22,7 +22,7 @@ const createAdminZodSchema = z.object({
         })
         .email(),
       image: z.string().optional(),
-      contact: z.string().optional(),
+      // contact: z.string().optional(),
       emergencyContact: z.string().optional(),
       address: z.string().optional(),
     }),

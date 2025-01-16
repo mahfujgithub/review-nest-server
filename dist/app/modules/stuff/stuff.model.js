@@ -25,7 +25,6 @@ exports.StuffSchema = new mongoose_1.Schema({
     },
     contact: {
         type: String,
-        unique: true,
     },
     emergencyContact: {
         type: String,
