@@ -25,7 +25,7 @@ export const StuffSchema = new Schema<IStuff, StuffModel>(
     },
     contact: {
       type: String,
-      unique: true,
+      unique: false,
     },
     emergencyContact: {
       type: String,
