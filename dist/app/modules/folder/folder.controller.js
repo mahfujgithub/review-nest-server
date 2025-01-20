@@ -45,8 +45,8 @@ const getAllFolders = (0, catchAsync_1.default)(async (req, res) => {
 // // get single post by id
 const getSingleFolder = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const { id } = req.params;
-    const result = await folder_service_1.FolderService.getSingleFolder(id);
+    const { foldername } = req.params;
+    const result = await folder_service_1.FolderService.getSingleFolder(foldername);
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,

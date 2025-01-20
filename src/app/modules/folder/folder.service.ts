@@ -29,14 +29,14 @@ const getAllFolders = async (folder: IFolder) => {
 };
 
 // // get single folder
-const getSingleFolder = async (id: string) => {
-  const result = await Folder.findById(id);
+const getSingleFolder = async (foldername: string) => {
+  const result = await Folder.findOne({foldername: foldername});
   return result;
 };
 
 // // delete folder
-const deleteFolder = async (id: string) => {
-  const result = await Folder.findByIdAndDelete(id);
+const deleteFolder = async (foldername: string) => {
+  const result = await Folder.findByIdAndDelete(foldername);
   return result;
 };
 
