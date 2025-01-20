@@ -36,7 +36,6 @@ const createPostZodSchema = z.object({
   tags: z
     .array(z.string({ required_error: 'Each tag must be a string' }))
     .nonempty({ message: 'tags must have at least one item' }),
-  review: z.string({ required_error: 'review is required' }),
   productTitle: z.string({ required_error: 'productTitle is required' }),
   authorName: z.string({ required_error: 'authorName is required' }),
   productCommonIntroDes: z.string({

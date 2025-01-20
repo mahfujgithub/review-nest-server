@@ -26,7 +26,6 @@ export type IPosts = {
   ogImage: string;
   ogDescription: string;
   tags: string[];
-  review: string;
   productTitle: string;
   authorName: string;
   productCommonIntroDes: string;

@@ -10,6 +10,7 @@ const stuff_route_1 = require("../modules/stuff/stuff.route");
 const post_route_1 = require("../modules/posts/post.route");
 const menu_route_1 = require("../modules/menu/menu.route");
 const folder_route_1 = require("../modules/folder/folder.route");
+const blog_route_1 = require("../modules/blog/blog.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -31,6 +32,10 @@ const moduleRoutes = [
     {
         path: '/post',
         route: post_route_1.PostRouter,
+    },
+    {
+        path: '/blog',
+        route: blog_route_1.BlogRoutes,
     },
     {
         path: '/folder',
