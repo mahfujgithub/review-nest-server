@@ -4,6 +4,7 @@ import { AuthRoutes } from '../modules/auth/auth.route';
 import { StuffRoutes } from '../modules/stuff/stuff.route';
 import { PostRouter } from '../modules/posts/post.route';
 import { MenuRoutes } from '../modules/menu/menu.route';
+import { FolderRoutes } from '../modules/folder/folder.route';
 
 const router = express.Router();
 
@@ -28,7 +29,10 @@ const moduleRoutes = [
     path: '/post',
     route: PostRouter,
   },
-
+  {
+    path: '/folder',
+    route: FolderRoutes,
+  },
 ];
 
 moduleRoutes.forEach(route => router.use(route.path, route.route));
