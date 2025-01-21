@@ -56,6 +56,10 @@ const SubMenuSchema = new Schema<ISubMenu>(
       type: String,
       required: true,
     },
+    subMenu: {
+        type: String,
+        required: true
+    }
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields

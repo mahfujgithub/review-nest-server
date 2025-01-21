@@ -12,6 +12,7 @@ export type ISubMenu = {
   structuredData: string;
   tags: string[];
   subMenuData: string;
+  subMenu: string;
 };
 
 export type SubMenuModel = Model<ISubMenu, Record<string, unknown>>;

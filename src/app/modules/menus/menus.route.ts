@@ -12,7 +12,7 @@ router.post(
   MenusController.createMenus,
 );
 
-router.get('/', MenusController.getAllMenus);
+router.get('/menus', MenusController.getAllMenus);
 
 // get single blog
 router.get('/:slug', MenusController.getSingleMenus);
