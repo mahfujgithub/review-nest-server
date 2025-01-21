@@ -8,23 +8,23 @@ const router = express.Router();
 
 router.post(
   '/create',
-//   validateRequest(BlogValidation.BlogZodSchema),
-  SubMenuController.createBlog,
+//   validateRequest(BlogValidation.SubMenuZodSchema),
+  SubMenuController.createSubMenu,
 );
 
-router.get('/', SubMenuController.getAllBlog);
+router.get('/', SubMenuController.getAllSubMenu);
 
 // get single blog
-router.get('/:slug', SubMenuController.getSingleBlog);
+router.get('/:slug', SubMenuController.getSingleSubMenu);
 
 // update single blog
 router.patch(
   '/:id',
-  validateRequest(SubMenuValidation.UpdateBlogSchema),
-  SubMenuController.updateBlog,
+  validateRequest(SubMenuValidation.UpdateSubMenuSchema),
+  SubMenuController.updateSubMenu,
 );
 
 // delete single blog
-router.delete('/:slug', SubMenuController.deleteBlog);
+router.delete('/:slug', SubMenuController.deleteSubMenu);
 
 export const SubMenuRoute = router;

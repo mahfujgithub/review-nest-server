@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Zod schema for the Blog model
-const SubMenuZodSchema = z.object({
+const MenusZodSchema = z.object({
   seoTitle: z.string().trim().min(1, { message: 'SEO Title is required.' }),
   slug: z.string().trim().min(1, { message: 'Slug is required.' }),
   metaDescription: z
@@ -26,14 +26,14 @@ const SubMenuZodSchema = z.object({
   tags: z
     .array(z.string().trim())
     .nonempty({ message: 'Tags must contain at least one tag.' }),
-    subMenuData: z.string().trim().min(1, { message: 'SubMenu Data is required.' }),
+    menusData: z.string().trim().min(1, { message: 'SubMenu Data is required.' }),
 });
 
 // Optional fields for UpdateBlogSchema
-const UpdateSubMenuSchema = SubMenuZodSchema.partial();
+const UpdateMenusSchema = MenusZodSchema.partial();
 
 // Export the Blog validation object
-export const SubMenuValidation = {
-    SubMenuZodSchema,
-    UpdateSubMenuSchema,
+export const MenusValidation = {
+  MenusZodSchema,
+  UpdateMenusSchema,
 };

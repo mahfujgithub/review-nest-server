@@ -5,10 +5,10 @@ import { ISubMenu } from './submenu.interface';
 import { SubMenuService } from './submenu.service';
 
 // create blog
-const createBlog = catchAsync(async (req: Request, res: Response) => {
+const createSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const blog = req.body;
-  const result = await SubMenuService.createBlog(blog);
+  const result = await SubMenuService.createSubMenu(blog);
 
   sendResponse<ISubMenu>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -19,10 +19,10 @@ const createBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 // get all blog
-const getAllBlog = catchAsync(async (req: Request, res: Response) => {
+const getAllSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const blog = req.body;
-  const result = await SubMenuService.getAllBlog(blog);
+  const result = await SubMenuService.getAllSubMenu(blog);
 
   sendResponse<ISubMenu[]>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -33,10 +33,10 @@ const getAllBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 // get single menu
-const getSingleBlog = catchAsync(async (req: Request, res: Response) => {
+const getSingleSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
-  const result = await SubMenuService.getSingleBlog(slug);
+  const result = await SubMenuService.getSingleSubMenu(slug);
 
   sendResponse<ISubMenu>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -47,13 +47,13 @@ const getSingleBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 // update single blog
-const updateBlog = catchAsync(async (req: Request, res: Response) => {
+const updateSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { id } = req.params;
 
   const updatedBlog = req.body;
 
-  const result = await SubMenuService.updateMenu(id, updatedBlog);
+  const result = await SubMenuService.updateSubMenu(id, updatedBlog);
 
   sendResponse<ISubMenu>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -64,10 +64,10 @@ const updateBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 // delete single menu
-const deleteBlog = catchAsync(async (req: Request, res: Response) => {
+const deleteSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
-  const result = await SubMenuService.deleteBlog(slug);
+  const result = await SubMenuService.deleteSubMenu(slug);
 
   sendResponse<ISubMenu>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -78,9 +78,5 @@ const deleteBlog = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const SubMenuController = {
-  createBlog,
-  getAllBlog,
-  getSingleBlog,
-  updateBlog,
-  deleteBlog,
+    createSubMenu, getAllSubMenu, getSingleSubMenu, updateSubMenu, deleteSubMenu
 };

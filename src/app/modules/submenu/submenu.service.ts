@@ -3,7 +3,7 @@ import ApiError from '../../../errors/ApiError';
 import { ISubMenu } from './submenu.interface';
 import { SubMenu } from './submenu.model';
 
-const createBlog = async (blog: ISubMenu) => {
+const createSubMenu = async (blog: ISubMenu) => {
   const httpStatus = await import('http-status-ts');
 
   // Normalize the input to avoid duplicate issues
@@ -27,19 +27,19 @@ const createBlog = async (blog: ISubMenu) => {
 };
 
 // get all blog
-const getAllBlog = async (blog: ISubMenu) => {
+const getAllSubMenu = async (blog: ISubMenu) => {
   const result = await SubMenu.find(blog);
   return result;
 };
 
 // get single blog
-const getSingleBlog = async (slug: string) => {
+const getSingleSubMenu = async (slug: string) => {
   const result = await SubMenu.findOne({slug: slug});
   return result;
 };
 
 // update single blog
-const updateMenu = async (
+const updateSubMenu = async (
   slug: string,
   payload: Partial<ISubMenu>,
 ): Promise<ISubMenu | null> => {
@@ -61,15 +61,11 @@ const updateMenu = async (
 };
 
 // delete blog
-const deleteBlog = async (slug: string) => {
+const deleteSubMenu = async (slug: string) => {
   const result = await SubMenu.findOneAndDelete({slug});
   return result;
 };
 
 export const SubMenuService = {
-  createBlog,
-  getAllBlog,
-  getSingleBlog,
-  updateMenu,
-  deleteBlog,
+    createSubMenu, getAllSubMenu, getSingleSubMenu, updateSubMenu, deleteSubMenu
 };
