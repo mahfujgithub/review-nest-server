@@ -23,9 +23,9 @@ export const StuffSchema = new Schema<IStuff, StuffModel>(
     image: {
       type: String,
     },
-    contact: {
-      type: String,
-    },
+    // contact: {
+    //   type: String,
+    // },
     emergencyContact: {
       type: String,
     },

@@ -8,9 +8,6 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const blog_model_1 = require("./blog.model");
 const createBlog = async (blog) => {
     const httpStatus = await import('http-status-ts');
-    // Normalize the input to avoid duplicate issues
-    //   const normalizedMenu = menu.menu.trim().toLowerCase();
-    //   const normalizedSubMenu = menu.subMenu.trim().toLowerCase();
     // Check if the `blog` already exists
     const existingBlog = await blog_model_1.Blog.findOne({ slug: blog.slug });
     if (existingBlog) {

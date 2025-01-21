@@ -11,7 +11,7 @@ export type IStuff = {
   name: StuffName; //embedded object
   email: string;
   image?: string;
-  contact?: string;
+  // contact?: string;
   emergencyContact?: string;
   address?: string;
 };
@@ -22,5 +22,5 @@ export type IStuffFilters = {
   searchTerm?: string;
   id?: string;
   email?: string;
-  contact?: string;
+  // contact?: string;
 };

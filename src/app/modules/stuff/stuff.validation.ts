@@ -9,7 +9,7 @@ const updateStuffZodSchema = z.object({
     }),
     email: z.string().email().optional(),
     image: z.string().optional(),
-    contact: z.string().optional(),
+    // contact: z.string().optional(),
     emergencyContact: z.string().optional(),
     address: z.string().optional(),
   }),

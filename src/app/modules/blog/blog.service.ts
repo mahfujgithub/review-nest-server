@@ -5,10 +5,6 @@ import { Blog } from './blog.model';
 const createBlog = async (blog: IBlog) => {
   const httpStatus = await import('http-status-ts');
 
-  // Normalize the input to avoid duplicate issues
-  //   const normalizedMenu = menu.menu.trim().toLowerCase();
-  //   const normalizedSubMenu = menu.subMenu.trim().toLowerCase();
-
   // Check if the `blog` already exists
   const existingBlog = await Blog.findOne({ slug: blog.slug });
 

@@ -14,9 +14,7 @@
             "best chair"
         ],
         "menuData" :"here is blog data",
-        "menu": "menu",
-        "subMenu": "subMenu"
-  
+        "menu": "menu"
     }
   
 // sub menu api
@@ -33,6 +31,6 @@
         "tags": [
             "best chair"
         ],
-        "subMenuData" :"here is blog data" ,
-  
+        "subMenuData" :"here is blog data",
+         "subMenu": "submenu"
     }

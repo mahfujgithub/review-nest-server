@@ -23,9 +23,9 @@ exports.StuffSchema = new mongoose_1.Schema({
     image: {
         type: String,
     },
-    contact: {
-        type: String,
-    },
+    // contact: {
+    //   type: String,
+    // },
     emergencyContact: {
         type: String,
     },
