@@ -24,13 +24,13 @@ const getAllFolders = async (folder) => {
     return result;
 };
 // // get single folder
-const getSingleFolder = async (id) => {
-    const result = await folder_model_1.Folder.findById(id);
+const getSingleFolder = async (foldername) => {
+    const result = await folder_model_1.Folder.findOne({ foldername: foldername });
     return result;
 };
 // // delete folder
-const deleteFolder = async (id) => {
-    const result = await folder_model_1.Folder.findByIdAndDelete(id);
+const deleteFolder = async (foldername) => {
+    const result = await folder_model_1.Folder.findByIdAndDelete(foldername);
     return result;
 };
 exports.FolderService = {

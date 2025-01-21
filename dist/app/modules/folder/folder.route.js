@@ -18,7 +18,7 @@ router.post('/create', multer_config_1.default.fields(folderFields), // Handle m
 (0, validateRequest_1.default)(folder_validation_1.FolderValidation.FolderZodSchema), folder_controller_1.FolderController.createFolder);
 router.get('/', folder_controller_1.FolderController.getAllFolders);
 // // get single folder
-router.get('/:id', folder_controller_1.FolderController.getSingleFolder);
+router.get('/:foldername', folder_controller_1.FolderController.getSingleFolder);
 // // delete single folder
 router.delete('/:id', folder_controller_1.FolderController.removeFolder);
 exports.FolderRoutes = router;

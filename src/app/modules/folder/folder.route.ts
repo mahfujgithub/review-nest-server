@@ -23,7 +23,7 @@ router.post(
 router.get('/', FolderController.getAllFolders);
 
 // // get single folder
-router.get('/:id', FolderController.getSingleFolder);
+router.get('/:foldername', FolderController.getSingleFolder);
 
 
 // // delete single folder

@@ -1,0 +1,38 @@
+
+// Menu Page API
+    {
+        "seoTitle": "Puresoft PU Padded Mid-Back Height Adjustable Office Computer Desk Chair",
+        "slug": "desk-chair",
+        "metaDescription": "Selected compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "canonicalUrl": "http://my-home-page.com",
+        "keywords": "best chair",
+        "ogTitle": "Puresoft PU Padded Mid-Back Height Adjustable Office Computer Desk Chair",
+        "ogImage": "http://localhost:8080/uploads/COMHOMA-Dining-Chair-PVC-Plastic-Lounge-Chair-Kitchen-Dining-Room-Chair-Black-Set-of-4_e98cba26-c18a-47d6-a797-ec5f853ddfec.74396c58d2c2760a9352d40efae520c8-1736708056470-508365328.webp",
+        "ogDescription": "Selected cushions are vacuum compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "structuredData": "Selectecomfort. The cushions are vacuum compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "tags": [
+            "best chair"
+        ],
+        "menuData" :"here is blog data",
+        "menu": "menu",
+        "subMenu": "subMenu"
+  
+    }
+  
+// sub menu api
+    {
+        "seoTitle": "Puresoft PU Padded Mid-Back Height Adjustable Office Computer Desk Chair",
+        "slug": "desk-chair",
+        "metaDescription": "Selected compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "canonicalUrl": "http://my-home-page.com",
+        "keywords": "best chair",
+        "ogTitle": "Puresoft PU Padded Mid-Back Height Adjustable Office Computer Desk Chair",
+        "ogImage": "http://localhost:8080/uploads/COMHOMA-Dining-Chair-PVC-Plastic-Lounge-Chair-Kitchen-Dining-Room-Chair-Black-Set-of-4_e98cba26-c18a-47d6-a797-ec5f853ddfec.74396c58d2c2760a9352d40efae520c8-1736708056470-508365328.webp",
+        "ogDescription": "Selected cushions are vacuum compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "structuredData": "Selectecomfort. The cushions are vacuum compressed and are recommended to be left for 24 hours after arrival to allow them to fluff up naturally and show their perfect shape",
+        "tags": [
+            "best chair"
+        ],
+        "subMenuData" :"here is blog data" ,
+  
+    }

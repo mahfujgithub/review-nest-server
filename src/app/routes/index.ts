@@ -5,6 +5,7 @@ import { StuffRoutes } from '../modules/stuff/stuff.route';
 import { PostRouter } from '../modules/posts/post.route';
 import { MenuRoutes } from '../modules/menu/menu.route';
 import { FolderRoutes } from '../modules/folder/folder.route';
+import { BlogRoutes } from '../modules/blog/blog.route';
 
 const router = express.Router();
 
@@ -28,6 +29,10 @@ const moduleRoutes = [
   {
     path: '/post',
     route: PostRouter,
+  },
+  {
+    path: '/blog',
+    route: BlogRoutes,
   },
   {
     path: '/folder',

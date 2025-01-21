@@ -52,7 +52,6 @@ const PostSchema = new mongoose_1.Schema({
             message: 'tags must contain at least one item',
         },
     },
-    review: { type: String, required: true },
     productTitle: { type: String, required: true },
     authorName: { type: String, required: true },
     productCommonIntroDes: { type: String, required: true },
