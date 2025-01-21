@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
   '/login',
-  validateRequest(AuthValidation.createAuthZodSchema),
+//   validateRequest(AuthValidation.createAuthZodSchema),
   AuthController.loginUser,
 );
 

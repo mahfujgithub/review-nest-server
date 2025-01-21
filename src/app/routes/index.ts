@@ -6,6 +6,8 @@ import { PostRouter } from '../modules/posts/post.route';
 import { MenuRoutes } from '../modules/menu/menu.route';
 import { FolderRoutes } from '../modules/folder/folder.route';
 import { BlogRoutes } from '../modules/blog/blog.route';
+import { SubMenuRoute } from '../modules/submenu/submenu.route';
+import { MenusRoute } from '../modules/menus/menus.route';
 
 const router = express.Router();
 
@@ -37,6 +39,14 @@ const moduleRoutes = [
   {
     path: '/folder',
     route: FolderRoutes,
+  },
+  {
+    path: '/submenu',
+    route: SubMenuRoute,
+  },
+  {
+    path: '/menus',
+    route: MenusRoute,
   },
 ];
 
