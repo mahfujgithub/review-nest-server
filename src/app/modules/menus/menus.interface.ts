@@ -12,6 +12,7 @@ export type IMenus = {
   structuredData: string;
   tags: string[];
   menusData: string;
+  menu: string;
 };
 
 export type MenusModel = Model<IMenus, Record<string, unknown>>;

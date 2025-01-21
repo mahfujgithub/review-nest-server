@@ -27,6 +27,7 @@ const SubMenuZodSchema = z.object({
     .array(z.string().trim())
     .nonempty({ message: 'Tags must contain at least one tag.' }),
     subMenuData: z.string().trim().min(1, { message: 'SubMenu Data is required.' }),
+    subMenu: z.string().trim().min(1, {message: "SubMenu is required"})
 });
 
 // Optional fields for UpdateBlogSchema
