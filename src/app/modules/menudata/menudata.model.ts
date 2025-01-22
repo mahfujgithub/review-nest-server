@@ -1,8 +1,7 @@
 import mongoose, { Schema, model } from 'mongoose';
-import { MenuModel } from '../menu/menu.interface';
-import { IMenus,  } from './menus.interface';
+import { IMenuData, MenuDataModel } from './menudata.interface';
 
-const MenusSchema = new Schema<IMenus>(
+const MenuDataSchema = new Schema<IMenuData>(
   {
     seoTitle: {
       type: String,
@@ -53,13 +52,9 @@ const MenusSchema = new Schema<IMenus>(
       type: [String],
       required: true,
     },
-    menusData: {
+    menuData: {
       type: String,
       required: true,
-    },
-    menu: {
-        type: String,
-        required: true
     },
   },
   {
@@ -70,4 +65,4 @@ const MenusSchema = new Schema<IMenus>(
   },
 );
 
-export const Menus = model<IMenus, MenuModel>('menus', MenusSchema);
+export const MenuData = model<IMenuData, MenuDataModel>('menudata', MenuDataSchema);
