@@ -12,6 +12,7 @@ export type IMenuData = {
   structuredData: string;
   tags: string[];
   menuData: string;
+  menu: string;
 };
 
 export type MenuDataModel = Model<IMenuData, Record<string, unknown>>;

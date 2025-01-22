@@ -56,6 +56,10 @@ const MenuDataSchema = new Schema<IMenuData>(
       type: String,
       required: true,
     },
+    menu: {
+        type: String,
+        required: true
+    }
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields
