@@ -16,7 +16,7 @@ const createMenuData = async (blog: IMenuData) => {
   if (existingMenuData) {
     throw new ApiError(
       httpStatus.HttpStatus.CONFLICT,
-      'Blog is already exist!',
+      'Menu Data is already exist!',
     );
   }
 
@@ -33,8 +33,8 @@ const getAllMenuData = async (blog: IMenuData) => {
 };
 
 // get single blog
-const getSingleMenuData = async (slug: string) => {
-  const result = await MenuData.findOne({slug: slug});
+const getSingleMenuData = async (menu: string) => {
+  const result = await MenuData.findOne({menu: menu});
   return result;
 };
 
@@ -47,7 +47,7 @@ const updateMenuData = async (
   const isExist = await MenuData.findOne({ slug: slug });
 
   if (!isExist) {
-    throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Menu not found!');
+    throw new ApiError(httpStatus.HttpStatus.NOT_FOUND, 'Menu Data not found!');
   }
 
   const { ...blogData } = payload;

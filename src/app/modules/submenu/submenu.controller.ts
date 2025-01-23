@@ -35,8 +35,8 @@ const getAllSubMenu = catchAsync(async (req: Request, res: Response) => {
 // get single menu
 const getSingleSubMenu = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
-  const { slug } = req.params;
-  const result = await SubMenuService.getSingleSubMenu(slug);
+  const { subMenu } = req.params;
+  const result = await SubMenuService.getSingleSubMenu(subMenu);
 
   sendResponse<ISubMenu>(res, {
     statusCode: httpStatus.HttpStatus.OK,

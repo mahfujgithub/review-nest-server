@@ -33,8 +33,8 @@ const getAllSubMenu = async (blog: ISubMenu) => {
 };
 
 // get single blog
-const getSingleSubMenu = async (slug: string) => {
-  const result = await SubMenu.findOne({slug: slug});
+const getSingleSubMenu = async (subMenu: string) => {
+  const result = await SubMenu.findOne({subMenu: subMenu});
   return result;
 };
 
