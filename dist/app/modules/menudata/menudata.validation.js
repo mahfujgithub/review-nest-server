@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SubMenuValidation = void 0;
+exports.MenuDataValidation = void 0;
 const zod_1 = require("zod");
 // Zod schema for the Blog model
-const SubMenuZodSchema = zod_1.z.object({
+const MenuDataZodSchema = zod_1.z.object({
     seoTitle: zod_1.z.string().trim().min(1, { message: 'SEO Title is required.' }),
     slug: zod_1.z.string().trim().min(1, { message: 'Slug is required.' }),
     metaDescription: zod_1.z
@@ -28,14 +28,12 @@ const SubMenuZodSchema = zod_1.z.object({
     tags: zod_1.z
         .array(zod_1.z.string().trim())
         .nonempty({ message: 'Tags must contain at least one tag.' }),
-    subMenuData: zod_1.z.string().trim().min(1, { message: 'SubMenu Data is required.' }),
-    subMenu: zod_1.z.string().trim().min(1, { message: "SubMenu is required" }),
-    menu: zod_1.z.string().trim().min(1, { message: "Menu is required" })
+    menuData: zod_1.z.string().trim().min(1, { message: 'Menu Data is required.' }),
 });
 // Optional fields for UpdateBlogSchema
-const UpdateSubMenuSchema = SubMenuZodSchema.partial();
+const UpdateMenuDataSchema = MenuDataZodSchema.partial();
 // Export the Blog validation object
-exports.SubMenuValidation = {
-    SubMenuZodSchema,
-    UpdateSubMenuSchema,
+exports.MenuDataValidation = {
+    MenuDataZodSchema,
+    UpdateMenuDataSchema,
 };
