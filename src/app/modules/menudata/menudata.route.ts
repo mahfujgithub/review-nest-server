@@ -15,7 +15,7 @@ router.post(
 router.get('/', MenuDataController.getAllMenuData);
 
 // get single blog
-router.get('/:slug', MenuDataController.getSingleMenuData);
+router.get('/:menu', MenuDataController.getSingleMenuData);
 
 // update single blog
 router.patch(

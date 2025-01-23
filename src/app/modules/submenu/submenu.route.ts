@@ -15,7 +15,7 @@ router.post(
 router.get('/', SubMenuController.getAllSubMenu);
 
 // get single blog
-router.get('/:slug', SubMenuController.getSingleSubMenu);
+router.get('/:subMenu', SubMenuController.getSingleSubMenu);
 
 // update single blog
 router.patch(
