@@ -18,15 +18,15 @@ const path_1 = __importDefault(require("path"));
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const post = req.body;
-    // Base URL for the images (replace with your app's URL)
-    const baseUrl = config_1.default.server_address;
     // Process uploaded files
     const files = req.files;
+    console.log(files);
     if (files['ogImage']) {
-        post.ogImage = `${baseUrl}uploads/${files['ogImage'][0].filename}`;
+        post.ogImage = files['ogImage'][0].location;
+        ;
     }
     if (files['productFeaturesImage']) {
-        post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].filename}`;
+        post.productFeaturesImage = files['productFeaturesImage'][0].location;
     }
     Object.keys(files).forEach(field => {
         const match = field.match(/^allProducts\[(\d+)]\[(productMainImage|productImages)]/);
@@ -39,17 +39,18 @@ const createPosts = (0, catchAsync_1.default)(async (req, res) => {
             }
             if (imageType === 'productMainImage' && files[field]) {
                 post.allProducts[productIndex].productMainImage =
-                    `${baseUrl}uploads/${files[field][0].filename}`;
+                    files[field][0].location;
+                ;
             }
             else if (imageType === 'productImages' && files[field]) {
-                post.allProducts[productIndex].productImages = files[field].map(file => `${baseUrl}uploads/${file.filename}`);
+                post.allProducts[productIndex].productImages = files[field].map(file => file.location);
             }
         }
     });
     // Call the service to create the post
     const result = await post_service_1.PostService.createPost(post);
     // Construct the full URLs for images in the response
-    const constructImageUrl = (imagePath) => `${baseUrl}uploads/${imagePath}`;
+    const constructImageUrl = (imagePath) => `${imagePath}`;
     // Modify the post object to include full URLs for image paths
     if (post.ogImage)
         post.ogImage = constructImageUrl(post.ogImage);

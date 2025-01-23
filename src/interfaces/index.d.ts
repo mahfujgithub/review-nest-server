@@ -7,3 +7,13 @@ declare global {
     }
   }
 }
+
+declare global {
+  namespace Express {
+    namespace Multer {
+      interface File {
+        location: string; // Add the 'location' property
+      }
+    }
+  }
+}

@@ -16,18 +16,17 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const post = req.body;
 
-  // Base URL for the images (replace with your app's URL)
-  const baseUrl = config.server_address;
-
   // Process uploaded files
   const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
+  console.log(files)
+
   if (files['ogImage']) {
-    post.ogImage = `${baseUrl}uploads/${files['ogImage'][0].filename}`;
+    post.ogImage = files['ogImage'][0].location;;
   }
 
   if (files['productFeaturesImage']) {
-    post.productFeaturesImage = `${baseUrl}uploads/${files['productFeaturesImage'][0].filename}`;
+    post.productFeaturesImage = files['productFeaturesImage'][0].location;
   }
 
   Object.keys(files).forEach(field => {
@@ -45,10 +44,10 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
 
       if (imageType === 'productMainImage' && files[field]) {
         post.allProducts[productIndex].productMainImage =
-          `${baseUrl}uploads/${files[field][0].filename}`;
+          files[field][0].location;;
       } else if (imageType === 'productImages' && files[field]) {
         post.allProducts[productIndex].productImages = files[field].map(
-          file => `${baseUrl}uploads/${file.filename}`,
+          file => file.location,
         );
       }
     }
@@ -59,7 +58,7 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
 
   // Construct the full URLs for images in the response
   const constructImageUrl = (imagePath: string) =>
-    `${baseUrl}uploads/${imagePath}`;
+    `${imagePath}`;
 
   // Modify the post object to include full URLs for image paths
   if (post.ogImage) post.ogImage = constructImageUrl(post.ogImage);

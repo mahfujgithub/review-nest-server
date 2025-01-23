@@ -11,6 +11,8 @@ const post_route_1 = require("../modules/posts/post.route");
 const menu_route_1 = require("../modules/menu/menu.route");
 const folder_route_1 = require("../modules/folder/folder.route");
 const blog_route_1 = require("../modules/blog/blog.route");
+const submenu_route_1 = require("../modules/submenu/submenu.route");
+const menus_route_1 = require("../modules/menus/menus.route");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -40,6 +42,14 @@ const moduleRoutes = [
     {
         path: '/folder',
         route: folder_route_1.FolderRoutes,
+    },
+    {
+        path: '/submenu',
+        route: submenu_route_1.SubMenuRoute,
+    },
+    {
+        path: '/menus',
+        route: menus_route_1.MenusRoute,
     },
 ];
 moduleRoutes.forEach(route => router.use(route.path, route.route));
