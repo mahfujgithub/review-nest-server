@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-export type IMenus = {
+export type IMenuData = {
   seoTitle: string;
   slug: string;
   metaDescription: string;
@@ -11,8 +11,8 @@ export type IMenus = {
   ogDescription: string;
   structuredData: string;
   tags: string[];
-  menusData: string;
+  menuData: string;
   menu: string;
 };
 
-export type MenusModel = Model<IMenus, Record<string, unknown>>;
+export type MenuDataModel = Model<IMenuData, Record<string, unknown>>;
