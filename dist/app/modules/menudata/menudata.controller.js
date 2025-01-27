@@ -34,12 +34,13 @@ const getAllMenuData = (0, catchAsync_1.default)(async (req, res) => {
 // get single menu
 const getSingleMenuData = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
-    const { slug } = req.params;
-    const result = await menudata_service_1.MenuDataService.getSingleMenuData(slug);
+    const { menu } = req.params;
+    const result = await menudata_service_1.MenuDataService.getSingleMenuData(menu);
+    //   console.log(menu)
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
-        message: 'Menu data Single Blog SuccessFully',
+        message: 'Get Menu Single Data SuccessFully',
         data: result,
     });
 });

@@ -14,7 +14,7 @@ router.post('/create',
 blog_controller_1.BlogController.createBlog);
 router.get('/', blog_controller_1.BlogController.getAllBlog);
 // get single blog
-router.get('/:slug', blog_controller_1.BlogController.getSingleBlog);
+router.get('/:menu', blog_controller_1.BlogController.getSingleBlog);
 // update single blog
 router.patch('/:id', (0, validateRequest_1.default)(blog_validation_1.BlogValidation.UpdateBlogSchema), blog_controller_1.BlogController.updateBlog);
 // delete single blog

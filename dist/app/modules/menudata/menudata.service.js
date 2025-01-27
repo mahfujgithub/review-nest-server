@@ -14,7 +14,7 @@ const createMenuData = async (blog) => {
     // Check if the `blog` already exists
     const existingMenuData = await menudata_model_1.MenuData.findOne({ slug: blog.slug });
     if (existingMenuData) {
-        throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Blog is already exist!');
+        throw new ApiError_1.default(httpStatus.HttpStatus.CONFLICT, 'Menu Data is already exist!');
     }
     // If no `blog` exists, create a new one
     const newBlog = await menudata_model_1.MenuData.create(blog);
@@ -26,8 +26,8 @@ const getAllMenuData = async (blog) => {
     return result;
 };
 // get single blog
-const getSingleMenuData = async (slug) => {
-    const result = await menudata_model_1.MenuData.findOne({ slug: slug });
+const getSingleMenuData = async (menu) => {
+    const result = await menudata_model_1.MenuData.findOne({ menu: menu });
     return result;
 };
 // update single blog
@@ -35,7 +35,7 @@ const updateMenuData = async (slug, payload) => {
     const httpStatus = await import('http-status-ts');
     const isExist = await menudata_model_1.MenuData.findOne({ slug: slug });
     if (!isExist) {
-        throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Menu not found!');
+        throw new ApiError_1.default(httpStatus.HttpStatus.NOT_FOUND, 'Menu Data not found!');
     }
     const { ...blogData } = payload;
     const updatedBlogData = { ...blogData };

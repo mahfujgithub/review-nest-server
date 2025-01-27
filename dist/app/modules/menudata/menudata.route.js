@@ -14,7 +14,7 @@ router.post('/create',
 menudata_controller_1.MenuDataController.createMenuData);
 router.get('/', menudata_controller_1.MenuDataController.getAllMenuData);
 // get single blog
-router.get('/:slug', menudata_controller_1.MenuDataController.getSingleMenuData);
+router.get('/:menu', menudata_controller_1.MenuDataController.getSingleMenuData);
 // update single blog
 router.patch('/:id', (0, validateRequest_1.default)(menudata_validation_1.MenuDataValidation.UpdateMenuDataSchema), menudata_controller_1.MenuDataController.updateMenuData);
 // delete single blog

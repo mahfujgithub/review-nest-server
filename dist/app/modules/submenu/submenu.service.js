@@ -26,8 +26,8 @@ const getAllSubMenu = async (blog) => {
     return result;
 };
 // get single blog
-const getSingleSubMenu = async (slug) => {
-    const result = await submenu_model_1.SubMenu.findOne({ slug: slug });
+const getSingleSubMenu = async (subMenu) => {
+    const result = await submenu_model_1.SubMenu.findOne({ subMenu: subMenu });
     return result;
 };
 // update single blog

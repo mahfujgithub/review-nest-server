@@ -14,7 +14,7 @@ router.post('/create',
 submenu_controller_1.SubMenuController.createSubMenu);
 router.get('/', submenu_controller_1.SubMenuController.getAllSubMenu);
 // get single blog
-router.get('/:slug', submenu_controller_1.SubMenuController.getSingleSubMenu);
+router.get('/:subMenu', submenu_controller_1.SubMenuController.getSingleSubMenu);
 // update single blog
 router.patch('/:id', (0, validateRequest_1.default)(submenu_validation_1.SubMenuValidation.UpdateSubMenuSchema), submenu_controller_1.SubMenuController.updateSubMenu);
 // delete single blog
