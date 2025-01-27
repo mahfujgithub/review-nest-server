@@ -9,9 +9,9 @@ const config_1 = __importDefault(require("../config"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const client_s3_1 = require("@aws-sdk/client-s3");
 // Set up AWS S3 configuration using environment variables
-if (!config_1.default.aws.accessKeyId || !config_1.default.aws.secretAccessKey) {
-    throw new Error('AWS credentials are not defined in the configuration');
-}
+// if (!config.aws.accessKeyId || !config.aws.secretAccessKey) {
+//   throw new Error('AWS credentials are not defined in the configuration');
+// }
 const s3 = new client_s3_1.S3Client({
     region: config_1.default.aws.region,
     endpoint: `https://s3.${config_1.default.aws.region}.amazonaws.com`,

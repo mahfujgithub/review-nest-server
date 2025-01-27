@@ -6,9 +6,9 @@ import config from '../config'
 import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
 // Set up AWS S3 configuration using environment variables
-if (!config.aws.accessKeyId || !config.aws.secretAccessKey) {
-  throw new Error('AWS credentials are not defined in the configuration');
-}
+// if (!config.aws.accessKeyId || !config.aws.secretAccessKey) {
+//   throw new Error('AWS credentials are not defined in the configuration');
+// }
 
 const s3 = new S3Client({
   region: config.aws.region,
