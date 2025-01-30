@@ -5,16 +5,16 @@ import { Folder } from './folder.model';
 const createFolder = async (folder: IFolder) => {
   const httpStatus = await import('http-status-ts');
 
-  const isExistFolder = await Folder.findOne({
-    foldername: folder.foldername,
-  });
+  // const isExistFolder = await Folder.findOne({
+  //   foldername: folder.foldername,
+  // });
 
-  if (isExistFolder) {
-    throw new ApiError(
-      httpStatus.HttpStatus.CONFLICT,
-      'Folder Duplication not allowed!',
-    );
-  }
+  // if (isExistFolder) {
+  //   throw new ApiError(
+  //     httpStatus.HttpStatus.CONFLICT,
+  //     'Folder Duplication not allowed!',
+  //   );
+  // }
 
   // If no `menu` exists, create a new one
   const newFolder = await Folder.create(folder);
