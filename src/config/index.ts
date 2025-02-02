@@ -19,10 +19,18 @@ export default {
   resetLink: process.env.RESET_LINK,
   email: process.env.EMAIL,
   appPass: process.env.APP_PASS,
-  aws: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    region: process.env.AWS_REGION,
-    bucketName: process.env.AWS_BUCKET_NAME,
+  // aws: {
+  //   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  //   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  //   region: process.env.AWS_REGION,
+  //   bucketName: process.env.AWS_BUCKET_NAME,
+  // },
+  r2: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID, // Cloudflare R2 Access Key ID
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY, // Cloudflare R2 Secret Access Key
+    endpoint: process.env.R2_ENDPOINT, // Cloudflare R2 S3-Compatible API Endpoint
+    region: process.env.R2_REGION || 'auto', // R2 uses "auto" as the region
+    bucketName: process.env.R2_BUCKET_NAME, // Your R2 Bucket Name
+    publicDomain: process.env.R2_PUBLIC_DOMAIN,
   },
 };

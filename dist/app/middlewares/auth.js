@@ -16,7 +16,7 @@ const auth = (...requiredRoles) => async (req, res, next) => {
         }
         // verify token
         let verifiedUser = null;
-        verifiedUser = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.secret);
+        verifiedUser = jwtHelpers_1.jwtHelpers.verifyToken(token, String(config_1.default.jwt.secret));
         req.user = verifiedUser; // role, id
         // role  guard
         if (requiredRoles.length && !requiredRoles.includes(verifiedUser.role)) {

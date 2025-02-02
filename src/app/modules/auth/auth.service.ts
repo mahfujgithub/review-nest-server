@@ -41,13 +41,15 @@ const loginUser = async (payload: ILoginUser): Promise<ILoginUserResponse> => {
 
   const accessToken = jwtHelpers.createToken(
     { userId, role },
-    config.jwt.secret as Secret,
+    // config.jwt.secret as Secret,
+    String(config.jwt.secret), // Ensure it is a string
     config.jwt.expires_in as string,
   );
 
   const refreshToken = jwtHelpers.createToken(
     { id, role },
-    config.jwt.refresh_secret as Secret,
+    // config.jwt.refresh_secret as Secret,
+    String(config.jwt.secret), // Ensure it is a string
     config.jwt.refresh_expires_in as string,
   );
 
@@ -65,7 +67,8 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
   try {
     verifiedToken = jwtHelpers.verifyToken(
       token,
-      config.jwt.refresh_secret as Secret,
+      // config.jwt.refresh_secret as Secret,
+      String(config.jwt.secret), // Ensure it is a string
     );
   } catch (err) {
     throw new ApiError(
@@ -89,7 +92,8 @@ const refreshToken = async (token: string): Promise<IRefreshTokenResponse> => {
       id: isUserExist.id,
       role: isUserExist.role,
     },
-    config.jwt.secret as Secret,
+    // config.jwt.secret as Secret,
+    String(config.jwt.secret), // Ensure it is a string
     config.jwt.expires_in as string,
   );
 

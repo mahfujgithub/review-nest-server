@@ -25,8 +25,14 @@ const loginUser = async (payload) => {
     }
     //   create access token & refresh token
     const { id: userId, role } = isUserExist;
-    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId, role }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
-    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ id, role }, config_1.default.jwt.refresh_secret, config_1.default.jwt.refresh_expires_in);
+    const accessToken = jwtHelpers_1.jwtHelpers.createToken({ userId, role }, 
+    // config.jwt.secret as Secret,
+    String(config_1.default.jwt.secret), // Ensure it is a string
+    config_1.default.jwt.expires_in);
+    const refreshToken = jwtHelpers_1.jwtHelpers.createToken({ id, role }, 
+    // config.jwt.refresh_secret as Secret,
+    String(config_1.default.jwt.secret), // Ensure it is a string
+    config_1.default.jwt.refresh_expires_in);
     return {
         accessToken,
         refreshToken,
@@ -36,7 +42,9 @@ const refreshToken = async (token) => {
     const httpStatus = await import('http-status-ts');
     let verifiedToken = null;
     try {
-        verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, config_1.default.jwt.refresh_secret);
+        verifiedToken = jwtHelpers_1.jwtHelpers.verifyToken(token, 
+        // config.jwt.refresh_secret as Secret,
+        String(config_1.default.jwt.secret));
     }
     catch (err) {
         throw new ApiError_1.default(httpStatus.HttpStatus.FORBIDDEN, 'Invalid refresh token!');
@@ -50,7 +58,10 @@ const refreshToken = async (token) => {
     const newAccessToken = jwtHelpers_1.jwtHelpers.createToken({
         id: isUserExist.id,
         role: isUserExist.role,
-    }, config_1.default.jwt.secret, config_1.default.jwt.expires_in);
+    }, 
+    // config.jwt.secret as Secret,
+    String(config_1.default.jwt.secret), // Ensure it is a string
+    config_1.default.jwt.expires_in);
     return {
         accessToken: newAccessToken,
     };

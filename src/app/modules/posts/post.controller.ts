@@ -6,10 +6,10 @@ import { PostService } from './post.service';
 import pick from '../../../shared/pick';
 import { postFilterableFields } from './post.constant';
 import { paginationFields } from '../../../constants/pagination';
-import config from '../../../config';
 import buildNestedUpdateQuery from '../../../helpers/nested.query';
-import fsPromises from 'fs/promises';  // Add this line
-import path from 'path';
+import { MulterS3File } from '../../../interfaces/multer';
+import { constructPublicUrl } from '../../../shared/constructImgUrl';
+import { deleteObjectFromR2 } from '../../../helpers/deleteObjectR2';
 
 // create post
 const createPosts = catchAsync(async (req: Request, res: Response) => {
@@ -17,16 +17,18 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
   const post = req.body;
 
   // Process uploaded files
-  const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-
-  console.log(files)
+  const files = req.files as { [fieldname: string]: MulterS3File[] };
 
   if (files['ogImage']) {
-    post.ogImage = files['ogImage'][0].location;;
+    const ogImageFile = files['ogImage'][0];
+    post.ogImage = constructPublicUrl(ogImageFile.key);
   }
 
   if (files['productFeaturesImage']) {
-    post.productFeaturesImage = files['productFeaturesImage'][0].location;
+    const productFeaturesImageFile = files['productFeaturesImage'][0];
+    post.productFeaturesImage = constructPublicUrl(
+      productFeaturesImageFile.key,
+    );
   }
 
   Object.keys(files).forEach(field => {
@@ -36,18 +38,17 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
     if (match) {
       const productIndex = match[1];
       const imageType = match[2];
-
       post.allProducts = post.allProducts || [];
       if (!post.allProducts[productIndex]) {
         post.allProducts[productIndex] = {};
       }
-
       if (imageType === 'productMainImage' && files[field]) {
-        post.allProducts[productIndex].productMainImage =
-          files[field][0].location;;
+        post.allProducts[productIndex].productMainImage = constructPublicUrl(
+          files[field][0].key,
+        );
       } else if (imageType === 'productImages' && files[field]) {
         post.allProducts[productIndex].productImages = files[field].map(
-          file => file.location,
+          file => constructPublicUrl(file.key),
         );
       }
     }
@@ -55,25 +56,6 @@ const createPosts = catchAsync(async (req: Request, res: Response) => {
 
   // Call the service to create the post
   const result = await PostService.createPost(post);
-
-  // Construct the full URLs for images in the response
-  const constructImageUrl = (imagePath: string) =>
-    `${imagePath}`;
-
-  // Modify the post object to include full URLs for image paths
-  if (post.ogImage) post.ogImage = constructImageUrl(post.ogImage);
-  if (post.productFeaturesImage)
-    post.productFeaturesImage = constructImageUrl(post.productFeaturesImage);
-
-  if (post.allProducts) {
-    post.allProducts.forEach((product: any) => {
-      if (product.productMainImage)
-        product.productMainImage = constructImageUrl(product.productMainImage);
-      if (product.productImages) {
-        product.productImages = product.productImages.map(constructImageUrl);
-      }
-    });
-  }
 
   sendResponse<IPosts>(res, {
     statusCode: httpStatus.HttpStatus.OK,
@@ -101,21 +83,19 @@ const getAllPosts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const getPopularPosts = catchAsync(
-  async (req: Request, res: Response) => {
-    const httpStatus = await import('http-status-ts');
+const getPopularPosts = catchAsync(async (req: Request, res: Response) => {
+  const httpStatus = await import('http-status-ts');
 
-    // Call the service function to get posts sorted by visit count
-    const result = await PostService.getPopularPosts();
+  // Call the service function to get posts sorted by visit count
+  const result = await PostService.getPopularPosts();
 
-    sendResponse(res, {
-      statusCode: httpStatus.HttpStatus.OK,
-      success: true,
-      message: 'Popular posts retrieved successfully',
-      data: result,
-    });
-  },
-);
+  sendResponse(res, {
+    statusCode: httpStatus.HttpStatus.OK,
+    success: true,
+    message: 'Popular posts retrieved successfully',
+    data: result,
+  });
+});
 
 // get single post by slug
 const getSinglePosts = catchAsync(async (req: Request, res: Response) => {
@@ -131,7 +111,7 @@ const getSinglePosts = catchAsync(async (req: Request, res: Response) => {
   const responseData: IPostWithRelated = {
     result,
     relatedCount,
-    relatedPosts
+    relatedPosts,
   };
 
   sendResponse(res, {
@@ -159,6 +139,71 @@ const updatePosts = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// const removePosts = catchAsync(async (req: Request, res: Response) => {
+//   const httpStatus = await import('http-status-ts');
+//   const { slug } = req.params;
+
+//   // Fetch the post by slug to retrieve its associated image paths
+//   const post = await PostService.getSinglePost(slug);
+//   if (!post) {
+//     throw new Error(`Post with slug '${slug}' not found.`);
+//   }
+
+//   const basePath = path.join(__dirname, '../../../../public/uploads');
+
+//   const resolveImagePath = (imageUrl: string) => {
+//     const relativePath = imageUrl.replace(
+//       `${config.server_address}uploads/`,
+//       '',
+//     );
+//     const resolvedPath = path.join(basePath, relativePath);
+//     return resolvedPath;
+//   };
+
+//   const imagePaths: string[] = [];
+
+//   if (post.ogImage) imagePaths.push(resolveImagePath(post.ogImage));
+//   if (post.productFeaturesImage)
+//     imagePaths.push(resolveImagePath(post.productFeaturesImage));
+
+//   if (post.allProducts) {
+//     post.allProducts.forEach((product: any) => {
+//       if (product.productMainImage)
+//         imagePaths.push(resolveImagePath(product.productMainImage));
+//       if (product.productImages) {
+//         product.productImages.forEach((imagePath: string) =>
+//           imagePaths.push(resolveImagePath(imagePath)),
+//         );
+//       }
+//     });
+//   }
+
+//   // Delete the images
+//   await Promise.all(
+//     imagePaths.map(async imagePath => {
+//       try {
+//         // Check if the file exists before deleting
+//         await fsPromises.access(imagePath);
+//         await fsPromises.unlink(imagePath);
+//       } catch (err: any) {
+//         console.warn(
+//           `Failed to delete image: ${imagePath}. Error: ${err.message}`,
+//         );
+//       }
+//     }),
+//   );
+
+//   // Delete the post
+//   const result = await PostService.removePost(slug);
+
+//   sendResponse<IPosts>(res, {
+//     statusCode: httpStatus.HttpStatus.OK,
+//     success: true,
+//     message: `Post removed successfully`,
+//     data: result,
+//   });
+// });
+
 const removePosts = catchAsync(async (req: Request, res: Response) => {
   const httpStatus = await import('http-status-ts');
   const { slug } = req.params;
@@ -169,45 +214,42 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
     throw new Error(`Post with slug '${slug}' not found.`);
   }
 
-  const basePath = path.join(__dirname, '../../../../public/uploads');
+  // Extract image keys from the post object
+  const imageKeys: string[] = [];
 
-  const resolveImagePath = (imageUrl: string) => {
-    const relativePath = imageUrl.replace(
-      `${config.server_address}uploads/`,
-      '',
-    );
-    const resolvedPath = path.join(basePath, relativePath);
-    return resolvedPath;
-  };
+  if (post.ogImage) {
+    const ogImageKey = post.ogImage.split('/').pop(); // Extract the key from the URL
+    if (ogImageKey) imageKeys.push(ogImageKey);
+  }
 
-  const imagePaths: string[] = [];
-
-  if (post.ogImage) imagePaths.push(resolveImagePath(post.ogImage));
-  if (post.productFeaturesImage)
-    imagePaths.push(resolveImagePath(post.productFeaturesImage));
+  if (post.productFeaturesImage) {
+    const productFeaturesImageKey = post.productFeaturesImage.split('/').pop();
+    if (productFeaturesImageKey) imageKeys.push(productFeaturesImageKey);
+  }
 
   if (post.allProducts) {
     post.allProducts.forEach((product: any) => {
-      if (product.productMainImage)
-        imagePaths.push(resolveImagePath(product.productMainImage));
+      if (product.productMainImage) {
+        const productMainImageKey = product.productMainImage.split('/').pop();
+        if (productMainImageKey) imageKeys.push(productMainImageKey);
+      }
       if (product.productImages) {
-        product.productImages.forEach((imagePath: string) =>
-          imagePaths.push(resolveImagePath(imagePath)),
-        );
+        product.productImages.forEach((imagePath: string) => {
+          const productImageKey = imagePath.split('/').pop();
+          if (productImageKey) imageKeys.push(productImageKey);
+        });
       }
     });
   }
 
-  // Delete the images
+  // Delete the images from Cloudflare R2
   await Promise.all(
-    imagePaths.map(async imagePath => {
+    imageKeys.map(async key => {
       try {
-        // Check if the file exists before deleting
-        await fsPromises.access(imagePath);
-        await fsPromises.unlink(imagePath);
+        await deleteObjectFromR2(key);
       } catch (err: any) {
         console.warn(
-          `Failed to delete image: ${imagePath}. Error: ${err.message}`,
+          `Failed to delete image with key: ${key}. Error: ${err.message}`,
         );
       }
     }),
@@ -223,7 +265,6 @@ const removePosts = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-
 
 export const postController = {
   createPosts,

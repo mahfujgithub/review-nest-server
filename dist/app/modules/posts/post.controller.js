@@ -10,23 +10,22 @@ const post_service_1 = require("./post.service");
 const pick_1 = __importDefault(require("../../../shared/pick"));
 const post_constant_1 = require("./post.constant");
 const pagination_1 = require("../../../constants/pagination");
-const config_1 = __importDefault(require("../../../config"));
 const nested_query_1 = __importDefault(require("../../../helpers/nested.query"));
-const promises_1 = __importDefault(require("fs/promises")); // Add this line
-const path_1 = __importDefault(require("path"));
+const constructImgUrl_1 = require("../../../shared/constructImgUrl");
+const deleteObjectR2_1 = require("../../../helpers/deleteObjectR2");
 // create post
 const createPosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const post = req.body;
     // Process uploaded files
     const files = req.files;
-    console.log(files);
     if (files['ogImage']) {
-        post.ogImage = files['ogImage'][0].location;
-        ;
+        const ogImageFile = files['ogImage'][0];
+        post.ogImage = (0, constructImgUrl_1.constructPublicUrl)(ogImageFile.key);
     }
     if (files['productFeaturesImage']) {
-        post.productFeaturesImage = files['productFeaturesImage'][0].location;
+        const productFeaturesImageFile = files['productFeaturesImage'][0];
+        post.productFeaturesImage = (0, constructImgUrl_1.constructPublicUrl)(productFeaturesImageFile.key);
     }
     Object.keys(files).forEach(field => {
         const match = field.match(/^allProducts\[(\d+)]\[(productMainImage|productImages)]/);
@@ -38,33 +37,15 @@ const createPosts = (0, catchAsync_1.default)(async (req, res) => {
                 post.allProducts[productIndex] = {};
             }
             if (imageType === 'productMainImage' && files[field]) {
-                post.allProducts[productIndex].productMainImage =
-                    files[field][0].location;
-                ;
+                post.allProducts[productIndex].productMainImage = (0, constructImgUrl_1.constructPublicUrl)(files[field][0].key);
             }
             else if (imageType === 'productImages' && files[field]) {
-                post.allProducts[productIndex].productImages = files[field].map(file => file.location);
+                post.allProducts[productIndex].productImages = files[field].map(file => (0, constructImgUrl_1.constructPublicUrl)(file.key));
             }
         }
     });
     // Call the service to create the post
     const result = await post_service_1.PostService.createPost(post);
-    // Construct the full URLs for images in the response
-    const constructImageUrl = (imagePath) => `${imagePath}`;
-    // Modify the post object to include full URLs for image paths
-    if (post.ogImage)
-        post.ogImage = constructImageUrl(post.ogImage);
-    if (post.productFeaturesImage)
-        post.productFeaturesImage = constructImageUrl(post.productFeaturesImage);
-    if (post.allProducts) {
-        post.allProducts.forEach((product) => {
-            if (product.productMainImage)
-                product.productMainImage = constructImageUrl(product.productMainImage);
-            if (product.productImages) {
-                product.productImages = product.productImages.map(constructImageUrl);
-            }
-        });
-    }
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
         success: true,
@@ -107,7 +88,7 @@ const getSinglePosts = (0, catchAsync_1.default)(async (req, res) => {
     const responseData = {
         result,
         relatedCount,
-        relatedPosts
+        relatedPosts,
     };
     (0, sendResponse_1.default)(res, {
         statusCode: httpStatus.HttpStatus.OK,
@@ -130,6 +111,61 @@ const updatePosts = (0, catchAsync_1.default)(async (req, res) => {
         data: result,
     });
 });
+// const removePosts = catchAsync(async (req: Request, res: Response) => {
+//   const httpStatus = await import('http-status-ts');
+//   const { slug } = req.params;
+//   // Fetch the post by slug to retrieve its associated image paths
+//   const post = await PostService.getSinglePost(slug);
+//   if (!post) {
+//     throw new Error(`Post with slug '${slug}' not found.`);
+//   }
+//   const basePath = path.join(__dirname, '../../../../public/uploads');
+//   const resolveImagePath = (imageUrl: string) => {
+//     const relativePath = imageUrl.replace(
+//       `${config.server_address}uploads/`,
+//       '',
+//     );
+//     const resolvedPath = path.join(basePath, relativePath);
+//     return resolvedPath;
+//   };
+//   const imagePaths: string[] = [];
+//   if (post.ogImage) imagePaths.push(resolveImagePath(post.ogImage));
+//   if (post.productFeaturesImage)
+//     imagePaths.push(resolveImagePath(post.productFeaturesImage));
+//   if (post.allProducts) {
+//     post.allProducts.forEach((product: any) => {
+//       if (product.productMainImage)
+//         imagePaths.push(resolveImagePath(product.productMainImage));
+//       if (product.productImages) {
+//         product.productImages.forEach((imagePath: string) =>
+//           imagePaths.push(resolveImagePath(imagePath)),
+//         );
+//       }
+//     });
+//   }
+//   // Delete the images
+//   await Promise.all(
+//     imagePaths.map(async imagePath => {
+//       try {
+//         // Check if the file exists before deleting
+//         await fsPromises.access(imagePath);
+//         await fsPromises.unlink(imagePath);
+//       } catch (err: any) {
+//         console.warn(
+//           `Failed to delete image: ${imagePath}. Error: ${err.message}`,
+//         );
+//       }
+//     }),
+//   );
+//   // Delete the post
+//   const result = await PostService.removePost(slug);
+//   sendResponse<IPosts>(res, {
+//     statusCode: httpStatus.HttpStatus.OK,
+//     success: true,
+//     message: `Post removed successfully`,
+//     data: result,
+//   });
+// });
 const removePosts = (0, catchAsync_1.default)(async (req, res) => {
     const httpStatus = await import('http-status-ts');
     const { slug } = req.params;
@@ -138,35 +174,41 @@ const removePosts = (0, catchAsync_1.default)(async (req, res) => {
     if (!post) {
         throw new Error(`Post with slug '${slug}' not found.`);
     }
-    const basePath = path_1.default.join(__dirname, '../../../../public/uploads');
-    const resolveImagePath = (imageUrl) => {
-        const relativePath = imageUrl.replace(`${config_1.default.server_address}uploads/`, '');
-        const resolvedPath = path_1.default.join(basePath, relativePath);
-        return resolvedPath;
-    };
-    const imagePaths = [];
-    if (post.ogImage)
-        imagePaths.push(resolveImagePath(post.ogImage));
-    if (post.productFeaturesImage)
-        imagePaths.push(resolveImagePath(post.productFeaturesImage));
+    // Extract image keys from the post object
+    const imageKeys = [];
+    if (post.ogImage) {
+        const ogImageKey = post.ogImage.split('/').pop(); // Extract the key from the URL
+        if (ogImageKey)
+            imageKeys.push(ogImageKey);
+    }
+    if (post.productFeaturesImage) {
+        const productFeaturesImageKey = post.productFeaturesImage.split('/').pop();
+        if (productFeaturesImageKey)
+            imageKeys.push(productFeaturesImageKey);
+    }
     if (post.allProducts) {
         post.allProducts.forEach((product) => {
-            if (product.productMainImage)
-                imagePaths.push(resolveImagePath(product.productMainImage));
+            if (product.productMainImage) {
+                const productMainImageKey = product.productMainImage.split('/').pop();
+                if (productMainImageKey)
+                    imageKeys.push(productMainImageKey);
+            }
             if (product.productImages) {
-                product.productImages.forEach((imagePath) => imagePaths.push(resolveImagePath(imagePath)));
+                product.productImages.forEach((imagePath) => {
+                    const productImageKey = imagePath.split('/').pop();
+                    if (productImageKey)
+                        imageKeys.push(productImageKey);
+                });
             }
         });
     }
-    // Delete the images
-    await Promise.all(imagePaths.map(async (imagePath) => {
+    // Delete the images from Cloudflare R2
+    await Promise.all(imageKeys.map(async (key) => {
         try {
-            // Check if the file exists before deleting
-            await promises_1.default.access(imagePath);
-            await promises_1.default.unlink(imagePath);
+            await (0, deleteObjectR2_1.deleteObjectFromR2)(key);
         }
         catch (err) {
-            console.warn(`Failed to delete image: ${imagePath}. Error: ${err.message}`);
+            console.warn(`Failed to delete image with key: ${key}. Error: ${err.message}`);
         }
     }));
     // Delete the post

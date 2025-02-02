@@ -3,40 +3,30 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.r2 = void 0;
 const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const config_1 = __importDefault(require("../config"));
 const multer_s3_1 = __importDefault(require("multer-s3"));
 const client_s3_1 = require("@aws-sdk/client-s3");
-// Set up AWS S3 configuration using environment variables
-// if (!config.aws.accessKeyId || !config.aws.secretAccessKey) {
-//   throw new Error('AWS credentials are not defined in the configuration');
-// }
-const s3 = new client_s3_1.S3Client({
-    region: config_1.default.aws.region,
-    endpoint: `https://s3.${config_1.default.aws.region}.amazonaws.com`,
+exports.r2 = new client_s3_1.S3Client({
+    region: config_1.default.r2.region || 'auto',
+    endpoint: config_1.default.r2.endpoint,
     credentials: {
-        accessKeyId: config_1.default.aws.accessKeyId,
-        secretAccessKey: config_1.default.aws.secretAccessKey,
+        accessKeyId: config_1.default.r2.accessKeyId,
+        secretAccessKey: config_1.default.r2.secretAccessKey,
     },
 });
-// Define the uploads directory
-// const UPLOADS_DIR = path.join(__dirname, '../../public/uploads/');
-// Ensure the uploads directory exists
-// const ensureUploadsDirectoryExists = () => {
-//   if (!fs.existsSync(UPLOADS_DIR)) {
-//     fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-//   }
-// };
-// Set up storage for multer - S3 or Local storage
+// Multer-S3 storage configuration
 const storage = (0, multer_s3_1.default)({
-    s3: s3,
+    s3: exports.r2,
     bucket: (req, file, cb) => {
-        if (!config_1.default.aws.bucketName) {
+        if (!config_1.default.r2.bucketName) {
             return cb(new Error('Bucket name is not defined in the configuration'));
         }
-        cb(null, config_1.default.aws.bucketName);
-    }, // Use bucket name from config
+        cb(null, config_1.default.r2.bucketName); // Use bucket name from config
+    },
+    acl: 'public-read', // Set ACL to public-read for all uploaded files
     metadata: function (req, file, cb) {
         cb(null, { fieldName: file.fieldname });
     },
@@ -47,6 +37,7 @@ const storage = (0, multer_s3_1.default)({
         const finalName = `${fileName}-${uniqueSuffix}${extension}`;
         cb(null, finalName); // Generate a unique filename for each upload
     },
+    contentType: multer_s3_1.default.AUTO_CONTENT_TYPE, // Automatically detect content type
 });
 // File filter for allowed image types
 const fileFilter = (req, file, cb) => {

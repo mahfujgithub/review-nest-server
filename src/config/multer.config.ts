@@ -1,43 +1,29 @@
 import multer, { FileFilterCallback } from 'multer';
 import path from 'path';
-import fs from 'fs';
-import express, { Request } from 'express';
+import { Request } from 'express';
 import config from '../config'
 import multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
-// Set up AWS S3 configuration using environment variables
-// if (!config.aws.accessKeyId || !config.aws.secretAccessKey) {
-//   throw new Error('AWS credentials are not defined in the configuration');
-// }
 
-const s3 = new S3Client({
-  region: config.aws.region,
-  endpoint: `https://s3.${config.aws.region}.amazonaws.com`,
+export const r2 = new S3Client({
+  region: config.r2.region || 'auto',
+  endpoint: config.r2.endpoint,
   credentials: {
-    accessKeyId: config.aws.accessKeyId as string,
-    secretAccessKey: config.aws.secretAccessKey as string,
+    accessKeyId: config.r2.accessKeyId as string,
+    secretAccessKey: config.r2.secretAccessKey as string,
   },
 });
 
-// Define the uploads directory
-// const UPLOADS_DIR = path.join(__dirname, '../../public/uploads/');
-
-// Ensure the uploads directory exists
-// const ensureUploadsDirectoryExists = () => {
-//   if (!fs.existsSync(UPLOADS_DIR)) {
-//     fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-//   }
-// };
-
-// Set up storage for multer - S3 or Local storage
+// Multer-S3 storage configuration
 const storage = multerS3({
-  s3: s3,
+  s3: r2,
   bucket: (req, file, cb) => {
-    if (!config.aws.bucketName) {
+    if (!config.r2.bucketName) {
       return cb(new Error('Bucket name is not defined in the configuration'));
     }
-    cb(null, config.aws.bucketName);
-  }, // Use bucket name from config
+    cb(null, config.r2.bucketName); // Use bucket name from config
+  },
+  acl: 'public-read', // Set ACL to public-read for all uploaded files
   metadata: function (req: Request, file, cb) {
     cb(null, { fieldName: file.fieldname });
   },
@@ -48,6 +34,7 @@ const storage = multerS3({
     const finalName = `${fileName}-${uniqueSuffix}${extension}`;
     cb(null, finalName); // Generate a unique filename for each upload
   },
+  contentType: multerS3.AUTO_CONTENT_TYPE, // Automatically detect content type
 });
 
 // File filter for allowed image types
